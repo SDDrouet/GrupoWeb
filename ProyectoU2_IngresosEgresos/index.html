@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <title>Inicio</title>
+</head>
+
+<body>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form onsubmit="return validateForm()">
+                    <h2>Login</h2>
+                    <div class="input-box">
+                        <input type="text" name="username" id="username" required>
+                        <label for="username">Usuario: </label>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" name="password" id="password" required>
+                        <label for="password">Contraseña: </label>
+                    </div>
+                    <button type="submit" class="button" onclick="redirectToIndex()">Iniciar sesión</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        var username = document.getElementById('username');
+        username.addEventListener('input', function (evt) {
+            this.setCustomValidity('');
+        });
+        username.addEventListener('invalid', function (evt) {
+            if (this.validity.valueMissing) {
+                this.setCustomValidity('Por favor, ingrese su nombre de usuario');
+            }
+        });
+
+        var password = document.getElementById('password');
+        password.addEventListener('input', function (evt) {
+            this.setCustomValidity('');
+        });
+        password.addEventListener('invalid', function (evt) {
+            if (this.validity.valueMissing) {
+                this.setCustomValidity('Por favor, ingrese su contraseña');
+            }
+        });
+
+        function validateForm() {
+            window.location.href = 'html/Inicio.html';
+            return false;
+        }
+    </script>
+
+</body>
+
+</html>
