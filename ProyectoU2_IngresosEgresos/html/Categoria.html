@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Desactivar la caché -->
+	<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="0">
+
     <title>Inicio</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -23,7 +29,7 @@
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-user"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">JAVIER GONZAGA</div>
+                <div class="sidebar-brand-text mx-3"><span id="usuarioNombre"></span></div>
             </a>
 
             <hr class="sidebar-divider my-4">
@@ -124,7 +130,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Javier Gonzaga</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="userName2"></span>
                                 <i class="fas fa-user"></i>
                             </a>
                             <!-- Dropdown - User Information -->
@@ -146,12 +152,12 @@
                     <h1 class="h3 mb-2 text-gray-800">Añadir una nueva categorias</h1>
                 </div>
 
-                <form class="form-inline">
+                <form class="form-inline" id="frmCategorias">
                     <div class="form-group mx-sm-3 mb-2">
                         <label for="categoria" class="mx-4">Nombre de la categoría</label>
-                        <input type="text" class="form-control" id="nombreCategoria">
+                        <input type="text" class="form-control" id="nombreCategoria" required>
                     </div>
-                    <button type="submit" class="btn btn-primary mb-2">Añadir</button>
+                    <button id="btnFrmCategorias" type="button" class="btn btn-primary mb-2" onclick="enviarFormulario()" disabled>Añadir</button>
                 </form>
 
                 <hr>
@@ -285,6 +291,117 @@
     <script src="../js/demo/datatables-demo.js"></script>
 
     <script src="../js/categories.js"></script>
+
+    <script>
+        // script.js
+
+        function cargarDatosDesdeJSON(rutaArchivo, funcion) {
+            // Retornar la promesa generada por fetch para su uso externo
+            return fetch(rutaArchivo)
+                .then(response => {
+                    // Verificar si la respuesta es exitosa (código de estado 200)
+                    if (!response.ok) {
+                        throw new Error(`Error al cargar el archivo JSON. Código de estado: ${response.status}`);
+                    }
+                    // Devolver el cuerpo de la respuesta como JSON
+                    return response.json();
+                })
+                .then(datos => {
+
+                    funcion(datos)
+
+                })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                });
+        }
+
+        function extraerDatos(datos) {
+            datos.forEach(element => {
+                datosCargados.push(element);
+            });
+        }
+
+        function operacionesDatos(datos) {
+            var nombre = datos[0]["nombre"];
+            document.getElementById("usuarioNombre").textContent = nombre;
+            document.getElementById("userName2").textContent = nombre;
+        }
+
+        // Llamada a la función para cargar datos desde el archivo JSON
+        cargarDatosDesdeJSON('../temp/usuario.json', operacionesDatos)
+
+
+    </script>
+
+    <script src="../js/gestorArchivos.js"></script>
+
+    <script>
+
+        function eliminarArch() {
+            eliminarArchivos();
+        }
+
+        async function enviarFormulario() {
+            const formulario = document.getElementById('frmCategorias');
+            const datos = {
+                nombreCategoria: formulario.nombreCategoria.value,
+            };
+
+            formulario.nombreCategoria.value = "";
+            // Obtener el nombre del archivo externamente
+            const nombreArchivo = "../temp/categorias.json"
+
+            // Llamada a la función para enviar datos al servidor
+            await enviarDatosAlServidor('../php/guardar_datos.php', datos, nombreArchivo);
+            
+            await actualizarTabla();
+
+        }
+
+    </script>
+
+<script>
+    function esValido() {
+        var formulario = document.getElementById("frmCategorias");
+        const datos = formulario.nombreCategoria.value;
+
+        return datos != "";
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var formulario = document.getElementById("frmCategorias");
+
+        // Agregar un evento 'change' a todos los elementos dentro del formulario
+        formulario.addEventListener("change", function(event) {
+            // Obtener el elemento que desencadenó el evento
+
+            var btn = document.getElementById("btnFrmCategorias");
+            
+            if(esValido()) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+
+        });
+    });
+
+    document.getElementById('frmCategorias').addEventListener('keydown', function (e) {
+        // Verificar si la tecla presionada es Enter
+        if (e.key === 'Enter') {
+            e.preventDefault();  // Evitar el comportamiento predeterminado del Enter (enviar formulario)
+
+            // Verificar si todos los campos están llenos
+            if (esValido()) {
+                enviarFormulario();
+            } else {
+                console.log('Por favor, complete todos los campos antes de enviar el formulario.');
+            }
+        }
+    });
+</script>
+
 </body>
 
 </html>

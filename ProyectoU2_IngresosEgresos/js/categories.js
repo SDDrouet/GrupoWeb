@@ -1,3 +1,5 @@
+datatable_categoria
+
 let dataTable;
 let dataTableIsInitialized = false;
 
@@ -34,30 +36,38 @@ const initDataTable = async () => {
 
 const listUsers = async () => {
     try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        const response = await fetch("../temp/categorias.json");
         const users = await response.json();
 
-        let content = ``;
-        users.forEach((user, index) => {
+        let content = '';
+        for (let i = users.length - 1; i >= 0; i--) {
+            const user = users[i];
             content += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${user.name}</td>
-                    <td>
-                        <a href="#" class="btn btn-primary btn-circle btn-sm">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="#" class="btn btn-danger btn-circle btn-sm">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </td>
-                </tr>`;
-        });
+                        <tr>
+                            <td>${users.length - i}</td>
+                            <td>${user.nombreCategoria}</td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-circle btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a href="#" class="btn btn-danger btn-circle btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>`;
+        }
+
         tableBody_categoria.innerHTML = content;
+
     } catch (ex) {
-        alert(ex);
+        console.log(ex);
     }
 };
+
+const actualizarTabla = async () => {
+    await initDataTable();
+}
 
 window.addEventListener("load", async () => {
     await initDataTable();

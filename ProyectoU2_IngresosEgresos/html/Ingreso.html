@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Desactivar la caché -->
+	<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="0">
+
     <title>Inicio</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -23,7 +29,7 @@
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-user"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">JAVIER GONZAGA</div>
+                <div class="sidebar-brand-text mx-3"><span id="usuarioNombre"></span></div>
             </a>
 
             <hr class="sidebar-divider my-4">
@@ -124,7 +130,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Javier Gonzaga</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="userName2"></span>
                                 <i class="fas fa-user"></i>
                             </a>
                             <!-- Dropdown - User Information -->
@@ -207,18 +213,15 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form>
+                    <form id="frmIngresos">
                         <div class="form-group">
                             <label for="formGroupExampleInput">Fecha</label>
-                            <input type="date" class="form-control" id="fechaIngreso" placeholder="Fecha">
+                            <input type="date" class="form-control" id="fechaIngreso" placeholder="Fecha" required>
                         </div>
                         <div class="form-group">
                             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Categoria</label>
-                            <select class="custom-select my-1 mr-sm-2" id="categoriaIngreso">
-                                <option selected>Elija una categoría</option>
-                                <option value="1">Pasivos</option>
-                                <option value="2">Sueldo</option>
-                                <option value="3">Inversiones</option>
+                            <select class="custom-select my-1 mr-sm-2" id="categoriaIngreso" required>
+                                <option value="" selected disabled>Elija una categoría</option>                                
                             </select>
                         </div>
                         <div class="form-group">
@@ -231,13 +234,13 @@
                         </div>
                         <div class="form-group">
                             <label for="">Valor</label>
-                            <input step="0.01" type="number" class="form-control" id="valorIngreso" placeholder="Valor">
+                            <input min="0.01" step="0.01" type="number" class="form-control" id="valorIngreso" placeholder="Valor">
                     </form>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                    <button id="btnFrmIngresos" type="button" class="btn btn-success" data-dismiss="modal" onclick="enviarFormulario()">Guardar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
 
@@ -280,7 +283,120 @@
     <!-- Page level custom scripts -->
     <script src="../js/demo/datatables-demo.js"></script>
 
-    <script src="../js/tables.js"></script>
+    <script src="../js/tablesIngresos.js"></script>
+
+    <script>
+        // script.js
+
+        function cargarDatosDesdeJSON(rutaArchivo, funcion) {
+            // Retornar la promesa generada por fetch para su uso externo
+            return fetch(rutaArchivo)
+                .then(response => {
+                    // Verificar si la respuesta es exitosa (código de estado 200)
+                    if (!response.ok) {
+                        throw new Error(`Error al cargar el archivo JSON. Código de estado: ${response.status}`);
+                    }
+                    // Devolver el cuerpo de la respuesta como JSON
+                    return response.json();
+                })
+                .then(datos => {
+
+                    funcion(datos)
+
+                })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                });
+        }
+
+        function operacionesDatos(datos) {
+            var nombre = datos[0]["nombre"];		
+			document.getElementById("usuarioNombre").textContent = nombre;
+			document.getElementById("userName2").textContent = nombre;
+        }
+
+        function agregarCategorias(datos) {
+            var selector = document.getElementById("categoriaIngreso");
+
+            datos.forEach(element => {
+                var opcion = document.createElement("option");
+                opcion.text = element["nombreCategoria"];
+                opcion.value = element["nombreCategoria"]; // Puedes establecer un valor específico si lo deseas
+                selector.add(opcion);
+            });
+
+        }
+
+        // Llamada a la función para cargar datos desde el archivo JSON
+        cargarDatosDesdeJSON('../temp/usuario.json', operacionesDatos);
+        cargarDatosDesdeJSON('../temp/categorias.json', agregarCategorias);
+    </script>
+
+    <script src="../js/gestorArchivos.js"></script>
+
+    <script>
+        
+        function eliminarArch() {
+            eliminarArchivos();
+        }
+
+        async function enviarFormulario() {
+            const formulario = document.getElementById('frmIngresos');
+            const datos = {
+                fechaIngreso: formulario.fechaIngreso.value,
+                categoriaIngreso: formulario.categoriaIngreso.value,
+                notaIngreso: formulario.notaIngreso.value,
+                usuarioIngreso: formulario.usuarioIngreso.value,
+                valorIngreso: formulario.valorIngreso.value
+            };
+            // Obtener el nombre del archivo externamente
+            const nombreArchivo = "../temp/ingresos.json"
+
+            // Llamada a la función para enviar datos al servidor
+            await enviarDatosAlServidor('../php/guardar_datos.php', datos, nombreArchivo);            
+
+            await actualizarTabla();
+
+            formulario.fechaIngreso.value = "";
+            formulario.categoriaIngreso.value = "";
+            formulario.notaIngreso.value = "";
+            formulario.usuarioIngreso.value = "";
+            formulario.valorIngreso.value = "";
+        }
+
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var formulario = document.getElementById("frmIngresos");
+
+            // Agregar un evento 'change' a todos los elementos dentro del formulario
+            formulario.addEventListener("change", function(event) {
+                // Obtener el elemento que desencadenó el evento
+                const datos = {
+                    fechaEgreso: formulario.fechaIngreso.value,
+                    categoriaEgreso: formulario.categoriaIngreso.value,
+                    notaEgreso: formulario.notaIngreso.value,
+                    usuarioEgreso: formulario.usuarioIngreso.value,
+                    valorEgreso: formulario.valorIngreso.value
+                };
+
+                var btn = document.getElementById("btnFrmIngresos");
+                var valor = Number(datos.valorEgreso);
+                if(datos.fechaEgreso == "" || datos.categoriaEgreso == "" || datos.notaEgreso == "" ||
+                datos.usuarioEgreso == "" || valor <= 0) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+
+
+
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -12,7 +12,7 @@
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form onsubmit="return validateForm()">
+                <form onsubmit="return validateForm()" id="frmLogin">
                     <h2>Login</h2>
                     <div class="input-box">
                         <input type="text" name="username" id="username" required>
@@ -22,12 +22,34 @@
                         <input type="password" name="password" id="password" required>
                         <label for="password">Contraseña: </label>
                     </div>
-                    <button type="submit" class="button" onclick="redirectToIndex()">Iniciar sesión</button>
+                    <button type="submit" class="button" onclick="procesos()">Iniciar sesión</button>
                 </form>
             </div>
         </div>
     </section>
 
+    <script src="js/gestorArchivos.js?v=1.0"></script>
+
+    <script>
+        function procesos() {
+            enviarFormulario();
+            redirectToIndex();
+        }
+
+        function enviarFormulario() {
+            const formulario = document.getElementById('frmLogin');
+            const datos = {
+                nombre: formulario.username.value,
+            };
+
+            // Obtener el nombre del archivo externamente
+            const nombreArchivo = "../temp/usuario.json"
+
+            // Llamada a la función para enviar datos al servidor
+            enviarDatosAlServidor('php/guardar_datos.php', datos, nombreArchivo);
+        }
+
+    </script>
     <script>
         var username = document.getElementById('username');
         username.addEventListener('input', function (evt) {
@@ -53,6 +75,11 @@
             window.location.href = 'html/Inicio.html';
             return false;
         }
+
+        window.addEventListener("load", async () => {
+            await eliminarArchivos();
+        });
+
     </script>
 
 </body>
