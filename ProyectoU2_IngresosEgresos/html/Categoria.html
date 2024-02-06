@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Desactivar la caché -->
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+
+    <title>Inicio</title>
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link href="../css/style_min.css" rel="stylesheet" />
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!--SIDE BAR-->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand align-items-center justify-content-center" href="Inicio.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">
+                    <span id="usuarioNombre"></span>
+                </div>
+            </a>
+
+            <hr class="sidebar-divider my-4" />
+
+            <li class="nav-item active">
+                <a class="nav-link" href="Inicio.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider" />
+
+            <div class="sidebar-heading">Interfaz</div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Agregar</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingAgregar" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="Ingreso.html">Ingresos</a>
+                        <a class="collapse-item" href="Egreso.html">Egresos</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider" />
+
+            <div class="sidebar-heading">Utilidades</div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCategorias"
+                    aria-expanded="true" aria-controls="collapseCategorias">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Categorias</span>
+                </a>
+                <div id="collapseCategorias" class="collapse" aria-labelledby="headingCategorias"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="Categoria.html">Categorias</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider" />
+
+            <div class="sidebar-heading">Reportes</div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
+                    aria-expanded="true" aria-controls="collapseReportes">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Estadísticas</span>
+                </a>
+                <div id="collapseReportes" class="collapse" aria-labelledby="headingEstadisticas"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="Graficas.html">Gráficos</a>
+                        <a class="collapse-item" href="#">Proyecciones</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block" />
+
+            <div class="text-center d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- END SIDE BAR-->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!--MAIN CONTENT-->
+            <div id="content">
+                <!--top bar-->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="userName2"></span>
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar Sesión
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-2 text-gray-800">Añadir una nueva categorias</h1>
+                    </div>
+
+                    <form class="form-inline" id="frmCategorias">
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="categoria" class="mx-4">Nombre de la categoría</label>
+                            <input type="text" class="form-control" id="nombreCategoria" required />
+                        </div>
+                        <button id="btnFrmCategorias" type="button" class="btn btn-primary mb-2"
+                            onclick="enviarFormulario()" disabled>
+                            Añadir
+                        </button>
+                    </form>
+
+                    <hr />
+
+                    <p class="mb-4">Ingresos registrados en el sistema.</p>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="datatable_categoria" class="table table-striped">
+                                        <caption>
+                                            DataTable.js Demo
+                                        </caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="centered">#</th>
+                                                <th class="centered">Nombre de categorías</th>
+                                                <th class="centered">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableBody_categoria"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Save Your Money</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deseas Salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Selecciona "Cerrar Sesión" si estás listo para finalizar su sesión
+                    actual.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <a class="btn btn-danger" href="../index.html">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/main.min.js"></script>
+
+    <!-- Page level plugins -->
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
+
+    <script src="../js/categories.js"></script>
+
+    <script>
+        // script.js
+        function cargarDatosDesdeJSON(rutaArchivo, funcion) {
+            // Retornar la promesa generada por fetch para su uso externo
+            return fetch(rutaArchivo)
+                .then((response) => {
+                    // Verificar si la respuesta es exitosa (código de estado 200)
+                    if (!response.ok) {
+                        throw new Error(
+                            `Error al cargar el archivo JSON. Código de estado: ${response.status}`
+                        );
+                    }
+                    // Devolver el cuerpo de la respuesta como JSON
+                    return response.json();
+                })
+                .then((datos) => {
+                    funcion(datos);
+                })
+                .catch((error) => {
+                    console.error("Error:", error.message);
+                });
+        }
+
+        function extraerDatos(datos) {
+            datos.forEach((element) => {
+                datosCargados.push(element);
+            });
+        }
+
+        function operacionesDatos(datos) {
+            var nombre = datos[0]["nombre"];
+            document.getElementById("usuarioNombre").textContent = nombre;
+            document.getElementById("userName2").textContent = nombre;
+        }
+
+        // Llamada a la función para cargar datos desde el archivo JSON
+        cargarDatosDesdeJSON("../temp/usuario.json", operacionesDatos);
+    </script>
+    <script src="../js/gestorArchivos.js"></script>
+    <script>
+        function eliminarArch() {
+            eliminarArchivos();
+        }
+
+        async function enviarFormulario() {
+            const formulario = document.getElementById("frmCategorias");
+            const datos = {
+                nombreCategoria: formulario.nombreCategoria.value,
+            };
+
+            formulario.nombreCategoria.value = "";
+            // Obtener el nombre del archivo externamente
+            const nombreArchivo = "../temp/categorias.json";
+
+            // Llamada a la función para enviar datos al servidor
+            await enviarDatosAlServidor(
+                "../php/guardar_datos.php",
+                datos,
+                nombreArchivo
+            );
+
+            await actualizarTabla();
+        }
+    </script>
+    <script>
+        function esValido() {
+            var formulario = document.getElementById("frmCategorias");
+            const datos = formulario.nombreCategoria.value;
+
+            return datos != "";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var formulario = document.getElementById("frmCategorias");
+
+            // Agregar un evento 'change' a todos los elementos dentro del formulario
+            formulario.addEventListener("change", function (event) {
+                // Obtener el elemento que desencadenó el evento
+
+                var btn = document.getElementById("btnFrmCategorias");
+
+                if (esValido()) {
+                    btn.disabled = false;
+                } else {
+                    btn.disabled = true;
+                }
+            });
+        });
+
+        document
+            .getElementById("frmCategorias")
+            .addEventListener("keydown", function (e) {
+                // Verificar si la tecla presionada es Enter
+                if (e.key === "Enter") {
+                    e.preventDefault(); // Evitar el comportamiento predeterminado del Enter (enviar formulario)
+
+                    // Verificar si todos los campos están llenos
+                    if (esValido()) {
+                        enviarFormulario();
+                    } else {
+                        console.log(
+                            "Por favor, complete todos los campos antes de enviar el formulario."
+                        );
+                    }
+                }
+            });
+    </script>
+</body>
+
+</html>
