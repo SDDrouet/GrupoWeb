@@ -8,7 +8,7 @@ header("Expires: 0");
 
 function eliminarArchivos() {
     $directorio = "../temp"; // Puedes ajustar esto según tu estructura de archivos
-    $archivos = glob($directorio . '/usuario.json');
+    $archivos = glob($directorio . '/*.json');
 
     foreach ($archivos as $archivo) {
         if (file_exists($archivo)) {

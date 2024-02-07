@@ -214,7 +214,7 @@
                     <form id="frmEgresos">
                         <div class="form-group">
                             <label for="formGroupExampleInput">Fecha</label>
-                            <input type="date" class="form-control" id="fechaEgreso" placeholder="Fecha" required>
+                            <input type="date" class="form-control" id="fechaEgreso" max="2024-02-29" placeholder="Fecha" required>
                         </div>
                         <div class="form-group">
                             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Categoria</label>
@@ -262,6 +262,86 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-danger" href="../index.html">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal editar campo -->
+    <div class="modal fade" id="exampleModalCenterEditor" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitleEditor">Actualizar categoría</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form id="frmEgresosEditor">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Fecha (Actualizar)</label>
+                            <input type="date" class="form-control" id="fechaEgreso" max="2024-02-29" placeholder="Fecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Categoria (Actualizar)</label>
+                            <select class="custom-select my-1 mr-sm-2" name="categoriaEgreso" id="categoriaEgreso" required>
+                                <option value="" selected disabled>Elija una categoría</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Nota (Actualizar)</label>
+                            <textarea class="form-control" id="notaEgreso" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Usuario (Actualizar)</label>
+                            <input type="text" class="form-control" id="usuarioEgreso" required placeholder="Usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Valor (Actualizar)</label>
+                            <input min="0.01" step="0.01" type="number" class="form-control" id="valorEgreso"
+                                placeholder="Valor" required>
+                        </div>
+                    </form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnFrmEgresosEditor" type="button" class="btn btn-success"
+                        onclick="enviarFormularioEditor()" data-dismiss="modal" disabled>
+                        Actualizar
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="limpiarCamposEditor()"
+                        data-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal confirmar eliminacion -->
+    <div class="modal fade" id="confirmarEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelEliminar">Eliminar Regristro</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Selecciona "Eliminar" si esta seguro de eliminar el elemento seleccionado.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-danger" onclick="eliminarRegistrofun()"
+                        data-dismiss="modal">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -327,10 +407,22 @@
 
         }
 
+        function agregarCategorias2(datos) {
+            var selector = document.getElementsByName("categoriaEgreso")[0];
+
+            datos.forEach(element => {
+                var opcion = document.createElement("option");
+                opcion.text = element["nombreCategoria"];
+                opcion.value = element["nombreCategoria"]; // Puedes establecer un valor específico si lo deseas
+                selector.add(opcion);
+            });
+
+        }
+
         // Llamada a la función para cargar datos desde el archivo JSON
         cargarDatosDesdeJSON('../temp/usuario.json', operacionesDatos)
         cargarDatosDesdeJSON('../temp/categorias.json', agregarCategorias);
-
+        cargarDatosDesdeJSON('../temp/categorias.json', agregarCategorias2);
     </script>
 
     <script src="../js/gestorArchivos.js"></script>
@@ -368,32 +460,111 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var formulario = document.getElementById("frmEgresos");
+        function validarCadena(cadena) {
+            // Verificar si la cadena es nula, indefinida o vacía
+            if (!cadena || cadena.trim() === '') {
+                return false; // La cadena es nula, indefinida o vacía
+            } else {
+                return true; // La cadena no es nula, indefinida ni vacía
+            }
+        }
+
+        function esValido(idFrm) {
+            var formulario = document.getElementById(idFrm);
+
+            const datos = {
+                fechaEgreso: formulario.fechaEgreso.value,
+                categoriaEgreso: formulario.categoriaEgreso.value,
+                notaEgreso: formulario.notaEgreso.value,
+                usuarioEgreso: formulario.usuarioEgreso.value,
+                valorEgreso: formulario.valorEgreso.value
+            };
+
+            var valor = Number(datos.valorEgreso);
+            if (validarCadena(datos.fechaEgreso) && validarCadena(datos.categoriaEgreso) && validarCadena(datos.notaEgreso)
+                && validarCadena(datos.usuarioEgreso) && valor > 0) {
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+        function addEvento(idFrm, idFrmBtn, eventoName) {
+            var formulario = document.getElementById(idFrm);
 
             // Agregar un evento 'change' a todos los elementos dentro del formulario
-            formulario.addEventListener("change", function (event) {
+            formulario.addEventListener(eventoName, function (event) {
                 // Obtener el elemento que desencadenó el evento
-                const datos = {
-                    fechaEgreso: formulario.fechaEgreso.value,
-                    categoriaEgreso: formulario.categoriaEgreso.value,
-                    notaEgreso: formulario.notaEgreso.value,
-                    usuarioEgreso: formulario.usuarioEgreso.value,
-                    valorEgreso: formulario.valorEgreso.value
-                };
 
-                var btn = document.getElementById("btnFrmEgresos");
-                var valor = Number(datos.valorEgreso);
-                if (datos.fechaEgreso == "" || datos.categoriaEgreso == "" || datos.notaEgreso == "" ||
-                    datos.usuarioEgreso == "" || valor <= 0) {
+                var btn = document.getElementById(idFrmBtn);
+
+                if (esValido(idFrm)) {
                     btn.disabled = true;
                 } else {
                     btn.disabled = false;
                 }
-
             });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            addEvento("frmEgresos", "btnFrmEgresos", "keyup");
+            addEvento("frmEgresosEditor", "btnFrmEgresosEditor", "keyup");
+            addEvento("frmEgresos", "btnFrmEgresos", "change");
+            addEvento("frmEgresosEditor", "btnFrmEgresosEditor", "change");
         });
     </script>
+
+
+
+    <script>
+        var indiceActual = 0;
+        var indiceEliminar = 0;
+        const handleEdit = async (event) => {
+            const index = event.target.dataset.index;
+            indiceActual = index;
+        };
+
+        function limpiarCamposEditor() {
+            const formulario = document.getElementById("frmEgresosEditor");
+            formulario.fechaEgreso.value = "";
+            formulario.categoriaEgreso.value = "";
+            formulario.notaEgreso.value = "";
+            formulario.usuarioEgreso.value = "";
+            formulario.valorEgreso.value = "";
+
+        }
+
+        async function enviarFormularioEditor() {
+            const formulario = document.getElementById("frmEgresosEditor");
+            const datosActualizados = {
+                fechaEgreso: formulario.fechaEgreso.value,
+                categoriaEgreso: formulario.categoriaEgreso.value,
+                notaEgreso: formulario.notaEgreso.value,
+                usuarioEgreso: formulario.usuarioEgreso.value,
+                valorEgreso: formulario.valorEgreso.value
+            };
+
+            limpiarCamposEditor();
+            // Obtener el nombre del archivo externamente
+            const nombreArchivo = "../temp/egresos.json";
+
+            await editarRegistro(nombreArchivo, indiceActual, datosActualizados);
+            await actualizarTabla();
+        }
+
+        async function eliminarRegistrofun() {
+            await eliminarRegistro("../temp/egresos.json", indiceEliminar);
+            await actualizarTabla();
+        }
+
+        // Función para manejar el clic en el botón de eliminar
+        const handleDelete = async (event) => {
+            const index = event.target.dataset.index;
+            indiceEliminar = index;
+        };
+    </script>
+
 
 
 </body>

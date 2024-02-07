@@ -146,7 +146,7 @@
                     <form class="form-inline" id="frmCategorias">
                         <div class="form-group mx-sm-3 mb-2">
                             <label for="categoria" class="mx-4">Nombre de la categoría</label>
-                            <input type="text" class="form-control" id="nombreCategoria" required />
+                            <input type="text" class="form-control" id="nombreCategoria" maxlength="30" required />
                         </div>
                         <button id="btnFrmCategorias" type="button" class="btn btn-primary mb-2"
                             onclick="enviarFormulario()" disabled>
@@ -221,6 +221,69 @@
         </div>
     </div>
 
+
+
+    <!-- Modal editar campo -->
+    <div class="modal fade" id="exampleModalCenterEditor" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitleEditor">Actualizar categoría</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmCategoriasEditor">
+
+                        <div class="form-group">
+                            <div class="form-group mx-sm-3 mb-2">
+                                <label for="categoria">Nombre de categoria (Actualizar)</label>
+                                <input type="text" class="form-control" id="nombreCategoria" required
+                                    placeholder="Nuevo nombre" maxlength="30">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnFrmCategoriasEditor" type="button" class="btn btn-success"
+                        onclick="enviarFormularioEditor()" data-dismiss="modal" disabled>
+                        Actualizar
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="limpiarCamposEditor()"
+                        data-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal confirmar eliminacion -->
+    <div class="modal fade" id="confirmarEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelEliminar">Eliminar Regristro</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Selecciona "Eliminar" si esta seguro de eliminar el elemento seleccionado.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-danger" onclick="eliminarRegistrofun()" data-dismiss="modal">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
@@ -237,6 +300,7 @@
     <!-- Page level custom scripts -->
     <script src="../js/demo/datatables-demo.js"></script>
 
+    <script src="../js/gestorArchivos.js"></script>
     <script src="../js/categories.js"></script>
 
     <script>
@@ -277,12 +341,9 @@
         // Llamada a la función para cargar datos desde el archivo JSON
         cargarDatosDesdeJSON("../temp/usuario.json", operacionesDatos);
     </script>
-    <script src="../js/gestorArchivos.js"></script>
-    <script>
-        function eliminarArch() {
-            eliminarArchivos();
-        }
 
+
+    <script>
         async function enviarFormulario() {
             const formulario = document.getElementById("frmCategorias");
             const datos = {
@@ -303,29 +364,48 @@
             await actualizarTabla();
         }
     </script>
-    <script>
-        function esValido() {
-            var formulario = document.getElementById("frmCategorias");
-            const datos = formulario.nombreCategoria.value;
 
-            return datos != "";
+
+
+    <script>
+        function validarCadena(cadena) {
+            // Verificar si la cadena es nula, indefinida o vacía
+            if (!cadena || cadena.trim() === '') {
+                return false; // La cadena es nula, indefinida o vacía
+            } else {
+                return true; // La cadena no es nula, indefinida ni vacía
+            }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var formulario = document.getElementById("frmCategorias");
+        function esValido(idFrm) {
+            var formulario = document.getElementById(idFrm);
+            const datos = formulario.nombreCategoria.value;
+
+            return validarCadena(datos);
+        }
+
+        function addEvento(idFrm, idFrmBtn, eventoName) {
+            var formulario = document.getElementById(idFrm);
 
             // Agregar un evento 'change' a todos los elementos dentro del formulario
-            formulario.addEventListener("change", function (event) {
+            formulario.addEventListener(eventoName, function (event) {
                 // Obtener el elemento que desencadenó el evento
 
-                var btn = document.getElementById("btnFrmCategorias");
+                var btn = document.getElementById(idFrmBtn);
 
-                if (esValido()) {
+                if (esValido(idFrm)) {
                     btn.disabled = false;
                 } else {
                     btn.disabled = true;
                 }
             });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            addEvento("frmCategorias", "btnFrmCategorias", "keyup");
+            addEvento("frmCategoriasEditor", "btnFrmCategoriasEditor", "keyup");
+            addEvento("frmCategorias", "btnFrmCategorias", "change");
+            addEvento("frmCategoriasEditor", "btnFrmCategoriasEditor", "change");
         });
 
         document
@@ -339,12 +419,50 @@
                     if (esValido()) {
                         enviarFormulario();
                     } else {
-                        console.log(
-                            "Por favor, complete todos los campos antes de enviar el formulario."
-                        );
+                        
                     }
                 }
             });
+    </script>
+
+
+    <script>
+        var indiceActual = 0;
+        var indiceEliminar = 0;
+        const handleEdit = async (event) => {
+            const index = event.target.dataset.index;
+            indiceActual = index;
+        };
+
+        function limpiarCamposEditor() {
+            const formulario = document.getElementById("frmCategoriasEditor");
+            formulario.nombreCategoria.value = "";
+        }
+
+        async function enviarFormularioEditor() {
+            const formulario = document.getElementById("frmCategoriasEditor");
+            const datosActualizados = {
+                nombreCategoria: formulario.nombreCategoria.value,
+            };
+
+            limpiarCamposEditor();
+            // Obtener el nombre del archivo externamente
+            const nombreArchivo = "../temp/categorias.json";
+
+            await editarRegistro(nombreArchivo, indiceActual, datosActualizados);
+            await actualizarTabla();
+        }
+
+        async function eliminarRegistrofun() {
+            await eliminarRegistro("../temp/categorias.json", indiceEliminar);
+            await actualizarTabla();
+        }
+        
+        // Función para manejar el clic en el botón de eliminar
+        const handleDelete = async (event) => {
+            const index = event.target.dataset.index;
+            indiceEliminar = index;
+        };
     </script>
 </body>
 

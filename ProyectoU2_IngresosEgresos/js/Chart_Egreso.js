@@ -20,7 +20,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 var xmlhttp = new XMLHttpRequest();
-var url = "http://localhost:8080/GrupoWeb-main/ProyectoU2_IngresosEgresos/temp/egresos.json";
+var url = "../temp/egresos.json";
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 xmlhttp.onreadystatechange = function() {

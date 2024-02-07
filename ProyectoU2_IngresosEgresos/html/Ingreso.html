@@ -215,7 +215,8 @@
                     <form id="frmIngresos">
                         <div class="form-group">
                             <label for="formGroupExampleInput">Fecha</label>
-                            <input type="date" class="form-control" id="fechaIngreso" placeholder="Fecha" required>
+                            <input type="date" class="form-control" id="fechaIngreso" max="2024-02-29"
+                                placeholder="Fecha" required>
                         </div>
                         <div class="form-group">
                             <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Categoria</label>
@@ -242,7 +243,7 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button id="btnFrmIngresos" type="button" class="btn btn-success" data-dismiss="modal"
-                        onclick="enviarFormulario()">Guardar</button>
+                        onclick="enviarFormulario()" disabled>Guardar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
 
@@ -264,6 +265,87 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-danger" href="../index.html">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal editar campo -->
+    <div class="modal fade" id="exampleModalCenterEditor" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitleEditor">Actualizar categoría</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                    <form id="frmIngresosEditor">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Fecha (Actualizar)</label>
+                            <input type="date" class="form-control" id="fechaIngreso" max="2024-02-29"
+                                placeholder="Fecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Categoria (Actualizar)</label>
+                            <select class="custom-select my-1 mr-sm-2" name="categoriaIngreso" id="categoriaIngreso"
+                                required>
+                                <option value="" selected disabled>Elija una categoría</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Nota (Actualizar)</label>
+                            <textarea class="form-control" id="notaIngreso" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Usuario (Actualizar)</label>
+                            <input type="text" class="form-control" id="usuarioIngreso" placeholder="Usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Valor (Actualizar)</label>
+                            <input min="0.01" step="0.01" type="number" class="form-control" id="valorIngreso"
+                                placeholder="Valor">
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnFrmIngresosEditor" type="button" class="btn btn-success"
+                        onclick="enviarFormularioEditor()" data-dismiss="modal" disabled>
+                        Actualizar
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="limpiarCamposEditor()"
+                        data-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal confirmar eliminacion -->
+    <div class="modal fade" id="confirmarEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelEliminar">Eliminar Regristro</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Selecciona "Eliminar" si esta seguro de eliminar el elemento seleccionado.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-danger" onclick="eliminarRegistrofun()"
+                        data-dismiss="modal">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -329,9 +411,23 @@
 
         }
 
+        function agregarCategorias2(datos) {
+            var selector = document.getElementsByName("categoriaIngreso")[0];
+
+            datos.forEach(element => {
+                var opcion = document.createElement("option");
+                opcion.text = element["nombreCategoria"];
+                opcion.value = element["nombreCategoria"]; // Puedes establecer un valor específico si lo deseas
+                selector.add(opcion);
+            });
+
+        }
+
         // Llamada a la función para cargar datos desde el archivo JSON
         cargarDatosDesdeJSON('../temp/usuario.json', operacionesDatos);
         cargarDatosDesdeJSON('../temp/categorias.json', agregarCategorias);
+        cargarDatosDesdeJSON('../temp/categorias.json', agregarCategorias2);
+
     </script>
 
     <script src="../js/gestorArchivos.js"></script>
@@ -370,33 +466,110 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var formulario = document.getElementById("frmIngresos");
+
+        function validarCadena(cadena) {
+            // Verificar si la cadena es nula, indefinida o vacía
+            if (!cadena || cadena.trim() === '') {
+                return false; // La cadena es nula, indefinida o vacía
+            } else {
+                return true; // La cadena no es nula, indefinida ni vacía
+            }
+        }
+
+        function esValido(idFrm) {
+            var formulario = document.getElementById(idFrm);
+
+            const datos = {
+                fechaIngreso: formulario.fechaIngreso.value,
+                categoriaIngreso: formulario.categoriaIngreso.value,
+                notaIngreso: formulario.notaIngreso.value,
+                usuarioIngreso: formulario.usuarioIngreso.value,
+                valorIngreso: formulario.valorIngreso.value
+            };
+
+            var valor = Number(datos.valorIngreso);
+            if (validarCadena(datos.fechaIngreso) && validarCadena(datos.categoriaIngreso) && validarCadena(datos.notaIngreso)
+                && validarCadena(datos.usuarioIngreso) && valor > 0) {
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+        function addEvento(idFrm, idFrmBtn, eventoName) {
+            var formulario = document.getElementById(idFrm);
 
             // Agregar un evento 'change' a todos los elementos dentro del formulario
-            formulario.addEventListener("change", function (event) {
+            formulario.addEventListener(eventoName, function (event) {
                 // Obtener el elemento que desencadenó el evento
-                const datos = {
-                    fechaEgreso: formulario.fechaIngreso.value,
-                    categoriaEgreso: formulario.categoriaIngreso.value,
-                    notaEgreso: formulario.notaIngreso.value,
-                    usuarioEgreso: formulario.usuarioIngreso.value,
-                    valorEgreso: formulario.valorIngreso.value
-                };
 
-                var btn = document.getElementById("btnFrmIngresos");
-                var valor = Number(datos.valorEgreso);
-                if (datos.fechaEgreso == "" || datos.categoriaEgreso == "" || datos.notaEgreso == "" ||
-                    datos.usuarioEgreso == "" || valor <= 0) {
+                var btn = document.getElementById(idFrmBtn);
+
+                if (esValido(idFrm)) {
                     btn.disabled = true;
                 } else {
                     btn.disabled = false;
                 }
-
-
-
             });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            addEvento("frmIngresos", "btnFrmIngresos", "keyup");
+            addEvento("frmIngresosEditor", "btnFrmIngresosEditor", "keyup");
+            addEvento("frmIngresos", "btnFrmIngresos", "change");
+            addEvento("frmIngresosEditor", "btnFrmIngresosEditor", "change");
         });
+
+        
+    </script>
+
+    <script>
+        var indiceActual = 0;
+        var indiceEliminar = 0;
+        const handleEdit = async (event) => {
+            const index = event.target.dataset.index;
+            indiceActual = index;
+        };
+
+        function limpiarCamposEditor() {
+            const formulario = document.getElementById("frmIngresosEditor");
+            formulario.fechaIngreso.value = "";
+            formulario.categoriaIngreso.value = "";
+            formulario.notaIngreso.value = "";
+            formulario.usuarioIngreso.value = "";
+            formulario.valorIngreso.value = "";
+
+        }
+
+        async function enviarFormularioEditor() {
+            const formulario = document.getElementById("frmIngresosEditor");
+            const datosActualizados = {
+                fechaIngreso: formulario.fechaIngreso.value,
+                categoriaIngreso: formulario.categoriaIngreso.value,
+                notaIngreso: formulario.notaIngreso.value,
+                usuarioIngreso: formulario.usuarioIngreso.value,
+                valorIngreso: formulario.valorIngreso.value
+            };
+
+            limpiarCamposEditor();
+            // Obtener el nombre del archivo externamente
+            const nombreArchivo = "../temp/ingresos.json";
+
+            await editarRegistro(nombreArchivo, indiceActual, datosActualizados);
+            await actualizarTabla();
+        }
+
+        async function eliminarRegistrofun() {
+            await eliminarRegistro("../temp/ingresos.json", indiceEliminar);
+            await actualizarTabla();
+        }
+
+        // Función para manejar el clic en el botón de eliminar
+        const handleDelete = async (event) => {
+            const index = event.target.dataset.index;
+            indiceEliminar = index;
+        };
     </script>
 
 </body>

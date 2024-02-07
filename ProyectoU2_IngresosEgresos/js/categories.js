@@ -47,18 +47,29 @@ const listUsers = async () => {
                             <td>${users.length - i}</td>
                             <td>${user.nombreCategoria}</td>
                             <td>
-                                <a href="#" class="btn btn-primary btn-circle btn-sm">
-                                    <i class="fas fa-edit"></i>
+                                <a href="#" class="btn btn-primary btn-circle btn-sm btn-editM" data-toggle="modal" data-target="#exampleModalCenterEditor" data-index="${i}">
+                                    <i class="fas fa-edit" data-index="${i}"></i>
                                 </a>
 
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
+                                <a href="#" class="btn btn-danger btn-circle btn-sm btn-deleteM" data-toggle="modal" data-target="#confirmarEliminar" data-index="${i}">
+                                    <i class="fas fa-trash" data-index="${i}"></i>
                                 </a>
                             </td>
                         </tr>`;
+
+                        
         }
 
         tableBody_categoria.innerHTML = content;
+
+        // Asigna eventos a los botones de editar y eliminar después de agregarlos al DOM
+        document.querySelectorAll('.btn-editM').forEach(button => {
+            button.addEventListener('click', handleEdit);
+        });
+
+        document.querySelectorAll('.btn-deleteM').forEach(button => {
+            button.addEventListener('click', handleDelete);
+        });
 
     } catch (ex) {
         console.log(ex);
