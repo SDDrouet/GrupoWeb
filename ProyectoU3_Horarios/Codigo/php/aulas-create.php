@@ -17,7 +17,6 @@ $observacion_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-        $id_periodo = trim($_POST["id_periodo"]);
         $id_aula = trim($_POST["id_aula"]);
 		$capacidad = trim($_POST["capacidad"]);
 		$bloque = trim($_POST["bloque"]);
@@ -68,26 +67,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                     <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="form-group">
-                                <label>Periodo - Horarios</label>
-                                    <select class="form-control" id="periodos_id_periodo" name="periodos_id_periodo">
-                                    <?php
-                                        $sql = "SELECT *,id_periodo FROM periodos";
-                                        $result = mysqli_query($link, $sql);
-                                        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                                            $duprow = $row;
-                                            unset($duprow["id_periodo"]);
-                                            $value = implode(" | ", $duprow);
-                                            if ($row["id_periodo"] == $periodos_id_periodo){
-                                            echo '<option value="' . "$row[id_periodo]" . '"selected="selected">' . "$value" . '</option>';
-                                            } else {
-                                                echo '<option value="' . "$row[id_periodo]" . '">' . "$value" . '</option>';
-                                        }
-                                        }
-                                    ?>
-                                    </select>
-                                <span class="form-text"><?php echo $periodos_id_periodo_err; ?></span>
-                            </div>
                         <div class="form-group">
                                 <label>ID Aula</label>
                                 <input type="text" name="id_aula" maxlength="30"class="form-control" value="<?php echo $id_aula; ?>">
