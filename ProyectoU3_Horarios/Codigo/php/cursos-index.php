@@ -67,8 +67,8 @@
                     $total_pages = ceil($total_rows / $no_of_records_per_page);
 
                     //Column sorting on column name
-                    $orderBy = array('id_curso', 'periodos_id_periodo', 'cod_materia', 'horarios_id_horario', 'id_aula', 'id_docente');
-                    $order = 'id_docente';
+                    $orderBy = array('id_curso', 'nrc', 'periodos_id_periodo', 'cod_materia', 'horarios_id_horario', 'id_aula', 'id_docente');
+                    $order = 'id_curso';
                     if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
                             $order = $_GET['order'];
                         }
@@ -92,12 +92,12 @@
                     if(!empty($_GET['search'])) {
                         $search = ($_GET['search']);
                         $sql = "SELECT * FROM cursos
-                            WHERE CONCAT_WS (id_curso,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente)
+                            WHERE CONCAT_WS (id_curso,nrc,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente)
                             LIKE '%$search%'
                             ORDER BY $order $sort
                             LIMIT $offset, $no_of_records_per_page";
                         $count_pages = "SELECT * FROM cursos
-                            WHERE CONCAT_WS (id_curso,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente)
+                            WHERE CONCAT_WS (id_curso,nrc,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente)
                             LIKE '%$search%'
                             ORDER BY $order $sort";
                     }
@@ -116,7 +116,8 @@
                             echo "<table class='table table-bordered table-striped'>";
                                 echo "<thead>";
                                     echo "<tr>";
-                                        echo "<th><a href=?search=$search&sort=&order=id_curso&sort=$sort>NRC</th>";
+                                        echo "<th><a href=?search=$search&sort=&order=id_curso&sort=$sort>ID Curso</th>";
+                                        echo "<th><a href=?search=$search&sort=&order=nrc&sort=$sort>NRC</th>";
 										echo "<th><a href=?search=$search&sort=&order=periodos_id_periodo&sort=$sort>Periodo</th>";
 										echo "<th><a href=?search=$search&sort=&order=cod_materia&sort=$sort>Código de Materia</th>";
 										echo "<th><a href=?search=$search&sort=&order=horarios_id_horario&sort=$sort>Horario</th>";
@@ -129,7 +130,7 @@
                                 echo "<tbody>";
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
-                                    echo "<td>" . htmlspecialchars($row['id_curso']) . "</td>";echo "<td>" . htmlspecialchars($row['periodos_id_periodo']) . "</td>";echo "<td>" . htmlspecialchars($row['cod_materia']) . "</td>";echo "<td>" . htmlspecialchars($row['horarios_id_horario']) . "</td>";echo "<td>" . htmlspecialchars($row['id_aula']) . "</td>";echo "<td>" . htmlspecialchars($row['id_docente']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['id_curso']) . "</td>";echo "<td>" . htmlspecialchars($row['nrc']) . "</td>";echo "<td>" . htmlspecialchars($row['periodos_id_periodo']) . "</td>";echo "<td>" . htmlspecialchars($row['cod_materia']) . "</td>";echo "<td>" . htmlspecialchars($row['horarios_id_horario']) . "</td>";echo "<td>" . htmlspecialchars($row['id_aula']) . "</td>";echo "<td>" . htmlspecialchars($row['id_docente']) . "</td>";
                                         echo "<td>";
                                             echo "<a href='cursos-read.php?id_curso=". $row['id_curso'] ."' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
                                             echo "<a href='cursos-update.php?id_curso=". $row['id_curso'] ."' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";

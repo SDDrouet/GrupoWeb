@@ -67,17 +67,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                         <div class="form-group">
                                 <label>Día</label>
-                                <input type="text" name="dia" maxlength="45"class="form-control" value="<?php echo $dia; ?>">
+                                <select name="dia" id="dia" class="form-control">
+                                    <option value="LUNES">LUNES</option>
+                                    <option value="MARTES">MARTES</option>
+                                    <option value="MIERCOLES">MIERCOLES</option>
+                                    <option value="JUEVES">JUEVES</option>
+                                    <option value="VIERNES">VIERNES</option>
+                                    <option value="SABADO">SABADO</option>
+                                    <option value="DOMINGO">DOMINGO</option>
+                                </select>
                                 <span class="form-text"><?php echo $dia_err; ?></span>
                             </div>
 						<div class="form-group">
                                 <label>Hora de Inicio</label>
-                                <input type="text" name="hora_inicio" class="form-control" value="<?php echo $hora_inicio; ?>">
+                                <input type="time" name="hora_inicio" class="form-control" value="<?php echo $hora_inicio; ?>">
                                 <span class="form-text"><?php echo $hora_inicio_err; ?></span>
                             </div>
 						<div class="form-group">
                                 <label>Hora de Finalización</label>
-                                <input type="text" name="hora_fin" class="form-control" value="<?php echo $hora_fin; ?>">
+                                <input type="time" name="hora_fin" class="form-control" value="<?php echo $hora_fin; ?>">
                                 <span class="form-text"><?php echo $hora_fin_err; ?></span>
                             </div>
 

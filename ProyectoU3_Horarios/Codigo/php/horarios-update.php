@@ -126,17 +126,18 @@ if(isset($_POST["id_horario"]) && !empty($_POST["id_horario"])){
 
                         <div class="form-group">
                                 <label>Día</label>
-                                <input type="text" name="dia" maxlength="45"class="form-control" value="<?php echo $dia; ?>">
+                                <input type="text" name="diaaa" maxlength="45"class="form-control" value="<?php echo $dia; ?>" disabled>
+                                <input type="text" name="dia" maxlength="45"class="form-control" value="<?php echo $dia; ?>" hidden>
                                 <span class="form-text"><?php echo $dia_err; ?></span>
                             </div>
 						<div class="form-group">
                                 <label>Hora de Inicio</label>
-                                <input type="text" name="hora_inicio" class="form-control" value="<?php echo $hora_inicio; ?>">
+                                <input type="time" name="hora_inicio" class="form-control" value="<?php echo $hora_inicio; ?>">
                                 <span class="form-text"><?php echo $hora_inicio_err; ?></span>
                             </div>
 						<div class="form-group">
                                 <label>Hora de Finalización</label>
-                                <input type="text" name="hora_fin" class="form-control" value="<?php echo $hora_fin; ?>">
+                                <input type="time" name="hora_fin" class="form-control" value="<?php echo $hora_fin; ?>">
                                 <span class="form-text"><?php echo $hora_fin_err; ?></span>
                             </div>
 

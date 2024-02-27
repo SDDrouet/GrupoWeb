@@ -6,9 +6,33 @@ if(isset($_POST["id_periodo"]) && !empty($_POST["id_periodo"])){
     require_once "helpers.php";
 
     // Prepare a delete statement
+    $id_periodo = $_POST["id_periodo"];
+    
+    $sql1 = "DELETE FROM horarios_aulas WHERE id_periodo = $id_periodo";
+    $sql2 = "DELETE FROM periodos_horarios WHERE id_periodo = $id_periodo";
+    $sql3 = "DELETE FROM periodos_docentes WHERE id_periodo = $id_periodo";
+    if (mysqli_query($link, $sql1)) {
+    echo "Records horarios_aulas deleted successfully";
+    } else {
+    echo "Error deleting record: " . mysqli_error($link);
+    }
+
+    if (mysqli_query($link, $sql2)) {
+    echo "Records periodos_horarios deleted successfully";
+    } else {
+    echo "Error deleting record: " . mysqli_error($link);
+    }
+
+    if (mysqli_query($link, $sql3)) {
+        echo "Records horarios_docentes deleted successfully";
+        } else {
+        echo "Error deleting record: " . mysqli_error($link);
+        }
+
     $sql = "DELETE FROM periodos WHERE id_periodo = ?";
 
     if($stmt = mysqli_prepare($link, $sql)){
+       
         // Set parameters
         $param_id = trim($_POST["id_periodo"]);
 

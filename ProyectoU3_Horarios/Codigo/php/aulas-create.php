@@ -67,6 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                     <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    
                         <div class="form-group">
                                 <label>ID Aula</label>
                                 <input type="text" name="id_aula" maxlength="30"class="form-control" value="<?php echo $id_aula; ?>">

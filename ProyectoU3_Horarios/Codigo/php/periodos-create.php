@@ -51,6 +51,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $stmt->execute([$id_periodo, $id_horario]);
                 }
 
+                $sql = "SELECT id_aula FROM aulas";
+                $aulas = mysqli_query($link, $sql);
+                while($rowAula = mysqli_fetch_array($aulas, MYSQLI_ASSOC)) {
+                    $rowAula["id_aula"];
+
+                    foreach ($horarios_seleccionados as $id_horario) {
+                        $stmt = $pdo->prepare("INSERT INTO horarios_aulas (id_horario, id_aula, id_periodo) VALUES (?, ?, ?)");
+                        $stmt->execute([$id_horario, $rowAula["id_aula"], $id_periodo]);
+                    }
+                }
+
+                $sql = "SELECT id_docente, horas_disponibles FROM docentes WHERE estado = 1";
+                $docentes = mysqli_query($link, $sql);
+                while($rowDocente = mysqli_fetch_array($docentes, MYSQLI_ASSOC)) {
+                    $rowDocente["id_docente"];
+
+                    $stmt = $pdo->prepare("INSERT INTO periodos_docentes (id_periodo, id_docente, horas_asignadas) VALUES (?, ?, ?)");
+                    $stmt->execute([$id_periodo, $rowDocente["id_docente"], $rowDocente["horas_disponibles"]]);
+
+                }
+
                 $stmt = null;
                 header("location: periodos-index.php");
             } else{
@@ -97,7 +118,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <div class="form-group">
                                 <label>Selecciona los Horarios Disponibles</label><br>
                                 <?php
-                                    $sql_horarios = "SELECT id_horario, dia, hora_inicio, hora_fin FROM horarios";
+                                    $sql_horarios = "SELECT id_horario, dia, hora_inicio, hora_fin FROM horarios ORDER BY CASE
+                                    WHEN dia = 'lunes' THEN 1
+                                    WHEN dia = 'martes' THEN 2
+                                    WHEN dia = 'miércoles' THEN 3
+                                    WHEN dia = 'jueves' THEN 4
+                                    WHEN dia = 'viernes' THEN 5
+                                    WHEN dia = 'sábado' THEN 6
+                                    WHEN dia = 'domingo' THEN 7
+                                    ELSE 8
+                                    END, hora_inicio";
                                     $result_horarios = mysqli_query($link, $sql_horarios);
                                 // Mostrar checkboxes con los horarios disponibles
                                 if ($result_horarios->num_rows > 0) {

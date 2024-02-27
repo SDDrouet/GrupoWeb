@@ -7,18 +7,19 @@ require_once "helpers.php";
 $id_horario = "";
 $id_aula = "";
 $disponible = "";
+$periodos_id_periodo = "";
 
 $id_horario_err = "";
 $id_aula_err = "";
 $disponible_err = "";
-
+$periodos_id_periodo_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
         $id_horario = trim($_POST["id_horario"]);
 		$id_aula = trim($_POST["id_aula"]);
 		$disponible = trim($_POST["disponible"]);
-		
+		$id_periodo = trim($_POST["periodos_id_periodo"]);
 
         $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
         $options = [
@@ -34,9 +35,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
 
         $vars = parse_columns('horarios_aulas', $_POST);
-        $stmt = $pdo->prepare("INSERT INTO horarios_aulas (id_horario,id_aula,disponible) VALUES (?,?,?)");
+        $stmt = $pdo->prepare("INSERT INTO horarios_aulas (id_horario,id_aula,disponible,id_periodo) VALUES (?,?,?,?)");
 
-        if($stmt->execute([ $id_horario,$id_aula,$disponible  ])) {
+        if($stmt->execute([ $id_horario,$id_aula,$disponible, $id_periodo])) {
                 $stmt = null;
                 header("location: horarios_aulas-index.php");
             } else{
@@ -64,7 +65,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                     <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
+                    <div class="form-group">
+                                <label>Periodo</label>
+                                    <select class="form-control" id="periodos_id_periodo" name="periodos_id_periodo">
+                                    <?php
+                                        $sql = "SELECT *,id_periodo FROM periodos";
+                                        $result = mysqli_query($link, $sql);
+                                        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                                            $duprow = $row;
+                                            unset($duprow["id_periodo"]);
+                                            $value = implode(" | ", $duprow);
+                                            if ($row["id_periodo"] == $periodos_id_periodo){
+                                            echo '<option value="' . "$row[id_periodo]" . '"selected="selected">' . "$value" . '</option>';
+                                            } else {
+                                                echo '<option value="' . "$row[id_periodo]" . '">' . "$value" . '</option>';
+                                        }
+                                        }
+                                    ?>
+                                    </select>
+                                <span class="form-text"><?php echo $periodos_id_periodo_err; ?></span>
+                            </div>
                         <div class="form-group">
                                 <label>Horario</label>
                                     <select class="form-control" id="id_horario" name="id_horario">

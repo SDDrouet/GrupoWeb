@@ -138,9 +138,11 @@ if(isset($_POST["cod_materia"]) && !empty($_POST["cod_materia"])){
                                 <input type="text" name="nombre_materia" maxlength="100"class="form-control" value="<?php echo $nombre_materia; ?>">
                                 <span class="form-text"><?php echo $nombre_materia_err; ?></span>
                             </div>
+
 						<div class="form-group">
                                 <label>Departamento</label>
-                                <input type="text" name="departamento" maxlength="45"class="form-control" value="<?php echo $departamento; ?>">
+                                <input type="text" name="departamentoaa" maxlength="45"class="form-control" value="<?php echo $departamento; ?>" disabled>
+                                <input type="text" name="departamento" maxlength="45"class="form-control" value="<?php echo $departamento; ?>" hidden>
                                 <span class="form-text"><?php echo $departamento_err; ?></span>
                             </div>
 						<div class="form-group">

@@ -14,9 +14,9 @@ $disponible_err = "";
 
 
 // Processing form data when form is submitted
-if(isset($_POST["id_aula"]) && !empty($_POST["id_aula"])){
+if(isset($_POST["id_horario__aula"]) && !empty($_POST["id_horario__aula"])){
     // Get hidden input value
-    $id_aula = $_POST["id_aula"];
+    $id_horario__aula = $_POST["id_horario__aula"];
 
     $id_horario = trim($_POST["id_horario"]);
 		$id_aula = trim($_POST["id_aula"]);
@@ -38,27 +38,27 @@ if(isset($_POST["id_aula"]) && !empty($_POST["id_aula"])){
     }
 
     $vars = parse_columns('horarios_aulas', $_POST);
-    $stmt = $pdo->prepare("UPDATE horarios_aulas SET id_horario=?,id_aula=?,disponible=? WHERE id_aula=?");
+    $stmt = $pdo->prepare("UPDATE horarios_aulas SET id_horario=?,id_aula=?,disponible=? WHERE id_horario__aula=?");
 
-    if(!$stmt->execute([ $id_horario,$id_aula,$disponible,$id_aula  ])) {
+    if(!$stmt->execute([ $id_horario,$id_aula,$disponible,$id_horario__aula  ])) {
         echo "Something went wrong. Please try again later.";
         header("location: error.php");
     } else {
         $stmt = null;
-        header("location: horarios_aulas-read.php?id_aula=$id_aula");
+        header("location: horarios_aulas-read.php?id_horario__aula=$id_horario__aula");
     }
 } else {
     // Check existence of id parameter before processing further
-	$_GET["id_aula"] = trim($_GET["id_aula"]);
-    if(isset($_GET["id_aula"]) && !empty($_GET["id_aula"])){
+	$_GET["id_horario__aula"] = trim($_GET["id_horario__aula"]);
+    if(isset($_GET["id_horario__aula"]) && !empty($_GET["id_horario__aula"])){
         // Get URL parameter
-        $id_aula =  trim($_GET["id_aula"]);
+        $id_horario__aula =  trim($_GET["id_horario__aula"]);
 
         // Prepare a select statement
-        $sql = "SELECT * FROM horarios_aulas WHERE id_aula = ?";
+        $sql = "SELECT * FROM horarios_aulas WHERE id_horario__aula = ?";
         if($stmt = mysqli_prepare($link, $sql)){
             // Set parameters
-            $param_id = $id_aula;
+            $param_id = $id_horario__aula;
 
             // Bind variables to the prepared statement as parameters
 			if (is_int($param_id)) $__vartype = "i";
@@ -170,7 +170,7 @@ if(isset($_POST["id_aula"]) && !empty($_POST["id_aula"])){
                                 <span class="form-text"><?php echo $disponible_err; ?></span>
                             </div>
 
-                        <input type="hidden" name="id_aula" value="<?php echo $id_aula; ?>"/>
+                        <input type="hidden" name="id_horario__aula" value="<?php echo $id_horario__aula; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Enviar">
                         <a href="horarios_aulas-index.php" class="btn btn-secondary">Cancelar</a>
                     </form>

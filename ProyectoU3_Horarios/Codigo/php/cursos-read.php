@@ -66,7 +66,10 @@ if(isset($_GET["id_curso"]) && !empty($_GET["id_curso"])){
                     <div class="page-header">
                         <h1>Ver Registro</h1>
                     </div>
-
+                        <div class="form-group">
+                            <h4>NRC</h4>
+                            <p class="form-control-static"><?php echo htmlspecialchars($row["nrc"]); ?></p>
+                        </div>
                      <div class="form-group">
                             <h4>Periodo</h4>
                             <p class="form-control-static"><?php echo htmlspecialchars($row["periodos_id_periodo"]); ?></p>

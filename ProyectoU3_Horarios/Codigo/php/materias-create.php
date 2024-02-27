@@ -80,7 +80,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             </div>
 						<div class="form-group">
                                 <label>Departamento</label>
-                                <input type="text" name="departamento" maxlength="45"class="form-control" value="<?php echo $departamento; ?>">
+                                <select name="departamento" id="departamento" class="form-control">
+                                    <option value="CIENCIAS EXACTAS">CIENCIAS EXACTAS</option>
+                                    <option value="CIENCIAS DE LA COMPUTACIÓN">CIENCIAS DE LA COMPUTACIÓN</option>
+                                    <option value="CIENCIAS DE ENERGÍA Y MECÁNICA">CIENCIAS DE ENERGÍA Y MECÁNICA</option>
+                                    <option value="CIENCIAS DE LA TIERRA Y LA CONSTRUCCIÓN">CIENCIAS DE LA TIERRA Y LA CONSTRUCCIÓN</option>
+                                    <option value="CIENCIAS DE LA VIDA Y LA AGRICULTURA">CIENCIAS DE LA VIDA Y LA AGRICULTURA</option>
+                                    <option value="CIENCIAS ECONÓMICAS, ADMINISTRATIVAS Y DEL COMERCIO">CIENCIAS ECONÓMICAS, ADMINISTRATIVAS Y DEL COMERCIO</option>
+                                    <option value="CIENCIAS HUMANAS Y SOCIALES">CIENCIAS HUMANAS Y SOCIALES</option>
+                                    <option value="SEGURIDAD Y DEFENSA">SEGURIDAD Y DEFENSA</option>
+                                    <option value="ELÉCTRICA, ELECTRÓNICA Y TELECOMUNICACIONES">ELÉCTRICA, ELECTRÓNICA Y TELECOMUNICACIONES</option>
+                                    <option value="CIENCIAS MÉDICAS">CIENCIAS MÉDICAS</option>
+
+                                </select>
                                 <span class="form-text"><?php echo $departamento_err; ?></span>
                             </div>
 						<div class="form-group">

@@ -129,9 +129,9 @@
                                     echo "<tr>";
                                     echo "<td>" . htmlspecialchars($row['id_horario__aula']) . "</td>";echo "<td>" . htmlspecialchars($row['id_horario']) . "</td>";echo "<td>" . htmlspecialchars($row['id_aula']) . "</td>";echo "<td>" . htmlspecialchars($row['disponible']) . "</td>";
                                         echo "<td>";
-                                            echo "<a href='horarios_aulas-read.php?id_aula=". $row['id_aula'] ."' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
-                                            echo "<a href='horarios_aulas-update.php?id_aula=". $row['id_aula'] ."' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
-                                            echo "<a href='horarios_aulas-delete.php?id_aula=". $row['id_aula'] ."' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
+                                            echo "<a href='horarios_aulas-read.php?id_horario__aula=". $row['id_horario__aula'] ."' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
+                                            echo "<a href='horarios_aulas-update.php?id_horario__aula=". $row['id_horario__aula'] ."' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
+                                            echo "<a href='horarios_aulas-delete.php?id_horario__aula=". $row['id_horario__aula'] ."' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
                                         echo "</td>";
                                     echo "</tr>";
                                 }

@@ -1,17 +1,17 @@
 <?php
 // Check existence of id parameter before processing further
-$_GET["id_aula"] = trim($_GET["id_aula"]);
-if(isset($_GET["id_aula"]) && !empty($_GET["id_aula"])){
+$_GET["id_horario__aula"] = trim($_GET["id_horario__aula"]);
+if(isset($_GET["id_horario__aula"]) && !empty($_GET["id_horario__aula"])){
     // Include config file
     require_once "config.php";
     require_once "helpers.php";
 
     // Prepare a select statement
-    $sql = "SELECT * FROM horarios_aulas WHERE id_aula = ?";
+    $sql = "SELECT * FROM horarios_aulas WHERE id_horario__aula = ?";
 
     if($stmt = mysqli_prepare($link, $sql)){
         // Set parameters
-        $param_id = trim($_GET["id_aula"]);
+        $param_id = trim($_GET["id_horario__aula"]);
 
         // Bind variables to the prepared statement as parameters
 		if (is_int($param_id)) $__vartype = "i";
