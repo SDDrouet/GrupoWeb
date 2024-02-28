@@ -1,16 +1,16 @@
 <?php
 // Process delete operation after confirmation
-if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
+if (isset($_POST["id_carrera_curso"]) && !empty($_POST["id_carrera_curso"])) {
     // Include config file
     require_once "config.php";
     require_once "helpers.php";
 
     // Prepare a delete statement
-    $sql = "DELETE FROM carreras_cursos WHERE id_curso = ?";
+    $sql = "DELETE FROM carreras_cursos WHERE id_carrera_curso = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
-        $param_id = trim($_POST["id_curso"]);
+        $param_id = trim($_POST["id_carrera_curso"]);
 
         // Bind variables to the prepared statement as parameters
         if (is_int($param_id))
@@ -40,8 +40,8 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
     mysqli_close($link);
 } else {
     // Check existence of id parameter
-    $_GET["id_curso"] = trim($_GET["id_curso"]);
-    if (empty($_GET["id_curso"])) {
+    $_GET["id_carrera_curso"] = trim($_GET["id_carrera_curso"]);
+    if (empty($_GET["id_carrera_curso"])) {
         // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");
         exit();
@@ -66,7 +66,7 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                 </div>
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                     <div class="alert alert-danger fade-in">
-                        <input type="hidden" name="id_curso" value="<?php echo trim($_GET["id_curso"]); ?>" />
+                        <input type="hidden" name="id_carrera_curso" value="<?php echo trim($_GET["id_carrera_curso"]); ?>" />
                         <p>¿Está Seguro que quiere eliminar el registro?</p><br>
                         <p>
                             <input type="submit" value="Eliminar" class="btn btn-danger">

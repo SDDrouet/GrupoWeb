@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <select class="form-control" name="periodos_id_periodo" id="periodos_id_periodo"
                             onchange="actualizarSelectores()">
                             <?php
-                            $sql = "SELECT *,id_periodo FROM periodos";
+                            $sql = "SELECT *, id_periodo FROM periodos ORDER BY id_periodo DESC";
                             $result = mysqli_query($link, $sql);
                             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                                 $duprow = $row;

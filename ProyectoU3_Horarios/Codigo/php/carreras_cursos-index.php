@@ -86,12 +86,47 @@
                 }
 
                 // Attempt select query execution
+                /*
                 $sql = "SELECT * FROM carreras_cursos ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
                 $count_pages = "SELECT * FROM carreras_cursos";
-
+                */
+                $sql = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
+                        CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS id_curso FROM carreras_cursos cc
+                        INNER JOIN cursos c ON cc.id_curso = c.id_curso
+                        INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
+                        INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                        ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
+                $count_pages = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
+                                CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS id_curso FROM carreras_cursos cc
+                                INNER JOIN cursos c ON cc.id_curso = c.id_curso
+                                INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
+                                INNER JOIN materias m ON c.cod_materia = m.cod_materia";
 
                 if (!empty($_GET['search'])) {
                     $search = ($_GET['search']);
+
+                    $sql = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
+                            CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS id_curso
+                            FROM carreras_cursos cc
+                            INNER JOIN cursos c ON cc.id_curso = c.id_curso
+                            INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
+                            INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                            WHERE cc.id_carrera_curso LIKE '%$search%'
+                                OR ca.nombre_carrera LIKE '%$search%'
+                                OR CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', c.cod_materia) LIKE '%$search%'
+                            ORDER BY $order $sort
+                            LIMIT $offset, $no_of_records_per_page";
+
+                    $count_pages = "SELECT * FROM carreras_cursos cc
+                    INNER JOIN cursos c ON cc.id_curso = c.id_curso
+                    INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
+                    INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                    WHERE cc.id_carrera_curso LIKE '%$search%'
+                        OR ca.nombre_carrera LIKE '%$search%'
+                        OR CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', c.cod_materia) LIKE '%$search%'
+                    ORDER BY $order $sort";
+
+                    /*
                     $sql = "SELECT * FROM carreras_cursos
                             WHERE CONCAT_WS (id_carrera_curso,id_carrera,id_curso)
                             LIKE '%$search%'
@@ -100,7 +135,7 @@
                     $count_pages = "SELECT * FROM carreras_cursos
                             WHERE CONCAT_WS (id_carrera_curso,id_carrera,id_curso)
                             LIKE '%$search%'
-                            ORDER BY $order $sort";
+                            ORDER BY $order $sort";*/
                 } else {
                     $search = "";
                 }
@@ -130,9 +165,9 @@
                             echo "<td>" . htmlspecialchars($row['id_carrera']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_curso']) . "</td>";
                             echo "<td>";
-                            echo "<a href='carreras_cursos-read.php?id_curso=" . $row['id_curso'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
-                            echo "<a href='carreras_cursos-update.php?id_curso=" . $row['id_curso'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
-                            echo "<a href='carreras_cursos-delete.php?id_curso=" . $row['id_curso'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
+                            echo "<a href='carreras_cursos-read.php?id_carrera_curso=" . $row['id_carrera_curso'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
+                            echo "<a href='carreras_cursos-update.php?id_carrera_curso=" . $row['id_carrera_curso'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
+                            echo "<a href='carreras_cursos-delete.php?id_carrera_curso=" . $row['id_carrera_curso'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
                             echo "</td>";
                             echo "</tr>";
                         }

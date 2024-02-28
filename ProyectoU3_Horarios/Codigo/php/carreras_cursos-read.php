@@ -1,17 +1,22 @@
 <?php
 // Check existence of id parameter before processing further
-$_GET["id_curso"] = trim($_GET["id_curso"]);
-if (isset($_GET["id_curso"]) && !empty($_GET["id_curso"])) {
+$_GET["id_carrera_curso"] = trim($_GET["id_carrera_curso"]);
+if (isset($_GET["id_carrera_curso"]) && !empty($_GET["id_carrera_curso"])) {
     // Include config file
     require_once "config.php";
     require_once "helpers.php";
 
     // Prepare a select statement
-    $sql = "SELECT * FROM carreras_cursos WHERE id_curso = ?";
+    $sql = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
+            CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS id_curso FROM carreras_cursos cc
+            INNER JOIN cursos c ON cc.id_curso = c.id_curso
+            INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
+            INNER JOIN materias m ON c.cod_materia = m.cod_materia
+            WHERE id_carrera_curso = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
-        $param_id = trim($_GET["id_curso"]);
+        $param_id = trim($_GET["id_carrera_curso"]);
 
         // Bind variables to the prepared statement as parameters
         if (is_int($param_id))

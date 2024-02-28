@@ -7,7 +7,18 @@ if (isset($_GET["id_curso"]) && !empty($_GET["id_curso"])) {
     require_once "helpers.php";
 
     // Prepare a select statement
-    $sql = "SELECT * FROM cursos WHERE id_curso = ?";
+    $sql = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
+            CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
+            CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
+            a.id_aula, 
+            IFNULL(CONCAT(d.nombres,' ', d.apellidos), 'No asignado') AS id_docente
+            FROM cursos c
+            INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
+            INNER JOIN materias m ON c.cod_materia = m.cod_materia
+            INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
+            INNER JOIN aulas a ON c.id_aula = a.id_aula
+            LEFT JOIN docentes d ON c.id_docente = d.id_docente
+            WHERE c.id_curso = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters

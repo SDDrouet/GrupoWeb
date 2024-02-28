@@ -85,12 +85,39 @@
                     }
                 }
 
+                $sql = "SELECT u.id_usuario,u.nombre,u.apellido,
+                        u.usuario,u.clave, p.tipo_perfil as id_perfil FROM usuarios u
+                        INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
+                        ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
+                $count_pages = "SELECT u.id_usuario,u.nombre,u.apellido,
+                                u.usuario,u.clave, p.tipo_perfil as id_perfil FROM usuarios u
+                                INNER JOIN perfiles p ON u.id_perfil = p.id_perfil";
+
                 // Attempt select query execution
+                /*
                 $sql = "SELECT * FROM usuarios ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
                 $count_pages = "SELECT * FROM usuarios";
-
+                */
                 if (!empty($_GET['search'])) {
                     $search = ($_GET['search']);
+
+                    $sql = "SELECT u.id_usuario, u.nombre, u.apellido,
+                            u.usuario, u.clave, p.tipo_perfil as id_perfil FROM usuarios u
+                            INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
+                            WHERE CONCAT_WS(u.id_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil)
+                                LIKE '%$search%'
+                            ORDER BY $order $sort
+                            LIMIT $offset, $no_of_records_per_page";
+
+                    $count_pages = "SELECT u.id_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil as id_perfil
+                            FROM usuarios u
+                            INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
+                            WHERE CONCAT_WS(u.id_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil)
+                                LIKE '%$search%'
+                            ORDER BY $order $sort";
+
+
+                    /*
                     $sql = "SELECT * FROM usuarios
                             WHERE CONCAT_WS (id_usuario,nombre,apellido,usuario,clave,id_perfil)
                             LIKE '%$search%'
@@ -100,6 +127,8 @@
                             WHERE CONCAT_WS (id_usuario,nombre,apellido,usuario,clave,id_perfil)
                             LIKE '%$search%'
                             ORDER BY $order $sort";
+                    */
+
                 } else {
                     $search = "";
                 }
@@ -135,9 +164,9 @@
                             echo "<td>" . htmlspecialchars($row['clave']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_perfil']) . "</td>";
                             echo "<td>";
-                            echo "<a href='usuarios-read.php?id_perfil=" . $row['id_perfil'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
-                            echo "<a href='usuarios-update.php?id_perfil=" . $row['id_perfil'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
-                            echo "<a href='usuarios-delete.php?id_perfil=" . $row['id_perfil'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
+                            echo "<a href='usuarios-read.php?id_usuario=" . $row['id_usuario'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
+                            echo "<a href='usuarios-update.php?id_usuario=" . $row['id_usuario'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
+                            echo "<a href='usuarios-delete.php?id_usuario=" . $row['id_usuario'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
                             echo "</td>";
                             echo "</tr>";
                         }

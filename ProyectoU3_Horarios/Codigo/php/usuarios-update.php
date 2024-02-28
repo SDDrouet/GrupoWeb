@@ -20,9 +20,9 @@ $id_perfil_err = "";
 
 
 // Processing form data when form is submitted
-if (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) {
+if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
     // Get hidden input value
-    $id_perfil = $_POST["id_perfil"];
+    $id_usuario = $_POST["id_usuario"];
 
     $id_usuario = trim($_POST["id_usuario"]);
     $nombre = trim($_POST["nombre"]);
@@ -47,27 +47,27 @@ if (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) {
     }
 
     $vars = parse_columns('usuarios', $_POST);
-    $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?,nombre=?,apellido=?,usuario=?,clave=?,id_perfil=? WHERE id_perfil=?");
+    $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?,nombre=?,apellido=?,usuario=?,clave=?,id_perfil=? WHERE id_usuario=?");
 
-    if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil, $id_perfil])) {
+    if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil, $id_usuario])) {
         echo "Something went wrong. Please try again later.";
         header("location: error.php");
     } else {
         $stmt = null;
-        header("location: usuarios-read.php?id_perfil=$id_perfil");
+        header("location: usuarios-read.php?id_usuario=$id_usuario");
     }
 } else {
     // Check existence of id parameter before processing further
-    $_GET["id_perfil"] = trim($_GET["id_perfil"]);
-    if (isset($_GET["id_perfil"]) && !empty($_GET["id_perfil"])) {
+    $_GET["id_usuario"] = trim($_GET["id_usuario"]);
+    if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
         // Get URL parameter
-        $id_perfil = trim($_GET["id_perfil"]);
+        $id_usuario = trim($_GET["id_usuario"]);
 
         // Prepare a select statement
-        $sql = "SELECT * FROM usuarios WHERE id_perfil = ?";
+        $sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Set parameters
-            $param_id = $id_perfil;
+            $param_id = $id_usuario;
 
             // Bind variables to the prepared statement as parameters
             if (is_int($param_id))
@@ -203,7 +203,7 @@ if (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) {
                         </span>
                     </div>
 
-                    <input type="hidden" name="id_perfil" value="<?php echo $id_perfil; ?>" />
+                    <input type="hidden" name="id_usuario" value="<?php echo $id_usuario; ?>" />
                     <input type="submit" class="btn btn-primary" value="Enviar">
                     <a href="usuarios-index.php" class="btn btn-secondary">Cancelar</a>
                 </form>

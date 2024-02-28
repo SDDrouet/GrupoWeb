@@ -1,17 +1,20 @@
 <?php
 // Check existence of id parameter before processing further
-$_GET["id_perfil"] = trim($_GET["id_perfil"]);
-if (isset($_GET["id_perfil"]) && !empty($_GET["id_perfil"])) {
+$_GET["id_usuario"] = trim($_GET["id_usuario"]);
+if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
     // Include config file
     require_once "config.php";
     require_once "helpers.php";
 
     // Prepare a select statement
-    $sql = "SELECT * FROM usuarios WHERE id_perfil = ?";
+    $sql = "SELECT u.id_usuario,u.nombre,u.apellido,
+            u.usuario,u.clave, p.tipo_perfil as id_perfil FROM usuarios u
+            INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
+            WHERE u.id_usuario = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
-        $param_id = trim($_GET["id_perfil"]);
+        $param_id = trim($_GET["id_usuario"]);
 
         // Bind variables to the prepared statement as parameters
         if (is_int($param_id))

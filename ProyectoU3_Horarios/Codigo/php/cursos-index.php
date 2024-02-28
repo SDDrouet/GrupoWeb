@@ -86,21 +86,80 @@
                 }
 
                 // Attempt select query execution
-                $sql = "SELECT * FROM cursos ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
-                $count_pages = "SELECT * FROM cursos";
+                //$sql = "SELECT * FROM cursos ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
+                $sql = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
+                CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
+                CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
+                a.id_aula, 
+                IFNULL(CONCAT(d.nombres,' ', d.apellidos), 'No asignado') AS id_docente
+                FROM cursos c
+                INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
+                INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
+                INNER JOIN aulas a ON c.id_aula = a.id_aula
+                LEFT JOIN docentes d ON c.id_docente = d.id_docente
+                ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page;";
 
+                /*$count_pages = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
+                CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
+                CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
+                a.id_aula, CONCAT(d.nombres,' ', d.apellidos) AS id_docente
+                FROM cursos c
+                INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
+                INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
+                INNER JOIN aulas a ON c.id_aula = a.id_aula
+                LEFT JOIN docentes d ON c.id_docente = d.id_docente";
+                */
 
-                if (!empty($_GET['search'])) {
-                    $search = ($_GET['search']);
-                    $sql = "SELECT * FROM cursos
-                            WHERE CONCAT_WS (id_curso,nrc,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente)
-                            LIKE '%$search%'
-                            ORDER BY $order $sort
-                            LIMIT $offset, $no_of_records_per_page";
-                    $count_pages = "SELECT * FROM cursos
-                            WHERE CONCAT_WS (id_curso,nrc,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente)
-                            LIKE '%$search%'
-                            ORDER BY $order $sort";
+                if(!empty($_GET['search'])) {
+                $search = ($_GET['search']);
+                $sql = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
+                        CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
+                        CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
+                        a.id_aula, 
+                        IFNULL(CONCAT(d.nombres,' ', d.apellidos), 'No asignado') AS id_docente
+                        FROM cursos c
+                        INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
+                        INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                        INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
+                        INNER JOIN aulas a ON c.id_aula = a.id_aula
+                        LEFT JOIN docentes d ON c.id_docente = d.id_docente
+                        WHERE 
+                            c.id_curso LIKE '%$search%' OR
+                            c.nrc LIKE '%$search%' OR
+                            p.nombre_periodo LIKE '%$search%' OR
+                            m.cod_materia LIKE '%$search%' OR
+                            m.nombre_materia LIKE '%$search%' OR
+                            CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) LIKE '%$search%' OR
+                            a.id_aula LIKE '%$search%' OR
+                            d.nombres LIKE '%$search%'
+                        ORDER BY $order $sort
+                        LIMIT $offset, $no_of_records_per_page";
+                /*$count_pages = "SELECT * FROM cursos
+                WHERE CONCAT_WS (id_curso,nrc,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente)
+                LIKE '%$search%'
+                ORDER BY $order $sort";*/
+                $count_pages = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
+                CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
+                CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
+                a.id_aula, CONCAT(d.nombres,' ', d.apellidos) AS id_docente
+                FROM cursos c
+                INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
+                INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
+                INNER JOIN aulas a ON c.id_aula = a.id_aula
+                LEFT JOIN docentes d ON c.id_docente = d.id_docente
+                WHERE 
+                c.id_curso LIKE '%$search%' OR
+                c.nrc LIKE '%$search%' OR
+                p.nombre_periodo LIKE '%$search%' OR
+                m.cod_materia LIKE '%$search%' OR
+                m.nombre_materia LIKE '%$search%' OR
+                CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) LIKE '%$search%' OR
+                a.id_aula LIKE '%$search%' OR
+                d.nombres LIKE '%$search%'
+                ORDER BY $order $sort";
                 } else {
                     $search = "";
                 }

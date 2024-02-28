@@ -12,9 +12,9 @@ $id_curso_err = "";
 
 
 // Processing form data when form is submitted
-if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
+if (isset($_POST["id_carrera_curso"]) && !empty($_POST["id_carrera_curso"])) {
     // Get hidden input value
-    $id_curso = $_POST["id_curso"];
+    $id_carrera_curso = $_POST["id_carrera_curso"];
 
     $id_carrera = trim($_POST["id_carrera"]);
     $id_curso = trim($_POST["id_curso"]);
@@ -35,27 +35,27 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
     }
 
     $vars = parse_columns('carreras_cursos', $_POST);
-    $stmt = $pdo->prepare("UPDATE carreras_cursos SET id_carrera=?,id_curso=? WHERE id_curso=?");
+    $stmt = $pdo->prepare("UPDATE carreras_cursos SET id_carrera=?,id_curso=? WHERE id_carrera_curso=?");
 
-    if (!$stmt->execute([$id_carrera, $id_curso, $id_curso])) {
+    if (!$stmt->execute([$id_carrera, $id_curso, $id_carrera_curso])) {
         echo "Something went wrong. Please try again later.";
         header("location: error.php");
     } else {
         $stmt = null;
-        header("location: carreras_cursos-read.php?id_curso=$id_curso");
+        header("location: carreras_cursos-read.php?id_carrera_curso=$id_carrera_curso");
     }
 } else {
     // Check existence of id parameter before processing further
-    $_GET["id_curso"] = trim($_GET["id_curso"]);
-    if (isset($_GET["id_curso"]) && !empty($_GET["id_curso"])) {
+    $_GET["id_carrera_curso"] = trim($_GET["id_carrera_curso"]);
+    if (isset($_GET["id_carrera_curso"]) && !empty($_GET["id_carrera_curso"])) {
         // Get URL parameter
-        $id_curso = trim($_GET["id_curso"]);
+        $id_carrera_curso = trim($_GET["id_carrera_curso"]);
 
         // Prepare a select statement
-        $sql = "SELECT * FROM carreras_cursos WHERE id_curso = ?";
+        $sql = "SELECT * FROM carreras_cursos WHERE id_carrera_curso = ?";
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Set parameters
-            $param_id = $id_curso;
+            $param_id = $id_carrera_curso;
 
             // Bind variables to the prepared statement as parameters
             if (is_int($param_id))
@@ -148,28 +148,31 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                     </div>
                     <div class="form-group">
                         <label>NRC Curso</label>
-                        <select class="form-control" id="id_curso" name="id_curso">
+                        <select class="form-control" id="id_curso1" name="id_curso1" disabled>
                             <?php
-                            $sql = "SELECT *,id_curso FROM cursos";
+                            $sql = "SELECT id_curso,
+                                    CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS curso_nombre
+                                    FROM cursos c
+                                    INNER JOIN materias m ON c.cod_materia = m.cod_materia";
                             $result = mysqli_query($link, $sql);
                             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                                $duprow = $row;
-                                unset($duprow["id_curso"]);
-                                $value = implode(" | ", $duprow);
+                                $txt = $row["curso_nombre"];
+                                $value = $row["id_curso"];
                                 if ($row["id_curso"] == $id_curso) {
-                                    echo '<option value="' . "$row[id_curso]" . '"selected="selected">' . "$value" . '</option>';
+                                    echo '<option value="' . "$value" . '"selected="selected">' . "$txt" . '</option>';
                                 } else {
-                                    echo '<option value="' . "$row[id_curso]" . '">' . "$value" . '</option>';
+                                    echo '<option value="' . "$value" . '">' . "$txt" . '</option>';
                                 }
                             }
                             ?>
                         </select>
+                        <input type="text" id = "id_curso" name="id_curso" value = "<?php echo $id_curso?>" hidden>
                         <span class="form-text">
                             <?php echo $id_curso_err; ?>
                         </span>
                     </div>
 
-                    <input type="hidden" name="id_curso" value="<?php echo $id_curso; ?>" />
+                    <input type="hidden" name="id_carrera_curso" value="<?php echo $id_carrera_curso; ?>" />
                     <input type="submit" class="btn btn-primary" value="Enviar">
                     <a href="carreras_cursos-index.php" class="btn btn-secondary">Cancelar</a>
                 </form>

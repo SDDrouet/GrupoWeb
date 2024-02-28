@@ -88,16 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label>NRC Curso</label>
                         <select class="form-control" id="id_curso" name="id_curso">
                             <?php
-                            $sql = "SELECT *,id_curso FROM cursos";
+                            $sql = "SELECT id_curso,
+                                    CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS curso_nombre
+                                    FROM cursos c
+                                    INNER JOIN materias m ON c.cod_materia = m.cod_materia";
+
                             $result = mysqli_query($link, $sql);
                             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                                $duprow = $row;
-                                unset($duprow["id_curso"]);
-                                $value = implode(" | ", $duprow);
+                                $txt = $row["curso_nombre"];
+                                $value = $row["id_curso"];
                                 if ($row["id_curso"] == $id_curso) {
-                                    echo '<option value="' . "$row[id_curso]" . '"selected="selected">' . "$value" . '</option>';
+                                    echo '<option value="' . "$value" . '"selected="selected">' . "$txt" . '</option>';
                                 } else {
-                                    echo '<option value="' . "$row[id_curso]" . '">' . "$value" . '</option>';
+                                    echo '<option value="' . "$value" . '">' . "$txt" . '</option>';
                                 }
                             }
                             ?>
