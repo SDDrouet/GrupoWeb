@@ -112,7 +112,7 @@
         <div id="collapseHorario" class="collapse" aria-labelledby="headingHorario"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">Horarios</a>
+                <a class="collapse-item" href="horarios-index.php">Horarios</a>
             </div>
         </div>
     </li>
