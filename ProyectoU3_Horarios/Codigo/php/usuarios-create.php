@@ -11,14 +11,6 @@ $usuario = "";
 $clave = "";
 $id_perfil = "";
 
-$id_usuario_err = "";
-$nombre_err = "";
-$apellido_err = "";
-$usuario_err = "";
-$clave_err = "";
-$id_perfil_err = "";
-
-
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_usuario = trim($_POST["id_usuario"]);
@@ -69,54 +61,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row">
             <div class="col-md-6 mx-auto">
                 <div class="page-header">
-                    <h2>Crear Registro</h2>
+                    <h2>Crear Registro de Usuario</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="was-validated">
+                    <div class="form-group">
+                        <label>ID Usuario:</label>
+                        <input type="text" name="id_usuario" maxlength="20" class="form-control"
+                            value="<?php echo $id_usuario; ?>" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Porfavor ingrese un ID de usuario.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" name="nombre" maxlength="45" class="form-control"
+                            value="<?php echo $nombre; ?>" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Porfavor ingrese un nombre.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido:</label>
+                        <input type="text" name="apellido" maxlength="45" class="form-control"
+                            value="<?php echo $apellido; ?>" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Porfavor ingrese un apellido.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de Usuario:</label>
+                        <input type="text" name="usuario" maxlength="45" class="form-control"
+                            value="<?php echo $usuario; ?>" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Porfavor ingrese un nombre de usuario.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña:</label>
+                        <input type="text" name="clave" maxlength="45" class="form-control"
+                            value="<?php echo $clave; ?>" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback"></div>
+                    </div>
 
                     <div class="form-group">
-                        <label>ID Usuario</label>
-                        <input type="text" name="id_usuario" maxlength="20" class="form-control"
-                            value="<?php echo $id_usuario; ?>">
-                        <span class="form-text">
-                            <?php echo $id_usuario_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" name="nombre" maxlength="45" class="form-control"
-                            value="<?php echo $nombre; ?>">
-                        <span class="form-text">
-                            <?php echo $nombre_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Apellido</label>
-                        <input type="text" name="apellido" maxlength="45" class="form-control"
-                            value="<?php echo $apellido; ?>">
-                        <span class="form-text">
-                            <?php echo $apellido_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre de Usuario</label>
-                        <input type="text" name="usuario" maxlength="45" class="form-control"
-                            value="<?php echo $usuario; ?>">
-                        <span class="form-text">
-                            <?php echo $usuario_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Clave</label>
-                        <input type="text" name="clave" maxlength="45" class="form-control"
-                            value="<?php echo $clave; ?>">
-                        <span class="form-text">
-                            <?php echo $clave_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Perfil</label>
-                        <select class="form-control" id="id_perfil" name="id_perfil">
+                        <label>Perfil:</label>
+                        <select class="form-control" id="id_perfil" name="id_perfil" required>
                             <?php
                             $sql = "SELECT *,id_perfil FROM perfiles";
                             $result = mysqli_query($link, $sql);
@@ -132,9 +119,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_perfil_err; ?>
-                        </span>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Porfavor seleccione un perfil.</div>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">
@@ -144,4 +130,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </section>
+
 <?php include('footer.php'); ?>

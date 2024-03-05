@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row">
             <div class="col-md-6 mx-auto">
                 <div class="page-header">
-                    <h2>Crear Registro</h2>
+                    <h2>Crear Registro de Periodo</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

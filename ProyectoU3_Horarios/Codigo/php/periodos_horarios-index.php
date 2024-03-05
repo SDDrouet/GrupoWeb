@@ -24,20 +24,24 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="page-header clearfix">
-                    <h2 class="float-left">Asignar horarios a periodo Detalles</h2>
-                    <a href="periodos_horarios-create.php" class="btn btn-success float-right">Nuevo registro</a>
-                    <a href="periodos_horarios-index.php" class="btn btn-info float-right mr-2">Refrescar</a>
-                    <a href="index.php" class="btn btn-secondary float-right mr-2">Atrás</a>
+                <h1>Detalle de periodos</h1>
+                <div class="d-flex justify-content-end align-items-center mb-5">
+                    <a href="usuarios-create.php" class="btn btn-primary mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo
+                        registro</a>
+                    <a href="usuarios-index.php" class="btn btn-secondary mr-3">Actualizar</a>
+                    <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
                 </div>
 
                 <div class="form-row">
-                    <form action="periodos_horarios-index.php" method="get">
-                        <div class="col">
-                            <input type="text" class="form-control" placeholder="Buscar en la tabla" name="search">
+                    <form action="usuarios-index.php" method="get">
+                        <div class="d-flex">
+                            <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
+                                aria-label="Buscar en la tabla" name="search">
+                            <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
                         </div>
+                    </form>
                 </div>
-                </form>
+
                 <br>
 
                 <?php
@@ -113,6 +117,9 @@
                         $number_of_results = mysqli_num_rows($result_count);
                         echo " " . $number_of_results . " Resultado - Página " . $pageno . " de " . $total_pages;
 
+                        echo "<div class='card shadow mb-4 p-1'>";
+                        echo "<div class='card-body'>";
+                        echo "<div class='table-responsive'>";
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead>";
                         echo "<tr>";
@@ -138,6 +145,9 @@
                         }
                         echo "</tbody>";
                         echo "</table>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
                         ?>
                         <ul class="pagination" align-right>
                             <?php
@@ -148,22 +158,20 @@
                             <li class="page-item <?php if ($pageno <= 1) {
                                 echo 'disabled';
                             } ?>">
-                                <a class="page-link"
-                                    href="<?php if ($pageno <= 1) {
-                                        echo '#';
-                                    } else {
-                                        echo $new_url . "&pageno=" . ($pageno - 1);
-                                    } ?>">Previa</a>
+                                <a class="page-link" href="<?php if ($pageno <= 1) {
+                                    echo '#';
+                                } else {
+                                    echo $new_url . "&pageno=" . ($pageno - 1);
+                                } ?>"><</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
                             } ?>">
-                                <a class="page-link"
-                                    href="<?php if ($pageno >= $total_pages) {
-                                        echo '#';
-                                    } else {
-                                        echo $new_url . "&pageno=" . ($pageno + 1);
-                                    } ?>">Siguiente</a>
+                                <a class="page-link" href="<?php if ($pageno >= $total_pages) {
+                                    echo '#';
+                                } else {
+                                    echo $new_url . "&pageno=" . ($pageno + 1);
+                                } ?>">></a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
