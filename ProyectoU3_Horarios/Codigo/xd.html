@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Validación de Formulario con Bootstrap 4</title>
+    <!-- Incluir Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <form id="miFormulario">
+        <!-- Grupo de campo para el ID -->
+        <div class="form-group">
+            <label for="id">ID:</label>
+            <input type="text" class="form-control" id="id" name="id" required pattern="L\d{8}" title="Debe ser un ID válido con formato L00000000">
+            <small class="form-text text-muted">
+                El ID debe tener el formato L00000000.
+            </small>
+            <div class="invalid-feedback">
+                Por favor, ingresa un ID válido.
+            </div>
+        </div>
+
+        <!-- Grupo de campo para el nombre -->
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+            <div class="invalid-feedback">
+                Por favor, ingresa un nombre válido (solo letras y un espacio opcional).
+            </div>
+        </div>
+
+        <!-- Grupo de campo para la contraseña -->
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+            <div class="invalid-feedback">
+                <!-- Mensajes de validación de Bootstrap -->
+            </div>
+        </div>
+
+        <!-- Grupo de campo para confirmar la contraseña -->
+        <div class="form-group">
+            <label for="confirmPassword">Confirmar Contraseña:</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            <div class="invalid-feedback">
+                <!-- Mensajes de validación de Bootstrap -->
+            </div>
+        </div>
+
+        <!-- Botón de envío -->
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+<!-- Incluir Bootstrap JS y Popper.js (necesario para algunos componentes de Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Incluir tu script personalizado para la validación -->
+<script>
+    var formulario = document.getElementById('miFormulario');
+    var idInput = document.getElementById('id');
+    var nombreInput = document.getElementById('nombre');
+    var passwordInput = document.getElementById('password');
+    var confirmPasswordInput = document.getElementById('confirmPassword');
+
+    formulario.addEventListener('submit', function (event) {
+    console.log('Submit event triggered');
+    
+    if (formulario.checkValidity() && validarID() && validarNombre() && validarContraseña() && validarConfirmacion()) {
+        console.log('Formulario válido, se enviará');
+        return true;
+    } else {
+        console.log('Formulario inválido, se prevenirá el envío');
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    formulario.classList.add('was-validated');
+});
+
+    function validarID() {
+        var id = idInput.value;
+
+        if (!/L\d{8}/.test(id)) {
+            idInput.nextElementSibling.innerHTML = 'Por favor, ingresa un ID válido con formato L00000000.';
+            idInput.classList.add('is-invalid');
+            idInput.classList.remove('is-valid');
+            return false;
+        } else {
+            idInput.nextElementSibling.innerHTML = '';
+            idInput.classList.remove('is-invalid');
+            idInput.classList.add('is-valid');
+            return true;
+        }
+    }
+
+    function validarNombre() {
+        var nombre = nombreInput.value;
+        var regexNombre = /^[A-Za-z]+(?: [A-Za-z]+)?$/;
+
+        if (!regexNombre.test(nombre)) {
+            nombreInput.nextElementSibling.innerHTML = 'Por favor, ingresa un nombre válido (solo letras y un espacio opcional).';
+            nombreInput.classList.add('is-invalid');
+            return false;
+        } else {
+            nombreInput.nextElementSibling.innerHTML = '';
+            nombreInput.classList.remove('is-invalid');
+            return true;
+        }
+    }
+
+    function validarContraseña() {
+    var password = passwordInput.value;
+    var regexNumero = /\d/;
+    var regexMayuscula = /[A-Z]/;
+    var regexMinuscula = /[a-z]/;
+
+    var errores = [];
+
+    if (!regexNumero.test(password)) {
+        errores.push('Debe contener al menos un número.');
+    }
+
+    if (!regexMayuscula.test(password)) {
+        errores.push('Debe contener al menos una letra mayúscula.');
+    }
+
+    if (!regexMinuscula.test(password)) {
+        errores.push('Debe contener al menos una letra minúscula.');
+    }
+
+    if (errores.length > 0) {
+        var mensajeError = '<ul>';
+        errores.forEach(function (error) {
+            mensajeError += '<li>' + error + '</li>';
+        });
+        mensajeError += '</ul>';
+
+        passwordInput.nextElementSibling.innerHTML = mensajeError;
+        passwordInput.classList.add('is-invalid');
+        return false;
+    } else {
+        passwordInput.nextElementSibling.innerHTML = '';
+        passwordInput.classList.remove('is-invalid');
+        return true;
+    }
+}
+
+    function validarConfirmacion() {
+        var password = passwordInput.value;
+        var confirmPassword = confirmPasswordInput.value;
+
+        if (password !== confirmPassword) {
+            confirmPasswordInput.nextElementSibling.innerHTML = 'Las contraseñas no coinciden.';
+            confirmPasswordInput.classList.add('is-invalid');
+            return false;
+        } else {
+            confirmPasswordInput.nextElementSibling.innerHTML = '';
+            confirmPasswordInput.classList.remove('is-invalid');
+            return true;
+        }
+    }
+
+    idInput.addEventListener('input', validarID);
+    nombreInput.addEventListener('input', validarNombre);
+    passwordInput.addEventListener('input', validarContraseña);
+    confirmPasswordInput.addEventListener('input', validarConfirmacion);
+</script>
+
+</body>
+</html>
+
+

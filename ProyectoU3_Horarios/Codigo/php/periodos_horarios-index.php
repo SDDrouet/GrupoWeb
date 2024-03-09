@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="form-row">
-                    <form action="usuarios-index.php" method="get">
+                    <form action="periodos_horarios_create.php" method="get">
                         <div class="d-flex">
                             <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
                                 aria-label="Buscar en la tabla" name="search">

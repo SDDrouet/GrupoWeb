@@ -22,18 +22,16 @@
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
                 <h1>Detalle de periodos</h1>
                 <div class="d-flex justify-content-end align-items-center mb-5">
-                    <a href="usuarios-create.php" class="btn btn-primary mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo
+                    <a href="periodos-create.php" class="btn btn-primary mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo
                         registro</a>
-                    <a href="usuarios-index.php" class="btn btn-secondary mr-3">Actualizar</a>
+                    <a href="periodos-index.php" class="btn btn-secondary mr-3">Actualizar</a>
                     <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
                 </div>
 
                 <div class="form-row">
-                    <form action="usuarios-index.php" method="get">
+                    <form action="periodos-index.php" method="get">
                         <div class="d-flex">
                             <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
                                 aria-label="Buscar en la tabla" name="search">
@@ -92,7 +90,6 @@
                 // Attempt select query execution
                 $sql = "SELECT * FROM periodos ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
                 $count_pages = "SELECT * FROM periodos";
-
 
                 if (!empty($_GET['search'])) {
                     $search = ($_GET['search']);
@@ -196,8 +193,6 @@
                 mysqli_close($link);
                 ?>
             </div>
-        </div>
-    </div>
 </section>
 <script type="text/javascript">
     $(document).ready(function () {

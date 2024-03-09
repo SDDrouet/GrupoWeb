@@ -24,8 +24,8 @@
     <div class="container-fluid">
         <h1>Detalles de usuarios</h1>
         <div class="d-flex justify-content-end align-items-center mb-5">
-            <a href="usuarios-create.php" class="btn btn-primary mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
-            <a href="usuarios-index.php" class="btn btn-secondary mr-3">Actualizar</a>
+            <a href="usuarios-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
+            <a href="usuarios-index.php" class="btn btn-info mr-3">Actualizar</a>
             <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
         </div>
 
@@ -116,18 +116,6 @@
                             WHERE CONCAT_WS(u.id_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil)
                                 LIKE '%$search%'
                             ORDER BY $order $sort";
-
-            /*
-            $sql = "SELECT * FROM usuarios
-                    WHERE CONCAT_WS (id_usuario,nombre,apellido,usuario,clave,id_perfil)
-                    LIKE '%$search%'
-                    ORDER BY $order $sort
-                    LIMIT $offset, $no_of_records_per_page";
-            $count_pages = "SELECT * FROM usuarios
-                    WHERE CONCAT_WS (id_usuario,nombre,apellido,usuario,clave,id_perfil)
-                    LIKE '%$search%'
-                    ORDER BY $order $sort";
-            */
 
         } else {
             $search = "";
@@ -220,7 +208,6 @@
             echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
         }
 
-        // Close connection
         mysqli_close($link);
         ?>
     </div>

@@ -87,6 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Crear registro</title>
+    <link rel="stylesheet" href="../css/estilo.css">
 </head>
 
 <?php include('header.php'); ?>
@@ -101,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="form-group">
-                        <label>Nombre Periodo</label>
-                        <input type="text" name="nombre_periodo" maxlength="45" class="form-control"
-                            value="<?php echo $nombre_periodo; ?>">
+                        <label>Nombre Periodo:</label>
+                        <input type="text" class="form-control" id="nombre_periodo" name="nombre_periodo"
+                            value="<?php echo $nombre_periodo; ?>" requiered>
                         <span class="form-text">
                             <?php echo $nombre_periodo_err; ?>
                         </span>
