@@ -4,9 +4,7 @@ require_once "config.php";
 require_once "helpers.php";
 
 // Define variables and initialize with empty values
-$id_docente = "";
-$nombres = "";
-$apellidos = "";
+$id_usuario = "";
 $horas_disponibles = "";
 $tipo_contrato = "";
 $correo = "";
@@ -16,35 +14,20 @@ $celular = "";
 $cedula = "";
 $estado = "";
 
-$id_docente_err = "";
-$nombres_err = "";
-$apellidos_err = "";
-$horas_disponibles_err = "";
-$tipo_contrato_err = "";
-$correo_err = "";
-$nivel_educacion_err = "";
-$especializacion_err = "";
-$celular_err = "";
-$cedula_err = "";
-$estado_err = "";
-
 
 // Processing form data when form is submitted
 if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
     // Get hidden input value
     $id_docente = $_POST["id_docente"];
 
-    $id_docente = trim($_POST["id_docente"]);
-    $nombres = trim($_POST["nombres"]);
-    $apellidos = trim($_POST["apellidos"]);
-    $horas_disponibles = trim($_POST["horas_disponibles"]);
-    $tipo_contrato = trim($_POST["tipo_contrato"]);
-    $correo = trim($_POST["correo"]);
-    $nivel_educacion = trim($_POST["nivel_educacion"]);
-    $especializacion = trim($_POST["especializacion"]);
-    $celular = trim($_POST["celular"]);
-    $cedula = trim($_POST["cedula"]);
-    $estado = trim($_POST["estado"]);
+		$horas_disponibles = trim($_POST["horas_disponibles"]);
+		$tipo_contrato = trim($_POST["tipo_contrato"]);
+		$correo = trim($_POST["correo"]);
+		$nivel_educacion = trim($_POST["nivel_educacion"]);
+		$especializacion = trim($_POST["especializacion"]);
+		$celular = trim($_POST["celular"]);
+		$cedula = trim($_POST["cedula"]);
+		$estado = trim($_POST["estado"]);
 
 
     // Prepare an update statement
@@ -62,9 +45,9 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
     }
 
     $vars = parse_columns('docentes', $_POST);
-    $stmt = $pdo->prepare("UPDATE docentes SET id_docente=?,nombres=?,apellidos=?,horas_disponibles=?,tipo_contrato=?,correo=?,nivel_educacion=?,especializacion=?,celular=?,cedula=?,estado=? WHERE id_docente=?");
+    $stmt = $pdo->prepare("UPDATE docentes SET horas_disponibles=?,tipo_contrato=?,correo=?,nivel_educacion=?,especializacion=?,celular=?,cedula=?,estado=? WHERE id_docente=?");
 
-    if (!$stmt->execute([$id_docente, $nombres, $apellidos, $horas_disponibles, $tipo_contrato, $correo, $nivel_educacion, $especializacion, $celular, $cedula, $estado, $id_docente])) {
+    if (!$stmt->execute([$horas_disponibles, $tipo_contrato, $correo, $nivel_educacion, $especializacion, $celular, $cedula, $estado, $id_docente])) {
         echo "Something went wrong. Please try again later.";
         header("location: error.php");
     } else {
@@ -79,7 +62,13 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
         $id_docente = trim($_GET["id_docente"]);
 
         // Prepare a select statement
-        $sql = "SELECT * FROM docentes WHERE id_docente = ?";
+        $sql = "SELECT d.id_docente, d.id_usuario, CONCAT(cod_usuario, ' | ' ,nombre, ' ', apellido) AS usuario,
+                horas_disponibles, tipo_contrato , correo, nivel_educacion, especializacion,
+                celular, cedula, estado
+                FROM docentes d
+                JOIN usuarios u ON u.id_usuario = d.id_usuario
+                WHERE d.id_docente = ?;";
+
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Set parameters
             $param_id = $id_docente;
@@ -106,9 +95,8 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
 
                     // Retrieve individual field value
 
-                    $id_docente = htmlspecialchars($row["id_docente"]);
-                    $nombres = htmlspecialchars($row["nombres"]);
-                    $apellidos = htmlspecialchars($row["apellidos"]);
+                    $id_usuario = htmlspecialchars($row["id_usuario"]);
+                    $usuario = htmlspecialchars($row["usuario"]);
                     $horas_disponibles = htmlspecialchars($row["horas_disponibles"]);
                     $tipo_contrato = htmlspecialchars($row["tipo_contrato"]);
                     $correo = htmlspecialchars($row["correo"]);
@@ -159,92 +147,81 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
                 <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
-                    <div class="form-group">
-                        <label>ID Docente</label>
-                        <input type="text" name="id_docente" maxlength="45" class="form-control"
+                    <input hidden type="text" name="id_docente" maxlength="45" class="form-control"
                             value="<?php echo $id_docente; ?>">
-                        <span class="form-text">
-                            <?php echo $id_docente_err; ?>
-                        </span>
-                    </div>
+                        
                     <div class="form-group">
-                        <label>Nombres</label>
-                        <input type="text" name="nombres" maxlength="45" class="form-control"
-                            value="<?php echo $nombres; ?>">
-                        <span class="form-text">
-                            <?php echo $nombres_err; ?>
-                        </span>
+                        <label>Usuario</label>
+                        
+                        <input readonly type="text" name="id_usuario" maxlength="45" class="form-control"
+                            value="<?php echo $usuario; ?>">
                     </div>
+
                     <div class="form-group">
-                        <label>Apellidos</label>
-                        <input type="text" name="apellidos" maxlength="45" class="form-control"
-                            value="<?php echo $apellidos; ?>">
-                        <span class="form-text">
-                            <?php echo $apellidos_err; ?>
-                        </span>
+                        <label for="tipo_contrato">Tipo de Contrato</label>
+                        <select name="tipo_contrato" id="tipo_contrato" class="form-control">
+                            <option value="COMPLETO" <?php if ($tipo_contrato == "COMPLETO") echo "selected"; ?>>COMPLETO</option>
+                            <option value="MEDIO" <?php if ($tipo_contrato == "MEDIO") echo "selected"; ?>>MEDIO</option>
+                            <option value="OCACIONAL" <?php if ($tipo_contrato == "OCACIONAL") echo "selected"; ?>>OCACIONAL</option>
+                        </select>
+                        <span class="form-text"><?php echo $tipo_contrato_err; ?></span>
                     </div>
+
                     <div class="form-group">
-                        <label>Horas disponibles</label>
-                        <input type="number" name="horas_disponibles" class="form-control"
-                            value="<?php echo $horas_disponibles; ?>">
-                        <span class="form-text">
-                            <?php echo $horas_disponibles_err; ?>
-                        </span>
+                        <label  for="horas_disponibles">Horas disponibles</label>
+                        <input type="number" class="form-control" id="horas_disponibles" name="horas_disponibles" 
+                            value="<?php echo $horas_disponibles; ?>" required maxlength="2" pattern="[0-9]{1,2}" min = "2" max = "24">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+                    
                     <div class="form-group">
-                        <label>Tipo de contrato</label>
-                        <input type="text" name="tipo_contrato" maxlength="45" class="form-control"
-                            value="<?php echo $tipo_contrato; ?>">
-                        <span class="form-text">
-                            <?php echo $tipo_contrato_err; ?>
-                        </span>
+                        <label for="correo">Correo</label>
+                        <input type="email" class="form-control" id="correo" name="correo" 
+                            value="<?php echo $correo; ?>" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Correo</label>
-                        <input type="text" name="correo" maxlength="100" class="form-control"
-                            value="<?php echo $correo; ?>">
-                        <span class="form-text">
-                            <?php echo $correo_err; ?>
-                        </span>
+                        <label for="nivel_educacion">Nivel de educación</label>
+                        <select class="form-control" id="nivel_educacion" name="nivel_educacion" required>
+                            <option value="SUPERIOR" <?php if ($nivel_educacion == "SUPERIOR") echo "selected"; ?>>SUPERIOR</option>
+                            <option value="MAESTRIA" <?php if ($nivel_educacion == "MAESTRIA") echo "selected"; ?>>MAESTRIA</option>
+                            <option value="DOCTORADO" <?php if ($nivel_educacion == "DOCTORADO") echo "selected"; ?>>DOCTORADO</option>
+                        </select>
                     </div>
+
                     <div class="form-group">
-                        <label>Nivel de educación</label>
-                        <input type="text" name="nivel_educacion" maxlength="100" class="form-control"
-                            value="<?php echo $nivel_educacion; ?>">
-                        <span class="form-text">
-                            <?php echo $nivel_educacion_err; ?>
-                        </span>
+                        <label for="especializacion">Especialización</label>
+                        <input type="text" class="form-control" id="especializacion" name="especializacion" 
+                            value="<?php echo $especializacion; ?>" required pattern="[a-zA-Z ]+">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Especialización</label>
-                        <input type="text" name="especializacion" maxlength="100" class="form-control"
-                            value="<?php echo $especializacion; ?>">
-                        <span class="form-text">
-                            <?php echo $especializacion_err; ?>
-                        </span>
+                        <label for="celular">Celular</label>
+                        <input type="text" class="form-control" id="celular" name="celular"
+                            value="<?php echo $celular; ?>" required maxlength="10" pattern="[0-9]{10}">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Celular</label>
-                        <input type="text" name="celular" maxlength="20" class="form-control"
-                            value="<?php echo $celular; ?>">
-                        <span class="form-text">
-                            <?php echo $celular_err; ?>
-                        </span>
+                        <label for="cedula">Cédula</label>
+                        <input type="text" class="form-control" id="cedula" name="cedula"
+                            value="<?php echo $cedula; ?>" required maxlength="10" pattern="[0-9]{10}">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Cédula</label>
-                        <input type="text" name="cedula" maxlength="20" class="form-control"
-                            value="<?php echo $cedula; ?>">
-                        <span class="form-text">
-                            <?php echo $cedula_err; ?>
-                        </span>
-                    </div>
+
                     <div class="form-group">
                         <label>Estado</label>
-                        <input type="number" name="estado" class="form-control" value="<?php echo $estado; ?>">
-                        <span class="form-text">
-                            <?php echo $estado_err; ?>
-                        </span>
+                        <select class="form-control" id="estado" name="estado" required>
+                            <option value="1" <?php if ($estado == 1) echo "selected"; ?>>ACTIVO</option>
+                            <option value="0" <?php if ($estado == 0) echo "selected"; ?>>INACTIVO</option>
+                        </select>
                     </div>
 
                     <input type="hidden" name="id_docente" value="<?php echo $id_docente; ?>" />
@@ -255,4 +232,5 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
         </div>
     </div>
 </section>
+<script src="../js/formulario_docentes.js"></script>
 <?php include('footer.php'); ?>

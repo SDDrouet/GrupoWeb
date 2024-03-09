@@ -134,10 +134,18 @@ if (isset($_POST["cod_materia"]) && !empty($_POST["cod_materia"])) {
 
                     <div class="form-group">
                         <label>Código de Materia</label>
-                        <input type="text" name="cod_materia" maxlength="20" class="form-control"
+                        <input readonly type="text" name="cod_materia" maxlength="20" class="form-control"
                             value="<?php echo $cod_materia; ?>">
                         <span class="form-text">
                             <?php echo $cod_materia_err; ?>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>Departamento</label>
+                        <input type="text" name="departamento" maxlength="45" class="form-control"
+                            value="<?php echo $departamento; ?>" readonly>
+                        <span class="form-text">
+                            <?php echo $departamento_err; ?>
                         </span>
                     </div>
                     <div class="form-group">
@@ -149,20 +157,11 @@ if (isset($_POST["cod_materia"]) && !empty($_POST["cod_materia"])) {
                         </span>
                     </div>
 
-                    <div class="form-group">
-                        <label>Departamento</label>
-                        <input type="text" name="departamentoaa" maxlength="45" class="form-control"
-                            value="<?php echo $departamento; ?>" disabled>
-                        <input type="text" name="departamento" maxlength="45" class="form-control"
-                            value="<?php echo $departamento; ?>" hidden>
-                        <span class="form-text">
-                            <?php echo $departamento_err; ?>
-                        </span>
-                    </div>
+                    
                     <div class="form-group">
                         <label>Horas semanales</label>
                         <input type="number" name="horas_semana" class="form-control"
-                            value="<?php echo $horas_semana; ?>">
+                            value="<?php echo $horas_semana; ?>" min = "2" max = "10">
                         <span class="form-text">
                             <?php echo $horas_semana_err; ?>
                         </span>

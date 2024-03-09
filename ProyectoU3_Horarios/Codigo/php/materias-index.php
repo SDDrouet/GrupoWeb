@@ -68,8 +68,8 @@
                 $total_pages = ceil($total_rows / $no_of_records_per_page);
 
                 //Column sorting on column name
-                $orderBy = array('cod_materia', 'nombre_materia', 'departamento', 'horas_semana');
-                $order = 'cod_materia';
+                $orderBy = array('id_materia', 'cod_materia', 'nombre_materia', 'departamento', 'horas_semana');
+                $order = 'id_materia';
                 if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
                     $order = $_GET['order'];
                 }
@@ -119,6 +119,7 @@
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead>";
                         echo "<tr>";
+                        echo "<th><a href=?search=$search&sort=&order=id_materia&sort=$sort>ID</th>";
                         echo "<th><a href=?search=$search&sort=&order=cod_materia&sort=$sort>Código de Materia</th>";
                         echo "<th><a href=?search=$search&sort=&order=nombre_materia&sort=$sort>Nombre de la Materia</th>";
                         echo "<th><a href=?search=$search&sort=&order=departamento&sort=$sort>Departamento</th>";
@@ -130,6 +131,7 @@
                         echo "<tbody>";
                         while ($row = mysqli_fetch_array($result)) {
                             echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['id_materia']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['cod_materia']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['nombre_materia']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['departamento']) . "</td>";

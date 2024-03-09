@@ -68,7 +68,7 @@
                 $total_pages = ceil($total_rows / $no_of_records_per_page);
 
                 //Column sorting on column name
-                $orderBy = array('id_curso', 'nrc', 'periodos_id_periodo', 'cod_materia', 'horarios_id_horario', 'id_aula', 'id_docente');
+                $orderBy = array('id_curso', 'nrc', 'periodos_id_periodo', 'cod_materia', 'id_docente');
                 $order = 'id_curso';
                 if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
                     $order = $_GET['order'];
@@ -89,15 +89,12 @@
                 //$sql = "SELECT * FROM cursos ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
                 $sql = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
                 CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
-                CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
-                a.id_aula, 
-                IFNULL(CONCAT(d.nombres,' ', d.apellidos), 'No asignado') AS id_docente
+                IF(c.id_docente = 0, 'No asignado', CONCAT(u.nombre,' ', u.apellido)) AS id_docente
                 FROM cursos c
                 INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
-                INNER JOIN materias m ON c.cod_materia = m.cod_materia
-                INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
-                INNER JOIN aulas a ON c.id_aula = a.id_aula
+                INNER JOIN materias m ON c.id_materia = m.id_materia
                 LEFT JOIN docentes d ON c.id_docente = d.id_docente
+                LEFT JOIN usuarios u ON d.id_usuario = u.id_usuario
                 ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page;";
 
                 /*$count_pages = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
@@ -115,25 +112,21 @@
                 if(!empty($_GET['search'])) {
                 $search = ($_GET['search']);
                 $sql = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
-                        CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
-                        CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
-                        a.id_aula, 
-                        IFNULL(CONCAT(d.nombres,' ', d.apellidos), 'No asignado') AS id_docente
+                CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
+                        IF(c.id_docente = 0, 'No asignado', CONCAT(u.nombre,' ', u.apellido)) AS id_docente
                         FROM cursos c
                         INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
-                        INNER JOIN materias m ON c.cod_materia = m.cod_materia
-                        INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
-                        INNER JOIN aulas a ON c.id_aula = a.id_aula
+                        INNER JOIN materias m ON c.id_materia = m.id_materia
                         LEFT JOIN docentes d ON c.id_docente = d.id_docente
+                        LEFT JOIN usuarios u ON d.id_usuario = u.id_usuario
                         WHERE 
                             c.id_curso LIKE '%$search%' OR
                             c.nrc LIKE '%$search%' OR
                             p.nombre_periodo LIKE '%$search%' OR
                             m.cod_materia LIKE '%$search%' OR
                             m.nombre_materia LIKE '%$search%' OR
-                            CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) LIKE '%$search%' OR
-                            a.id_aula LIKE '%$search%' OR
-                            d.nombres LIKE '%$search%'
+                            u.nombre LIKE '%$search%' OR
+                            u.apellido LIKE '%$search%'
                         ORDER BY $order $sort
                         LIMIT $offset, $no_of_records_per_page";
                 /*$count_pages = "SELECT * FROM cursos
@@ -142,23 +135,20 @@
                 ORDER BY $order $sort";*/
                 $count_pages = "SELECT c.id_curso, c.nrc, p.nombre_periodo AS periodos_id_periodo,
                 CONCAT(m.cod_materia,' | ',m.nombre_materia) AS cod_materia ,
-                CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) AS horarios_id_horario,
-                a.id_aula, CONCAT(d.nombres,' ', d.apellidos) AS id_docente
+                IF(c.id_docente = 0, 'No asignado', CONCAT(u.nombre,' ', u.apellido)) AS id_docente
                 FROM cursos c
                 INNER JOIN periodos p ON c.periodos_id_periodo = p.id_periodo
-                INNER JOIN materias m ON c.cod_materia = m.cod_materia
-                INNER JOIN horarios h ON c.horarios_id_horario = h.id_horario
-                INNER JOIN aulas a ON c.id_aula = a.id_aula
+                INNER JOIN materias m ON c.id_materia = m.id_materia
                 LEFT JOIN docentes d ON c.id_docente = d.id_docente
+                LEFT JOIN usuarios u ON d.id_usuario = u.id_usuario
                 WHERE 
                 c.id_curso LIKE '%$search%' OR
                 c.nrc LIKE '%$search%' OR
                 p.nombre_periodo LIKE '%$search%' OR
                 m.cod_materia LIKE '%$search%' OR
                 m.nombre_materia LIKE '%$search%' OR
-                CONCAT(h.dia,' | ',h.hora_inicio,' | ', h.hora_fin) LIKE '%$search%' OR
-                a.id_aula LIKE '%$search%' OR
-                d.nombres LIKE '%$search%'
+                u.nombre LIKE '%$search%' OR
+                u.apellido LIKE '%$search%'
                 ORDER BY $order $sort";
                 } else {
                     $search = "";
@@ -178,12 +168,10 @@
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead>";
                         echo "<tr>";
-                        echo "<th><a href=?search=$search&sort=&order=id_curso&sort=$sort>ID Curso</th>";
+                        echo "<th><a href=?search=$search&sort=&order=id_curso&sort=$sort>ID</th>";
                         echo "<th><a href=?search=$search&sort=&order=nrc&sort=$sort>NRC</th>";
                         echo "<th><a href=?search=$search&sort=&order=periodos_id_periodo&sort=$sort>Periodo</th>";
                         echo "<th><a href=?search=$search&sort=&order=cod_materia&sort=$sort>Código de Materia</th>";
-                        echo "<th><a href=?search=$search&sort=&order=horarios_id_horario&sort=$sort>Horario</th>";
-                        echo "<th><a href=?search=$search&sort=&order=id_aula&sort=$sort>Aula</th>";
                         echo "<th><a href=?search=$search&sort=&order=id_docente&sort=$sort>Docente</th>";
 
                         echo "<th>Acción</th>";
@@ -196,8 +184,6 @@
                             echo "<td>" . htmlspecialchars($row['nrc']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['periodos_id_periodo']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['cod_materia']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['horarios_id_horario']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['id_aula']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_docente']) . "</td>";
                             echo "<td>";
                             echo "<a href='cursos-read.php?id_curso=" . $row['id_curso'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";

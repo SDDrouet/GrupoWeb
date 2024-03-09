@@ -93,6 +93,7 @@
                 <a class="collapse-item" href="materias-index.php">Materias</a>
                 <a class="collapse-item" href="aulas-index.php">Aulas</a>
                 <a class="collapse-item" href="cursos-index.php">Cursos</a>
+                <a class="collapse-item" href="novedades-index.php">Novedades de Aulas</a>
             </div>
         </div>
     </li>
@@ -112,7 +113,8 @@
         <div id="collapseHorario" class="collapse" aria-labelledby="headingHorario"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="horarios-index.php">Horarios</a>
+                <a class="collapse-item" href="horarios-index.php">Franjas Horarias</a>
+                <a class="collapse-item" href="horarios_aulas_cursos-index.php">Horarios de cursos</a>
             </div>
         </div>
     </li>

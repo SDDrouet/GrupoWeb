@@ -1,20 +1,22 @@
 <?php
 // Check existence of id parameter before processing further
-$_GET["id_usuario"] = trim($_GET["id_usuario"]);
-if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
+$_GET["id_novedad"] = trim($_GET["id_novedad"]);
+if (isset($_GET["id_novedad"]) && !empty($_GET["id_novedad"])) {
     // Include config file
     require_once "config.php";
     require_once "helpers.php";
 
     // Prepare a select statement
-    $sql = "SELECT u.id_usuario, u.cod_usuario,u.nombre,u.apellido,
-            u.usuario,u.clave, p.tipo_perfil as id_perfil FROM usuarios u
-            INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
-            WHERE u.id_usuario = ?";
+    $sql = "SELECT n.id_novedad, n.fecha_novedad, n.descripcion, n.estado,
+            CONCAT(u.cod_usuario, ' | ', u.nombre, ' ', u.apellido) AS id_usuario,
+            a.cod_aula AS id_aula
+            FROM novedades n
+            JOIN usuarios u ON u.id_usuario = n.id_usuario
+            JOIN aulas a ON a.id_aula = n.id_aula WHERE id_novedad = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
-        $param_id = trim($_GET["id_usuario"]);
+        $param_id = trim($_GET["id_novedad"]);
 
         // Bind variables to the prepared statement as parameters
         if (is_int($param_id))
@@ -64,7 +66,6 @@ if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
     <meta charset="UTF-8">
     <title>Ver Registro</title>
 </head>
-
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
@@ -75,43 +76,39 @@ if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
                 </div>
 
                 <div class="form-group">
-                    <h4>ID Usuario</h4>
+                    <h4>Usuario</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["cod_usuario"]); ?>
+                        <?php echo htmlspecialchars($row["id_usuario"]); ?>
                     </p>
                 </div>
                 <div class="form-group">
-                    <h4>Nombre</h4>
+                    <h4>Aula</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["nombre"]); ?>
+                        <?php echo htmlspecialchars($row["id_aula"]); ?>
                     </p>
                 </div>
                 <div class="form-group">
-                    <h4>Apellido</h4>
+                    <h4>Descripción</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["apellido"]); ?>
+                        <?php echo htmlspecialchars($row["descripcion"]); ?>
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <h4>Fecha</h4>
+                    <p class="form-control-static">
+                        <?php echo htmlspecialchars($row["fecha_novedad"]); ?>
                     </p>
                 </div>
                 <div class="form-group">
-                    <h4>Nombre de Usuario</h4>
+                    <h4>Estado</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["usuario"]); ?>
+                        <?php echo htmlspecialchars($row["estado"]); ?>
                     </p>
                 </div>
-                <div class="form-group">
-                    <h4>Clave</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["clave"]); ?>
-                    </p>
-                </div>
-                <div class="form-group">
-                    <h4>Perfil</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["id_perfil"]); ?>
-                    </p>
-                </div>
+                
 
-                <p><a href="usuarios-index.php" class="btn btn-primary">Regresar</a></p>
+                <p><a href="novedades-index.php" class="btn btn-primary">Regresar</a></p>
             </div>
         </div>
     </div>

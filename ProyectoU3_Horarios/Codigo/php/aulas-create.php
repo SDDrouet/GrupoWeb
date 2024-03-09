@@ -4,23 +4,20 @@ require_once "config.php";
 require_once "helpers.php";
 
 // Define variables and initialize with empty values
-$id_aula = "";
+$cod_aula = "";
 $capacidad = "";
 $bloque = "";
-$observacion = "";
 
-$id_aula_err = "";
+$cod_aula_err = "";
 $capacidad_err = "";
 $bloque_err = "";
-$observacion_err = "";
 
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_aula = trim($_POST["id_aula"]);
+    $cod_aula = trim($_POST["cod_aula"]);
     $capacidad = trim($_POST["capacidad"]);
     $bloque = trim($_POST["bloque"]);
-    $observacion = trim($_POST["observacion"]);
 
 
     $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
@@ -37,12 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $vars = parse_columns('aulas', $_POST);
-    $stmt = $pdo->prepare("INSERT INTO aulas (id_aula,capacidad,bloque,observacion) VALUES (?,?,?,?)");
+    $stmt = $pdo->prepare("INSERT INTO aulas (cod_aula,capacidad,bloque) VALUES (?,?,?)");
 
-    if ($stmt->execute([$id_aula, $capacidad, $bloque, $observacion])) {
+    if($stmt->execute([ $cod_aula,$capacidad,$bloque  ])) {
         $stmt = null;
         header("location: aulas-index.php");
-    } else {
+    } else{
         echo "Something went wrong. Please try again later.";
     }
 
@@ -69,35 +66,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="form-group">
-                        <label>ID Aula</label>
-                        <input type="text" name="id_aula" maxlength="30" class="form-control"
-                            value="<?php echo $id_aula; ?>">
-                        <span class="form-text">
-                            <?php echo $id_aula_err; ?>
-                        </span>
+                        <label>Código Aula</label>
+                        <input type="text" name="cod_aula" maxlength="7"class="form-control" value="<?php echo $cod_aula; ?>">
+                        <span class="form-text"><?php echo $cod_aula_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Capacidad</label>
-                        <input type="number" name="capacidad" class="form-control" value="<?php echo $capacidad; ?>">
-                        <span class="form-text">
-                            <?php echo $capacidad_err; ?>
-                        </span>
+                        <input type="number" name="capacidad" class="form-control" value="25" max="50">
+                        <span class="form-text"><?php echo $capacidad_err; ?></span>
                     </div>
-                    <div class="form-group">
+					<div class="form-group">
                         <label>Bloque</label>
-                        <input type="text" name="bloque" maxlength="10" class="form-control"
-                            value="<?php echo $bloque; ?>">
-                        <span class="form-text">
-                            <?php echo $bloque_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Observaciónes</label>
-                        <input type="text" name="observacion" maxlength="300" class="form-control"
-                            value="<?php echo $observacion; ?>">
-                        <span class="form-text">
-                            <?php echo $observacion_err; ?>
-                        </span>
+                        <input type="text" name="bloque" maxlength="2"class="form-control" value="<?php echo $bloque; ?>">
+                        <span class="form-text"><?php echo $bloque_err; ?></span>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">

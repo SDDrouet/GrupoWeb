@@ -1,20 +1,26 @@
 <?php
 // Check existence of id parameter before processing further
-$_GET["id_usuario"] = trim($_GET["id_usuario"]);
-if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
+$_GET["id_horarios_aulas_cursos"] = trim($_GET["id_horarios_aulas_cursos"]);
+if (isset($_GET["id_horarios_aulas_cursos"]) && !empty($_GET["id_horarios_aulas_cursos"])) {
     // Include config file
     require_once "config.php";
     require_once "helpers.php";
 
     // Prepare a select statement
-    $sql = "SELECT u.id_usuario, u.cod_usuario,u.nombre,u.apellido,
-            u.usuario,u.clave, p.tipo_perfil as id_perfil FROM usuarios u
-            INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
-            WHERE u.id_usuario = ?";
+    $sql = "SELECT hac.id_horarios_aulas_cursos,
+            CONCAT(m.nombre_materia, ' | ', c.nrc) AS id_curso,
+            CONCAT(a.cod_aula ,' | ', h.dia, ' ', h.hora_inicio, ' - ', h.hora_fin) AS id_horario__aula
+            FROM horarios_aulas_cursos hac
+            JOIN horarios_aulas ha ON ha.id_horario__aula = hac.id_horario__aula
+            JOIN horarios h ON h.id_horario = ha.id_horario
+            JOIN aulas a ON a.id_aula = ha.id_aula
+            JOIN cursos c ON c.id_curso = hac.id_curso
+            JOIN materias m ON m.id_materia = c.id_materia
+            WHERE id_horarios_aulas_cursos = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
-        $param_id = trim($_GET["id_usuario"]);
+        $param_id = trim($_GET["id_horarios_aulas_cursos"]);
 
         // Bind variables to the prepared statement as parameters
         if (is_int($param_id))
@@ -64,7 +70,6 @@ if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
     <meta charset="UTF-8">
     <title>Ver Registro</title>
 </head>
-
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
@@ -73,45 +78,21 @@ if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
                 <div class="page-header">
                     <h1>Ver Registro</h1>
                 </div>
-
                 <div class="form-group">
-                    <h4>ID Usuario</h4>
+                    <h4>Curso</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["cod_usuario"]); ?>
+                        <?php echo htmlspecialchars($row["id_curso"]); ?>
                     </p>
                 </div>
                 <div class="form-group">
-                    <h4>Nombre</h4>
+                    <h4>Horario</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["nombre"]); ?>
-                    </p>
-                </div>
-                <div class="form-group">
-                    <h4>Apellido</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["apellido"]); ?>
-                    </p>
-                </div>
-                <div class="form-group">
-                    <h4>Nombre de Usuario</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["usuario"]); ?>
-                    </p>
-                </div>
-                <div class="form-group">
-                    <h4>Clave</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["clave"]); ?>
-                    </p>
-                </div>
-                <div class="form-group">
-                    <h4>Perfil</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["id_perfil"]); ?>
+                        <?php echo htmlspecialchars($row["id_horario__aula"]); ?>
                     </p>
                 </div>
 
-                <p><a href="usuarios-index.php" class="btn btn-primary">Regresar</a></p>
+
+                <p><a href="horarios_aulas_cursos-index.php" class="btn btn-primary">Regresar</a></p>
             </div>
         </div>
     </div>

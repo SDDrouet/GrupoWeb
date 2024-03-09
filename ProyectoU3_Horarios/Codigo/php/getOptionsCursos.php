@@ -17,13 +17,12 @@ if ($conn->connect_error) {
 // Fetch options based on selector1 value
 $selector1Value = $_GET['selector1'];
 
-$sql = "SELECT id_periodo_docente, pd.id_docente, u.cod_usuario, u.nombre, u.apellido, d.especializacion 
-        FROM docentes AS d
-        INNER JOIN periodos_docentes AS pd ON d.id_docente = pd.id_docente
-        INNER JOIN usuarios AS u ON d.id_usuario = u.id_usuario
-        WHERE estado = 1
-        AND id_periodo = $selector1Value
-        AND horas_asignadas > 0;";
+$sql = "SELECT c.id_curso,
+        CONCAT(m.nombre_materia, ' | ', c.nrc) AS nombre_curso
+        FROM cursos c
+        JOIN materias m ON m.id_materia = c.id_materia
+        WHERE c.periodos_id_periodo = $selector1Value
+        ORDER by id_curso DESC;";
         
 
 
@@ -32,10 +31,9 @@ $result = $conn->query($sql);
 $options = array();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $value = $row['id_periodo_docente'].','.$row['id_docente'];
-        unset($row["id_periodo_docente"]);
-        unset($row["id_docente"]);
-        $txt = implode(" | ", $row);
+        $value = $row['id_curso'];
+        unset($row["id_curso"]);
+        $txt = $row["nombre_curso"];
         
         $options[] = array(
             'texto' => $txt,

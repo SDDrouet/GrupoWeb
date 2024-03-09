@@ -84,6 +84,7 @@ if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
                     // Retrieve individual field value
 
                     $id_usuario = htmlspecialchars($row["id_usuario"]);
+                    $cod_usuario = htmlspecialchars($row["cod_usuario"]);
                     $nombre = htmlspecialchars($row["nombre"]);
                     $apellido = htmlspecialchars($row["apellido"]);
                     $usuario = htmlspecialchars($row["usuario"]);
@@ -131,10 +132,14 @@ if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
                 <form id="agregar_usuario" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
-                <div class="form-group">
-                        <label for="id_usuario">ID Usuario:</label>
-                        <input type="text" class="form-control" id="id_usuario" name="id_usuario"
-                            value="<?php echo $id_usuario; ?>" required pattern="L\d{8}">
+                        <input hidden type="text" class="form-control" id="id_usuario" name="id_usuario"
+                            value="<?php echo $id_usuario; ?>">
+                    
+
+                    <div class="form-group">
+                        <label for="cod_usuario">ID Usuario:</label>
+                        <input readonly type="text" class="form-control" id="cod_usuario" name="cod_usuario"
+                            value="<?php echo $cod_usuario; ?>" required pattern="L\d{8}">
                         <small class="form-text text-muted">Ejemplo: L12345678</small>
                         <div class="invalid-feedback">Ingrese un ID válido de acuerdo con el ejemplo.</div>
                         <div class="valid-feedback"></div>

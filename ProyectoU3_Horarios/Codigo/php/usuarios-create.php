@@ -4,7 +4,7 @@ require_once "config.php";
 require_once "helpers.php";
 
 // Define variables and initialize with empty values
-$id_usuario = "";
+$cod_usuario = "";
 $nombre = "";
 $apellido = "";
 $usuario = "";
@@ -13,7 +13,7 @@ $id_perfil = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_usuario = trim($_POST["id_usuario"]);
+    $cod_usuario = trim($_POST["cod_usuario"]);
     $nombre = trim($_POST["nombre"]);
     $apellido = trim($_POST["apellido"]);
     $usuario = trim($_POST["usuario"]);
@@ -35,9 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $vars = parse_columns('usuarios', $_POST);
-    $stmt = $pdo->prepare("INSERT INTO usuarios (id_usuario,nombre,apellido,usuario,clave,id_perfil) VALUES (?,?,?,?,?,?)");
+    $stmt = $pdo->prepare("INSERT INTO usuarios (cod_usuario,nombre,apellido,usuario,clave,id_perfil) VALUES (?,?,?,?,?,?)");
 
-    if ($stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil])) {
+    if ($stmt->execute([$cod_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil])) {
         $stmt = null;
         header("location: usuarios-index.php");
     } else {
@@ -66,9 +66,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
                 <form id="agregar_usuario" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="form-group">
-                        <label for="id_usuario">ID Usuario:</label>
-                        <input type="text" class="form-control" id="id_usuario" name="id_usuario"
-                            value="<?php echo $id_usuario; ?>" required pattern="L\d{8}">
+                        <label for="cod_usuario">ID Usuario:</label>
+                        <input type="text" class="form-control" id="cod_usuario" name="cod_usuario"
+                            value="<?php echo $cod_usuario; ?>" required pattern="L\d{8}">
                         <small class="form-text text-muted">Ejemplo: L12345678</small>
                         <div class="invalid-feedback">Ingrese un ID válido de acuerdo con el ejemplo.</div>
                         <div class="valid-feedback"></div>

@@ -1,6 +1,7 @@
 <?php 
 $db_server = 'localhost'; 
-$db_name = 'PROYECTO_14768'; 
+//$db_name = 'PROYECTO_14768'; 
+$db_name = 'horarios'; 
 $db_user = 'admin'; 
 $db_password = 'admin'; 
 $no_of_records_per_page = 10; 

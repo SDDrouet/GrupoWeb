@@ -123,7 +123,26 @@ if (isset($_POST["id_carrera_curso"]) && !empty($_POST["id_carrera_curso"])) {
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
                 <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
-
+                    <div class="form-group">
+                        <label>Curso</label>
+                        <?php
+                        $sql = "SELECT id_curso,
+                                    CONCAT(c.nrc,' | ',m.nombre_materia,' | ',m.cod_materia) AS curso_nombre
+                                    FROM cursos c
+                                    INNER JOIN materias m ON c.id_materia = m.id_materia
+                                    WHERE id_curso = $id_curso";
+                        $result = mysqli_query($link, $sql);
+                        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                            $curso_nombre = $row["curso_nombre"];
+                        }
+                        ?>
+                        <input readonly class="form-control" type="text" id="curso_nombre" name="curso_nombre"
+                            value="<?php echo $curso_nombre ?>">
+                        <input type="text" id="id_curso" name="id_curso" value="<?php echo $id_curso ?>" hidden>
+                        <span class="form-text">
+                            <?php echo $id_curso_err; ?>
+                        </span>
+                    </div>
                     <div class="form-group">
                         <label>Carrera</label>
                         <select class="form-control" id="id_carrera" name="id_carrera">
@@ -146,31 +165,7 @@ if (isset($_POST["id_carrera_curso"]) && !empty($_POST["id_carrera_curso"])) {
                             <?php echo $id_carrera_err; ?>
                         </span>
                     </div>
-                    <div class="form-group">
-                        <label>NRC Curso</label>
-                        <select class="form-control" id="id_curso1" name="id_curso1" disabled>
-                            <?php
-                            $sql = "SELECT id_curso,
-                                    CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS curso_nombre
-                                    FROM cursos c
-                                    INNER JOIN materias m ON c.cod_materia = m.cod_materia";
-                            $result = mysqli_query($link, $sql);
-                            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                                $txt = $row["curso_nombre"];
-                                $value = $row["id_curso"];
-                                if ($row["id_curso"] == $id_curso) {
-                                    echo '<option value="' . "$value" . '"selected="selected">' . "$txt" . '</option>';
-                                } else {
-                                    echo '<option value="' . "$value" . '">' . "$txt" . '</option>';
-                                }
-                            }
-                            ?>
-                        </select>
-                        <input type="text" id = "id_curso" name="id_curso" value = "<?php echo $id_curso?>" hidden>
-                        <span class="form-text">
-                            <?php echo $id_curso_err; ?>
-                        </span>
-                    </div>
+
 
                     <input type="hidden" name="id_carrera_curso" value="<?php echo $id_carrera_curso; ?>" />
                     <input type="submit" class="btn btn-primary" value="Enviar">

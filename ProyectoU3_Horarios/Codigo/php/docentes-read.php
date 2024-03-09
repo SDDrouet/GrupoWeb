@@ -6,12 +6,24 @@ if (isset($_GET["id_docente"]) && !empty($_GET["id_docente"])) {
     require_once "config.php";
     require_once "helpers.php";
 
+    $param_id = trim($_GET["id_docente"]);
     // Prepare a select statement
-    $sql = "SELECT * FROM docentes WHERE id_docente = ?";
+    $sql = "SELECT id_docente, u.cod_usuario, CONCAT(nombre,' ', apellido) AS nombre, 
+                horas_disponibles, tipo_contrato, correo, nivel_educacion, especializacion, 
+                celular, cedula, 
+                CASE 
+                    WHEN estado = 1 THEN 'Activo'
+                    ELSE 'Inactivo'
+                END AS estado 
+            FROM 
+                docentes d
+            JOIN 
+                usuarios u ON u.id_usuario = d.id_usuario
+            WHERE id_docente = $param_id";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
-        $param_id = trim($_GET["id_docente"]);
+        
 
         // Bind variables to the prepared statement as parameters
         if (is_int($param_id))
@@ -72,23 +84,18 @@ if (isset($_GET["id_docente"]) && !empty($_GET["id_docente"])) {
                 </div>
 
                 <div class="form-group">
-                    <h4>ID Docente</h4>
+                    <h4>ID Usuario</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["id_docente"]); ?>
+                        <?php echo htmlspecialchars($row["cod_usuario"]); ?>
                     </p>
                 </div>
                 <div class="form-group">
-                    <h4>Nombres</h4>
+                    <h4>Nombre</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["nombres"]); ?>
+                        <?php echo htmlspecialchars($row["nombre"]); ?>
                     </p>
                 </div>
-                <div class="form-group">
-                    <h4>Apellidos</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["apellidos"]); ?>
-                    </p>
-                </div>
+            
                 <div class="form-group">
                     <h4>Horas disponibles</h4>
                     <p class="form-control-static">

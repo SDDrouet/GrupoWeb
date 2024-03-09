@@ -70,7 +70,7 @@
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
         //Column sorting on column name
-        $orderBy = array('id_docente', 'nombres', 'apellidos', 'horas_disponibles', 'tipo_contrato', 'correo', 'nivel_educacion', 'especializacion', 'celular', 'cedula', 'estado');
+        $orderBy = array('id_docente','cod_usuario', 'nombre', 'horas_disponibles', 'correo', 'estado');
         $order = 'id_docente';
         if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
             $order = $_GET['order'];
@@ -88,18 +88,46 @@
         }
 
         // Attempt select query execution
-        $sql = "SELECT * FROM docentes ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
-        $count_pages = "SELECT * FROM docentes";
+        $sql = "SELECT id_docente, u.cod_usuario, CONCAT(nombre,' ', apellido) AS nombre, 
+                    horas_disponibles, correo, 
+                    CASE 
+                        WHEN estado = 1 THEN 'Activo'
+                        ELSE 'Inactivo'
+                    END AS estado 
+                FROM 
+                    docentes d
+                JOIN 
+                    usuarios u ON u.id_usuario = d.id_usuario
+                ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
+                $count_pages = "SELECT * FROM docentes";
 
         if (!empty($_GET['search'])) {
             $search = ($_GET['search']);
-            $sql = "SELECT * FROM docentes
-                            WHERE CONCAT_WS (id_docente,nombres,apellidos,horas_disponibles,tipo_contrato,correo,nivel_educacion,especializacion,celular,cedula,estado)
+            $sql = "SELECT id_docente, u.cod_usuario, CONCAT(nombre,' ', apellido) AS nombre, 
+                    horas_disponibles, correo, 
+                        CASE 
+                            WHEN estado = 1 THEN 'Activo'
+                            ELSE 'Inactivo'
+                        END AS estado 
+                    FROM 
+                        docentes d
+                    JOIN 
+                        usuarios u ON u.id_usuario = d.id_usuario
+                            WHERE CONCAT_WS (id_docente,cod_usuario,nombre,horas_disponibles,correo,estado)
                             LIKE '%$search%'
                             ORDER BY $order $sort
                             LIMIT $offset, $no_of_records_per_page";
-            $count_pages = "SELECT * FROM docentes
-                            WHERE CONCAT_WS (id_docente,nombres,apellidos,horas_disponibles,tipo_contrato,correo,nivel_educacion,especializacion,celular,cedula,estado)
+            $count_pages = "SELECT SELECT id_docente, u.cod_usuario, CONCAT(nombre,' ', apellido) AS nombre, 
+                            horas_disponibles, correo, 
+                                CASE 
+                                    WHEN estado = 1 THEN 'Activo'
+                                    ELSE 'Inactivo'
+                                END AS estado 
+                            FROM 
+                                docentes d
+                            JOIN 
+                                usuarios u ON u.id_usuario = d.id_usuario
+                            WHERE CONCAT_WS (id_docente,cod_usuario,nombre,horas_disponibles,correo,estado)
                             LIKE '%$search%'
                             ORDER BY $order $sort";
         } else {
@@ -120,16 +148,11 @@
                 echo "<table class='table table-bordered table-striped'>";
                 echo "<thead>";
                 echo "<tr>";
-                echo "<th><a href=?search=$search&sort=&order=id_docente&sort=$sort>ID Docente</th>";
-                echo "<th><a href=?search=$search&sort=&order=nombres&sort=$sort>Nombres</th>";
-                echo "<th><a href=?search=$search&sort=&order=apellidos&sort=$sort>Apellidos</th>";
+                echo "<th><a href=?search=$search&sort=&order=id_docente&sort=$sort>ID</th>";
+                echo "<th><a href=?search=$search&sort=&order=cod_usuario&sort=$sort>ID Usuario</th>";
+                echo "<th><a href=?search=$search&sort=&order=nombre&sort=$sort>Nombre</th>";
                 echo "<th><a href=?search=$search&sort=&order=horas_disponibles&sort=$sort>Horas disponibles</th>";
-                echo "<th><a href=?search=$search&sort=&order=tipo_contrato&sort=$sort>Tipo de contrato</th>";
                 echo "<th><a href=?search=$search&sort=&order=correo&sort=$sort>Correo</th>";
-                echo "<th><a href=?search=$search&sort=&order=nivel_educacion&sort=$sort>Nivel de educación</th>";
-                echo "<th><a href=?search=$search&sort=&order=especializacion&sort=$sort>Especialización</th>";
-                echo "<th><a href=?search=$search&sort=&order=celular&sort=$sort>Celular</th>";
-                echo "<th><a href=?search=$search&sort=&order=cedula&sort=$sort>Cédula</th>";
                 echo "<th><a href=?search=$search&sort=&order=estado&sort=$sort>Estado</th>";
 
                 echo "<th>Acción</th>";
@@ -139,15 +162,10 @@
                 while ($row = mysqli_fetch_array($result)) {
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row['id_docente']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['nombres']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['apellidos']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['cod_usuario']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['nombre']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['horas_disponibles']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['tipo_contrato']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['correo']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['nivel_educacion']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['especializacion']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['celular']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['cedula']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['estado']) . "</td>";
                     echo "<td>";
                     echo "<a href='docentes-read.php?id_docente=" . $row['id_docente'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";

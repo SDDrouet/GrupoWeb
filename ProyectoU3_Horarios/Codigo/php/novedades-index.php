@@ -18,21 +18,20 @@
         }
     </style>
 </head>
-
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header clearfix">
-                    <h2 class="float-left">Aulas Detalles</h2>
-                    <a href="aulas-create.php" class="btn btn-success float-right">Nuevo registro</a>
-                    <a href="aulas-index.php" class="btn btn-info float-right mr-2">Refrescar</a>
+                    <h2 class="float-left">Registro de Novedades</h2>
+                    <a href="novedades-create.php" class="btn btn-success float-right">Nuevo registro</a>
+                    <a href="novedades-index.php" class="btn btn-info float-right mr-2">Refrescar</a>
                     <a href="index.php" class="btn btn-secondary float-right mr-2">Atrás</a>
                 </div>
 
                 <div class="form-row">
-                    <form action="aulas-index.php" method="get">
+                    <form action="novedades-index.php" method="get">
                         <div class="col">
                             <input type="text" class="form-control" placeholder="Buscar en la tabla" name="search">
                         </div>
@@ -62,14 +61,14 @@
                 //$no_of_records_per_page is set on the index page. Default is 10.
                 $offset = ($pageno - 1) * $no_of_records_per_page;
 
-                $total_pages_sql = "SELECT COUNT(*) FROM aulas";
+                $total_pages_sql = "SELECT COUNT(*) FROM novedades";
                 $result = mysqli_query($link, $total_pages_sql);
                 $total_rows = mysqli_fetch_array($result)[0];
                 $total_pages = ceil($total_rows / $no_of_records_per_page);
 
                 //Column sorting on column name
-                $orderBy = array('id_aula', 'cod_aula', 'capacidad', 'bloque');
-                $order = 'id_aula';
+                $orderBy = array('id_novedad', 'fecha_novedad', 'descripcion', 'estado', 'id_usuario', 'id_aula');
+                $order = 'id_novedad';
                 if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
                     $order = $_GET['order'];
                 }
@@ -86,21 +85,39 @@
                 }
 
                 // Attempt select query execution
-                $sql = "SELECT * FROM aulas ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
-                $count_pages = "SELECT * FROM aulas";
+                $sql = "SELECT n.id_novedad, n.fecha_novedad, n.descripcion, n.estado,
+                        CONCAT(u.cod_usuario, ' | ', u.nombre, ' ', u.apellido) AS id_usuario,
+                        a.cod_aula AS id_aula
+                        FROM novedades n
+                        JOIN usuarios u ON u.id_usuario = n.id_usuario
+                        JOIN aulas a ON a.id_aula = n.id_aula
+                        ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
+                $count_pages = "SELECT * FROM novedades";
 
 
                 if (!empty($_GET['search'])) {
                     $search = ($_GET['search']);
-                    $sql = "SELECT * FROM aulas
-                            WHERE CONCAT_WS (id_aula,capacidad,bloque,observacion)
-                            LIKE '%$search%'
+                    $sql = "SELECT n.id_novedad, n.fecha_novedad, n.descripcion, n.estado,
+                            CONCAT(u.cod_usuario, ' | ', u.nombre, ' ', u.apellido) AS id_usuario,
+                            a.cod_aula AS id_aula
+                            FROM novedades n
+                            JOIN usuarios u ON u.id_usuario = n.id_usuario
+                            JOIN aulas a ON a.id_aula = n.id_aula
+                            WHERE CONCAT_WS (n.id_novedad,n.fecha_novedad,n.descripcion,n.estado) LIKE '%$search%'
+                            OR CONCAT_WS(u.cod_usuario, ' | ', u.nombre, ' ', u.apellido) LIKE '%$search%'
+                            OR a.cod_aula LIKE '%$search%'
                             ORDER BY $order $sort
                             LIMIT $offset, $no_of_records_per_page";
-                    $count_pages = "SELECT * FROM aulas
-                            WHERE CONCAT_WS (id_aula,capacidad,bloque,observacion)
-                            LIKE '%$search%'
-                            ORDER BY $order $sort";
+                    $count_pages = "SELECT n.id_novedad, n.fecha_novedad, n.descripcion, n.estado,
+                                    CONCAT(u.cod_usuario, ' | ', u.nombre, ' ', u.apellido) AS id_usuario,
+                                    a.cod_aula AS id_aula
+                                    FROM novedades n
+                                    JOIN usuarios u ON u.id_usuario = n.id_usuario
+                                    JOIN aulas a ON a.id_aula = n.id_aula
+                                    WHERE CONCAT_WS (n.id_novedad,n.fecha_novedad,n.descripcion,n.estado) LIKE '%$search%'
+                                    OR CONCAT_WS(u.cod_usuario, ' | ', u.nombre, ' ', u.apellido) LIKE '%$search%'
+                                    OR a.cod_aula LIKE '%$search%'
+                                    ORDER BY $order $sort";
                 } else {
                     $search = "";
                 }
@@ -113,16 +130,17 @@
                         $number_of_results = mysqli_num_rows($result_count);
                         echo " " . $number_of_results . " Resultado - Página " . $pageno . " de " . $total_pages;
 
-                        echo "<div class='card shadow mb-4 p-1'>";
-                        echo "<div class='card-body'>";
-                        echo "<div class='table-responsive'>";
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead>";
                         echo "<tr>";
-                        echo "<th><a href=?search=$search&sort=&order=id_aula&sort=$sort>ID</th>";
-                        echo "<th><a href=?search=$search&sort=&order=cod_aula&sort=$sort>Código Aula</th>";
-                        echo "<th><a href=?search=$search&sort=&order=capacidad&sort=$sort>Capacidad</th>";
-                        echo "<th><a href=?search=$search&sort=&order=bloque&sort=$sort>Bloque</th>";
+                        echo "<th><a href=?search=$search&sort=&order=id_novedad&sort=$sort>ID</th>";
+                        echo "<th><a href=?search=$search&sort=&order=id_usuario&sort=$sort>ID Usuario</th>";
+                        echo "<th><a href=?search=$search&sort=&order=id_aula&sort=$sort>Código Aula</th>";
+                        echo "<th><a href=?search=$search&sort=&order=descripcion&sort=$sort>Descripción</th>";
+                        echo "<th><a href=?search=$search&sort=&order=fecha_novedad&sort=$sort>Fecha</th>";
+                        echo "<th><a href=?search=$search&sort=&order=estado&sort=$sort>Estado</th>";
+                        
+                        
 
                         echo "<th>Acción</th>";
                         echo "</tr>";
@@ -130,22 +148,23 @@
                         echo "<tbody>";
                         while ($row = mysqli_fetch_array($result)) {
                             echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['id_novedad']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['id_usuario']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_aula']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['cod_aula']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['capacidad']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['bloque']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['descripcion']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['fecha_novedad']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['estado']) . "</td>";
+                            
+                            
                             echo "<td>";
-                            echo "<a href='aulas-read.php?id_aula=" . $row['id_aula'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
-                            echo "<a href='aulas-update.php?id_aula=" . $row['id_aula'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
-                            echo "<a href='aulas-delete.php?id_aula=" . $row['id_aula'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
+                            echo "<a href='novedades-read.php?id_novedad=" . $row['id_novedad'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
+                            echo "<a href='novedades-update.php?id_novedad=" . $row['id_novedad'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
+                            echo "<a href='novedades-delete.php?id_novedad=" . $row['id_novedad'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
                             echo "</td>";
                             echo "</tr>";
                         }
                         echo "</tbody>";
                         echo "</table>";
-                        echo "</div>";
-                        echo "</div>";
-                        echo "</div>";
                         ?>
                         <ul class="pagination" align-right>
                             <?php

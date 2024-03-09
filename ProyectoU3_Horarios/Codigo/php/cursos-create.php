@@ -5,22 +5,19 @@ require_once "helpers.php";
 
 // Define variables and initialize with empty values
 $periodos_id_periodo = "";
-$cod_materia = "";
-$aula_horario = "";
+$id_materia = "";
 $id_docente = "";
 $nrc = "";
 
 $periodos_id_periodo_err = "";
-$cod_materia_err = "";
-$aula_horario = "";
+$id_materia_err = "";
 $id_docente_err = "";
 $nrc_err = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $periodos_id_periodo = trim($_POST["periodos_id_periodo"]);
-    $cod_materia = trim($_POST["cod_materia"]);
-    $aula_horario = trim($_POST["aula_horario"]);
+    $id_materia = trim($_POST["id_materia"]);
     $id_docente_Periodo = trim($_POST["id_docente"]);
     $nrc = trim($_POST["nrc"]);
     $row_id_docente_Periodo = explode(',', $id_docente_Periodo);
@@ -40,19 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit('Something weird happened'); //something a user can understand
     }
 
-    $sql = "SELECT id_horario, id_aula FROM horarios_aulas WHERE id_horario__aula = $aula_horario";
-    $horarios_aulas = mysqli_query($link, $sql);
-    while ($rowHorarios_aulas = mysqli_fetch_array($horarios_aulas, MYSQLI_ASSOC)) {
-        $horarios_id_horario = $rowHorarios_aulas["id_horario"];
-        $id_aula = $rowHorarios_aulas["id_aula"];
-    }
-
     $vars = parse_columns('cursos', $_POST);
-    $stmt = $pdo->prepare("INSERT INTO cursos (nrc,periodos_id_periodo,cod_materia,horarios_id_horario,id_aula,id_docente) VALUES (?,?,?,?,?,?)");
+    $stmt = $pdo->prepare("INSERT INTO cursos (nrc,periodos_id_periodo,id_docente, id_materia) VALUES (?,?,?,?)");
 
-    if ($stmt->execute([$nrc, $periodos_id_periodo, $cod_materia, $horarios_id_horario, $id_aula, $id_docente])) {
+    if ($stmt->execute([$nrc, $periodos_id_periodo, $id_docente, $id_materia])) {
         $stmt = null;
 
+
+        /*
         $sql = "UPDATE horarios_aulas SET disponible = 0
                 WHERE id_horario__aula = $aula_horario";
 
@@ -61,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Error updating record: " . mysqli_error($conn);
         }
-
+        
         $sql = "UPDATE `periodos_docentes` 
                 SET `horas_asignadas` = `horas_asignadas` - 2
                 WHERE `id_periodo` = $periodos_id_periodo 
@@ -71,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Record updated successfully";
         } else {
             echo "Error updating record: " . mysqli_error($conn);
-        }
+        }*/
 
         header("location: cursos-index.php");
     } else {
@@ -130,40 +122,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label>Código de Materia</label>
-                        <select class="form-control" id="cod_materia" name="cod_materia">
+                        <select class="form-control" id="id_materia" name="id_materia">
                             <?php
-                            $sql = "SELECT *,cod_materia FROM materias";
+                            $sql = "SELECT *,id_materia FROM materias";
                             $result = mysqli_query($link, $sql);
                             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                                 $duprow = $row;
                                 unset($duprow["horas_semana"]);
+                                unset($duprow["id_materia"]);
                                 $value = implode(" | ", $duprow);
-                                if ($row["cod_materia"] == $cod_materia) {
-                                    echo '<option value="' . "$row[cod_materia]" . '"selected="selected">' . "$value" . '</option>';
+                                if ($row["id_materia"] == $id_materia) {
+                                    echo '<option value="' . "$row[id_materia]" . '"selected="selected">' . "$value" . '</option>';
                                 } else {
-                                    echo '<option value="' . "$row[cod_materia]" . '">' . "$value" . '</option>';
+                                    echo '<option value="' . "$row[id_materia]" . '">' . "$value" . '</option>';
                                 }
                             }
                             ?>
                         </select>
                         <span class="form-text">
-                            <?php echo $cod_materia_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Aula y Horario</label>
-                        <select class="form-control" id="aula_horario" name="aula_horario">
-
-                        </select>
-                        <span class="form-text">
-                            <?php echo $aula_horario_err; ?>
+                            <?php echo $id_materia_err; ?>
                         </span>
                     </div>
 
                     <div class="form-group">
                         <label>Docente</label>
                         <select class="form-control" id="id_docente" name="id_docente">
-                            <option value="">No asignado</option>
+                            <option value="0,0">No asignado</option>
                         </select>
                         <span class="form-text">
                             <?php echo $id_docente_err; ?>
@@ -181,12 +165,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
     function actualizarSelectores() {
-        actualizarSelect("periodos_id_periodo", "aula_horario", "getOptionsAulas_horarios.php");
         actualizarSelect("periodos_id_periodo", "id_docente", "getOptionsDocentes.php");
         var selector = document.getElementById("id_docente");
         var opcion = document.createElement("option");
         opcion.text = "No asignado";
-        opcion.value = "";
+        opcion.value = "0,0";
         selector.add(opcion);
     }
 

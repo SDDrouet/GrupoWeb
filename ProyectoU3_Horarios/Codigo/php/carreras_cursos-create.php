@@ -89,9 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <select class="form-control" id="id_curso" name="id_curso">
                             <?php
                             $sql = "SELECT id_curso,
-                                    CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS curso_nombre
+                                    CONCAT(c.nrc,' | ',m.nombre_materia,' | ',m.cod_materia) AS curso_nombre
                                     FROM cursos c
-                                    INNER JOIN materias m ON c.cod_materia = m.cod_materia";
+                                    INNER JOIN materias m ON c.id_materia = m.id_materia";
 
                             $result = mysqli_query($link, $sql);
                             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {

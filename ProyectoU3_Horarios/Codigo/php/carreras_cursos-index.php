@@ -69,7 +69,7 @@
 
                 //Column sorting on column name
                 $orderBy = array('id_carrera_curso', 'id_carrera', 'id_curso');
-                $order = 'id_curso';
+                $order = 'id_carrera_curso';
                 if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
                     $order = $_GET['order'];
                 }
@@ -91,39 +91,39 @@
                 $count_pages = "SELECT * FROM carreras_cursos";
                 */
                 $sql = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
-                        CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS id_curso FROM carreras_cursos cc
+                        CONCAT(c.nrc,' | ',m.nombre_materia,' | ',m.cod_materia) AS id_curso FROM carreras_cursos cc
                         INNER JOIN cursos c ON cc.id_curso = c.id_curso
                         INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
-                        INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                        INNER JOIN materias m ON c.id_materia = m.id_materia
                         ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
                 $count_pages = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
-                                CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS id_curso FROM carreras_cursos cc
+                                CONCAT(c.nrc,' | ',m.nombre_materia,' | ',m.cod_materia) AS id_curso FROM carreras_cursos cc
                                 INNER JOIN cursos c ON cc.id_curso = c.id_curso
                                 INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
-                                INNER JOIN materias m ON c.cod_materia = m.cod_materia";
+                                INNER JOIN materias m ON c.id_materia = m.id_materia";
 
                 if (!empty($_GET['search'])) {
                     $search = ($_GET['search']);
 
                     $sql = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
-                            CONCAT(c.nrc,' | ',m.nombre_materia,' | ',c.cod_materia) AS id_curso
-                            FROM carreras_cursos cc
+                            CONCAT(c.nrc,' | ',m.nombre_materia,' | ',m.cod_materia) AS id_curso FROM carreras_cursos cc
                             INNER JOIN cursos c ON cc.id_curso = c.id_curso
                             INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
-                            INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                            INNER JOIN materias m ON c.id_materia = m.id_materia
                             WHERE cc.id_carrera_curso LIKE '%$search%'
                                 OR ca.nombre_carrera LIKE '%$search%'
-                                OR CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', c.cod_materia) LIKE '%$search%'
+                                OR CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', m.cod_materia) LIKE '%$search%'
                             ORDER BY $order $sort
                             LIMIT $offset, $no_of_records_per_page";
 
-                    $count_pages = "SELECT * FROM carreras_cursos cc
+                    $count_pages = "SELECT id_carrera_curso, CONCAT(ca.nombre_carrera) AS id_carrera,
+                    CONCAT(c.nrc,' | ',m.nombre_materia,' | ',m.cod_materia) AS id_curso FROM carreras_cursos cc
                     INNER JOIN cursos c ON cc.id_curso = c.id_curso
                     INNER JOIN carreras ca ON cc.id_carrera = ca.id_carrera
-                    INNER JOIN materias m ON c.cod_materia = m.cod_materia
+                    INNER JOIN materias m ON c.id_materia = m.id_materia
                     WHERE cc.id_carrera_curso LIKE '%$search%'
                         OR ca.nombre_carrera LIKE '%$search%'
-                        OR CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', c.cod_materia) LIKE '%$search%'
+                        OR CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', m.cod_materia) LIKE '%$search%'
                     ORDER BY $order $sort";
 
                     /*
@@ -154,7 +154,7 @@
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead>";
                         echo "<tr>";
-                        echo "<th><a href=?search=$search&sort=&order=id_carrera_curso&sort=$sort>ID Carrera y Curso</th>";
+                        echo "<th><a href=?search=$search&sort=&order=id_carrera_curso&sort=$sort>ID</th>";
                         echo "<th><a href=?search=$search&sort=&order=id_carrera&sort=$sort>Carrera</th>";
                         echo "<th><a href=?search=$search&sort=&order=id_curso&sort=$sort>NRC Curso</th>";
 

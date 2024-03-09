@@ -69,8 +69,8 @@
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
         //Column sorting on column name
-        $orderBy = array('id_usuario', 'nombre', 'apellido', 'usuario', 'clave', 'id_perfil');
-        $order = 'id_perfil';
+        $orderBy = array('id_usuario', 'cod_usuario', 'nombre', 'apellido', 'usuario', 'clave', 'id_perfil');
+        $order = 'id_usuario';
         if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
             $order = $_GET['order'];
         }
@@ -86,11 +86,11 @@
             }
         }
 
-        $sql = "SELECT u.id_usuario,u.nombre,u.apellido,
+        $sql = "SELECT u.id_usuario,u.cod_usuario,u.nombre,u.apellido,
                         u.usuario,u.clave, p.tipo_perfil as id_perfil FROM usuarios u
                         INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
                         ORDER BY $order $sort LIMIT $offset, $no_of_records_per_page";
-        $count_pages = "SELECT u.id_usuario,u.nombre,u.apellido,
+        $count_pages = "SELECT u.id_usuario,u.cod_usuario,u.nombre,u.apellido,
                                 u.usuario,u.clave, p.tipo_perfil as id_perfil FROM usuarios u
                                 INNER JOIN perfiles p ON u.id_perfil = p.id_perfil";
 
@@ -102,18 +102,18 @@
         if (!empty($_GET['search'])) {
             $search = ($_GET['search']);
 
-            $sql = "SELECT u.id_usuario, u.nombre, u.apellido,
+            $sql = "SELECT u.id_usuario,u.cod_usuario,u.nombre, u.apellido,
                             u.usuario, u.clave, p.tipo_perfil as id_perfil FROM usuarios u
                             INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
-                            WHERE CONCAT_WS(u.id_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil)
+                            WHERE CONCAT_WS(u.id_usuario,u.cod_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil)
                                 LIKE '%$search%'
                             ORDER BY $order $sort
                             LIMIT $offset, $no_of_records_per_page";
 
-            $count_pages = "SELECT u.id_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil as id_perfil
+            $count_pages = "SELECT u.id_usuario,u.cod_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil as id_perfil
                             FROM usuarios u
                             INNER JOIN perfiles p ON u.id_perfil = p.id_perfil
-                            WHERE CONCAT_WS(u.id_usuario, u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil)
+                            WHERE CONCAT_WS(u.id_usuario,u.cod_usuario,u.nombre, u.apellido, u.usuario, u.clave, p.tipo_perfil)
                                 LIKE '%$search%'
                             ORDER BY $order $sort";
 
@@ -135,7 +135,8 @@
                 echo "<table class='table table-bordered table-striped'>";
                 echo "<thead>";
                 echo "<tr>";
-                echo "<th><a href=?search=$search&sort=&order=id_usuario&sort=$sort>ID Usuario</th>";
+                echo "<th><a href=?search=$search&sort=&order=id_usuario&sort=$sort>ID</th>";
+                echo "<th><a href=?search=$search&sort=&order=cod_usuario&sort=$sort>ID Usuario</th>";
                 echo "<th><a href=?search=$search&sort=&order=nombre&sort=$sort>Nombre</th>";
                 echo "<th><a href=?search=$search&sort=&order=apellido&sort=$sort>Apellido</th>";
                 echo "<th><a href=?search=$search&sort=&order=usuario&sort=$sort>Nombre de Usuario</th>";
@@ -149,6 +150,7 @@
                 while ($row = mysqli_fetch_array($result)) {
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($row['id_usuario']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['cod_usuario']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['nombre']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['apellido']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['usuario']) . "</td>";

@@ -72,9 +72,9 @@ if (isset($_GET["id_aula"]) && !empty($_GET["id_aula"])) {
                 </div>
 
                 <div class="form-group">
-                    <h4>ID Aula</h4>
+                    <h4>Código del Aula</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["id_aula"]); ?>
+                        <?php echo htmlspecialchars($row["cod_aula"]); ?>
                     </p>
                 </div>
                 <div class="form-group">
@@ -87,12 +87,6 @@ if (isset($_GET["id_aula"]) && !empty($_GET["id_aula"])) {
                     <h4>Bloque</h4>
                     <p class="form-control-static">
                         <?php echo htmlspecialchars($row["bloque"]); ?>
-                    </p>
-                </div>
-                <div class="form-group">
-                    <h4>Observaciónes</h4>
-                    <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["observacion"]); ?>
                     </p>
                 </div>
 

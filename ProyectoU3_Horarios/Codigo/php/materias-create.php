@@ -76,14 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php echo $cod_materia_err; ?>
                         </span>
                     </div>
-                    <div class="form-group">
-                        <label>Nombre de la Materia</label>
-                        <input type="text" name="nombre_materia" maxlength="100" class="form-control"
-                            value="<?php echo $nombre_materia; ?>">
-                        <span class="form-text">
-                            <?php echo $nombre_materia_err; ?>
-                        </span>
-                    </div>
+
                     <div class="form-group">
                         <label>Departamento</label>
                         <select name="departamento" id="departamento" class="form-control">
@@ -107,10 +100,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php echo $departamento_err; ?>
                         </span>
                     </div>
+
+                    <div class="form-group">
+                        <label>Nombre de la Materia</label>
+                        <input type="text" name="nombre_materia" maxlength="100" class="form-control"
+                            value="<?php echo $nombre_materia; ?>">
+                        <span class="form-text">
+                            <?php echo $nombre_materia_err; ?>
+                        </span>
+                    </div>
+                    
                     <div class="form-group">
                         <label>Horas semanales</label>
                         <input type="number" name="horas_semana" class="form-control"
-                            value="<?php echo $horas_semana; ?>">
+                            value="<?php echo $horas_semana; ?>" min = "2" max = "10">
                         <span class="form-text">
                             <?php echo $horas_semana_err; ?>
                         </span>

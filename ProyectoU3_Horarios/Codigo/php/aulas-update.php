@@ -7,12 +7,13 @@ require_once "helpers.php";
 $id_aula = "";
 $capacidad = "";
 $bloque = "";
-$observacion = "";
+$cod_aula = "";
+
 
 $id_aula_err = "";
 $capacidad_err = "";
 $bloque_err = "";
-$observacion_err = "";
+$cod_aula_err = "";
 
 
 // Processing form data when form is submitted
@@ -23,7 +24,7 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
     $id_aula = trim($_POST["id_aula"]);
     $capacidad = trim($_POST["capacidad"]);
     $bloque = trim($_POST["bloque"]);
-    $observacion = trim($_POST["observacion"]);
+    $cod_aula = trim($_POST["cod_aula"]);
 
 
     // Prepare an update statement
@@ -41,9 +42,9 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
     }
 
     $vars = parse_columns('aulas', $_POST);
-    $stmt = $pdo->prepare("UPDATE aulas SET id_aula=?,capacidad=?,bloque=?,observacion=? WHERE id_aula=?");
+    $stmt = $pdo->prepare("UPDATE aulas SET id_aula=?,capacidad=?,bloque=?,cod_aula=? WHERE id_aula=?");
 
-    if (!$stmt->execute([$id_aula, $capacidad, $bloque, $observacion, $id_aula])) {
+    if (!$stmt->execute([$id_aula, $capacidad, $bloque, $cod_aula, $id_aula])) {
         echo "Something went wrong. Please try again later.";
         header("location: error.php");
     } else {
@@ -88,7 +89,7 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
                     $id_aula = htmlspecialchars($row["id_aula"]);
                     $capacidad = htmlspecialchars($row["capacidad"]);
                     $bloque = htmlspecialchars($row["bloque"]);
-                    $observacion = htmlspecialchars($row["observacion"]);
+                    $cod_aula = htmlspecialchars($row["cod_aula"]);
 
 
                 } else {
@@ -132,14 +133,19 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
                 <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
-                    <div class="form-group">
-                        <label>ID Aula</label>
-                        <input type="text" name="id_aula" maxlength="30" class="form-control"
+                        <input hidden type="text" name="id_aula" maxlength="30" class="form-control"
                             value="<?php echo $id_aula; ?>">
+                        
+
+                    <div class="form-group">
+                        <label>Código Aula</label>
+                        <input readonly type="text" name="cod_aula" maxlength="30" class="form-control"
+                            value="<?php echo $cod_aula; ?>">
                         <span class="form-text">
-                            <?php echo $id_aula_err; ?>
+                            <?php echo $cod_aula_err; ?>
                         </span>
                     </div>
+
                     <div class="form-group">
                         <label>Capacidad</label>
                         <input type="number" name="capacidad" class="form-control" value="<?php echo $capacidad; ?>">
@@ -149,18 +155,10 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
                     </div>
                     <div class="form-group">
                         <label>Bloque</label>
-                        <input type="text" name="bloque" maxlength="10" class="form-control"
+                        <input readonly type="text" name="bloque" maxlength="10" class="form-control"
                             value="<?php echo $bloque; ?>">
                         <span class="form-text">
                             <?php echo $bloque_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Observaciónes</label>
-                        <input type="text" name="observacion" maxlength="300" class="form-control"
-                            value="<?php echo $observacion; ?>">
-                        <span class="form-text">
-                            <?php echo $observacion_err; ?>
                         </span>
                     </div>
 

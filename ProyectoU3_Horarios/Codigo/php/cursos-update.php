@@ -7,14 +7,12 @@ require_once "helpers.php";
 $nrc = "";
 $periodos_id_periodo = "";
 $cod_materia = "";
-$horarios_id_horario = "";
 $id_aula = "";
 $id_docente = "";
 
 $$nrc_err = "";
 $periodos_id_periodo_err = "";
 $cod_materia_err = "";
-$horarios_id_horario_err = "";
 $id_aula_err = "";
 $id_docente_err = "";
 
@@ -26,13 +24,8 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
 
     $id_periodoA = trim($_POST["id_periodoA"]);
     $cod_materia = trim($_POST["cod_materia"]);
-    $aula_horario = trim($_POST["id_horario__aula"]);
     $id_docente_Periodo = trim($_POST["id_docente"]);
     $nrc = trim($_POST["nrc"]);
-
-    $row_aula_horario = explode(',', $aula_horario);
-    $id_horario__aulaOriginal = $row_aula_horario[1];
-    $aula_horario = $row_aula_horario[0];
 
     $row_id_docente_Periodo = explode(',', $id_docente_Periodo);
     $id_docente = $row_id_docente_Periodo[1];
@@ -53,42 +46,26 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
         exit('Something weird happened');
     }
 
-    $sql = "SELECT id_horario, id_aula FROM horarios_aulas WHERE id_horario__aula = $aula_horario";
-
-    $horarios_aulas = mysqli_query($link, $sql);
-    while ($rowHorarios_aulas = mysqli_fetch_array($horarios_aulas, MYSQLI_ASSOC)) {
-        $horarios_id_horario = $rowHorarios_aulas["id_horario"];
-        $id_aula = $rowHorarios_aulas["id_aula"];
-    }
-
     $vars = parse_columns('cursos', $_POST);
-    $stmt = $pdo->prepare("UPDATE cursos SET horarios_id_horario=?,id_aula=?,id_docente=? WHERE id_curso=?");
+    $stmt = $pdo->prepare("UPDATE cursos SET id_docente=? WHERE id_curso=?");
 
-    if (!$stmt->execute([$horarios_id_horario, $id_aula, $id_docente, $id_curso])) {
+    if (!$stmt->execute([$id_docente, $id_curso])) {
         echo "Something went wrong. Please try again later.";
         header("location: error.php");
     } else {
-        $sql = "UPDATE horarios_aulas SET disponible = 0
-                WHERE id_horario__aula = $aula_horario
-                ";
-
-        if (mysqli_query($link, $sql)) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: horarios_aulas" . mysqli_error($conn);
+        $sql = "SELECT COUNT(*) AS numero_cursos
+                FROM horarios_aulas_cursos
+                WHERE id_curso = $id_curso;";
+        
+        $result = mysqli_query($link, $sql);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $numero_cursos = $row["numero_cursos"];
         }
 
-        $sql = "UPDATE horarios_aulas SET disponible = 1
-                WHERE id_horario__aula = $id_horario__aulaOriginal";
-
-        if (mysqli_query($link, $sql)) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: id_horario__aulaOriginal" . mysqli_error($conn);
-        }
+        $numero_horas = $numero_cursos * 2;       
 
         $sql = "UPDATE `periodos_docentes` 
-        SET `horas_asignadas` = `horas_asignadas` - 2
+        SET `horas_asignadas` = `horas_asignadas` - $numero_horas
         WHERE `id_periodo` = $id_periodo_docente
         AND `id_docente` = '$id_docente'";
 
@@ -101,7 +78,7 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
         }
 
         $sql = "UPDATE `periodos_docentes` 
-        SET `horas_asignadas` = `horas_asignadas` + 2
+        SET `horas_asignadas` = `horas_asignadas` + $numero_horas
         WHERE `id_periodo` = $id_periodo_docente
         AND `id_docente` = '$id_docente_Original'";
 
@@ -112,7 +89,7 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
             echo "<br>$sql<br>";
             echo "Error updating record: periodos_docentesOriginal" . mysqli_error($conn);
         }
-
+        
 
         $stmt = null;
         header("location: cursos-read.php?id_curso=$id_curso");
@@ -154,25 +131,7 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                     $nrc = htmlspecialchars($row["nrc"]);
                     $periodos_id_periodo = htmlspecialchars($row["periodos_id_periodo"]);
                     $cod_materia = htmlspecialchars($row["cod_materia"]);
-                    $horarios_id_horario = htmlspecialchars($row["horarios_id_horario"]);
-                    $id_aula = htmlspecialchars($row["id_aula"]);
                     $id_docente = htmlspecialchars($row["id_docente"]);
-
-                    $sql1 = "SELECT id_horario__aula FROM horarios_aulas
-                                WHERE id_aula = '$id_aula'
-                                AND id_horario = $horarios_id_horario
-                                AND id_periodo = $periodos_id_periodo";
-
-                    $result2 = $link->query($sql1);
-
-                    if ($result2->num_rows > 0) {
-                        // output data of each row
-                        while ($row = $result2->fetch_assoc()) {
-                            $id_horario__aula = $row["id_horario__aula"];
-                        }
-                    } else {
-                        echo "0 results";
-                    }
 
                 } else {
                     // URL doesn't contain valid id. Redirect to error page
@@ -270,30 +229,6 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                             <?php echo $cod_materia_err; ?>
                         </span>
                     </div>
-                    <div class="form-group">
-                        <label>Aula y Horario (Solo se muestran los disponibles): </label>
-                        <?php $id_horario__aulaOriginal = $id_horario__aula;
-                        echo $id_horario__aulaOriginal; ?>
-                        <select class="form-control" id="id_horario__aula" name="id_horario__aula">
-                            <?php
-
-                            $sql = "SELECT id_horario__aula, id_aula, dia, hora_inicio, hora_fin FROM horarios_aulas AS ha
-                                        INNER JOIN horarios AS a ON ha.id_horario = a.id_horario
-                                        WHERE disponible = 1 AND id_periodo = $periodos_id_periodo";
-
-                            $result = mysqli_query($link, $sql);
-                            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-                                $duprow = $row;
-                                unset($duprow["id_horario__aula"]);
-                                $value = implode(" | ", $duprow);
-                                echo '<option value="' . "$row[id_horario__aula]" . ',' . $id_horario__aulaOriginal . '">' . "$value" . '</option>';
-                            }
-                            ?>
-                        </select>
-                        <span class="form-text">
-                            <?php echo $horarios_id_horario_err; ?>
-                        </span>
-                    </div>
 
                     <div class="form-group">
                         <label>Docente</label>
@@ -301,11 +236,12 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                             <option value="<?php echo $periodos_id_periodo . ',No Asignado,' . $id_docente ?>">No Asignado
                             </option>;
                             <?php
-                            $sql = "SELECT id_periodo_docente, pd.id_docente, nombres, apellidos, especializacion  FROM docentes AS d
-                                        INNER JOIN periodos_docentes AS pd ON d.id_docente = pd.id_docente
-                                        WHERE estado = 1
-                                        AND id_periodo = $periodos_id_periodo
-                                        AND horas_asignadas > 0";
+                            $sql = "SELECT id_periodo_docente, pd.id_docente, nombre, apellido, especializacion  FROM docentes AS d
+                            INNER JOIN periodos_docentes AS pd ON d.id_docente = pd.id_docente
+                            INNER JOIN usuarios AS u ON d.id_usuario = u.id_usuario
+                            WHERE estado = 1
+                            AND id_periodo = 1
+                            AND horas_asignadas > 0";
 
                             $result = mysqli_query($link, $sql);
                             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {

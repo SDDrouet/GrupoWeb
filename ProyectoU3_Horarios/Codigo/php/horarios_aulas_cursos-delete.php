@@ -1,34 +1,31 @@
 <?php
 // Process delete operation after confirmation
-if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
+if (isset($_POST["id_horarios_aulas_cursos"]) && !empty($_POST["id_horarios_aulas_cursos"])) {
     // Include config file
     require_once "config.php";
     require_once "helpers.php";
 
-    $id_curso = $_POST["id_curso"];
-    /*
-    $sql = "SELECT periodos_id_periodo, id_aula, horarios_id_horario, id_docente FROM cursos WHERE id_curso = $id_curso";
+    $id_horarios_aulas_cursos = $_POST["id_horarios_aulas_cursos"];
+    
+    $sql = "SELECT id_horario__aula, id_curso FROM horarios_aulas_cursos WHERE id_horarios_aulas_cursos = $id_horarios_aulas_cursos";
     $result = $link->query($sql);
 
     if ($result->num_rows > 0) {
         // output data of each row
         while ($row = $result->fetch_assoc()) {
-            $periodos_id_periodo = $row["periodos_id_periodo"];
-            $id_aula = $row["id_aula"];
-            $horarios_id_horario = $row["horarios_id_horario"];
-            $id_docente = $row["id_docente"];
+            $id_horario__aula = $row["id_horario__aula"];
+            $id_curso = $row["id_curso"];
         }
     } else {
         echo "0 results";
-    }*/
-
+    }
 
     // Prepare a delete statement
-    $sql = "DELETE FROM cursos WHERE id_curso = ?";
+    $sql = "DELETE FROM horarios_aulas_cursos WHERE id_horarios_aulas_cursos = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Set parameters
-        $param_id = trim($_POST["id_curso"]);
+        $param_id = trim($_POST["id_horarios_aulas_cursos"]);
 
         // Bind variables to the prepared statement as parameters
         if (is_int($param_id))
@@ -41,15 +38,12 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
             $__vartype = "b"; // blob
         mysqli_stmt_bind_param($stmt, $__vartype, $param_id);
 
-
-
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
-            /*
+
+            
             $sql = "UPDATE horarios_aulas SET disponible = 1
-            WHERE id_periodo = $periodos_id_periodo
-            AND id_aula = '$id_aula'
-            AND id_horario = $horarios_id_horario";
+            WHERE id_horario__aula = $id_horario__aula";
 
             if (mysqli_query($link, $sql)) {
                 echo "Record updated successfully";
@@ -57,32 +51,29 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                 echo "Error updating record: " . mysqli_error($conn);
             }
 
+            $sql = "SELECT id_periodo_docente
+                    FROM periodos_docentes pd
+                    JOIN cursos c ON c.id_docente = pd.id_docente
+                    WHERE c.id_curso = $id_curso;";
+            $result = mysqli_query($link, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $id_periodo_docente = $row["id_periodo_docente"];
+            }
+
             $sql = "UPDATE `periodos_docentes` 
                         SET `horas_asignadas` = `horas_asignadas` + 2
-                        WHERE `id_periodo` = $periodos_id_periodo 
-                        AND `id_docente` = '$id_docente'";
+                        WHERE `id_periodo_docente` = $id_periodo_docente";
 
             if (mysqli_query($link, $sql)) {
                 echo "Record deleted successfully";
             } else {
                 echo "Error deleted record periodos_docentes: " . mysqli_error($conn);
-            }*/
-
-            // Records deleted successfully. Redirect to landing page
-            header("location: cursos-index.php");
-            exit();
-        } else {
-            $sql = "UPDATE horarios_aulas SET disponible = 0
-            WHERE id_periodo = $periodos_id_periodo
-            AND id_aula = '$id_aula'
-            AND id_horario = $horarios_id_horario";
-
-            if (mysqli_query($link, $sql)) {
-                echo "Record deleted successfully";
-            } else {
-                echo "Error deleted record horarios_aulas: " . mysqli_error($conn);
             }
 
+            // Records deleted successfully. Redirect to landing page
+            header("location: horarios_aulas_cursos-index.php");
+            exit();
+        } else {
             echo "Oops! Something went wrong. Please try again later.<br>" . $stmt->error;
         }
     }
@@ -94,8 +85,8 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
     mysqli_close($link);
 } else {
     // Check existence of id parameter
-    $_GET["id_curso"] = trim($_GET["id_curso"]);
-    if (empty($_GET["id_curso"])) {
+    $_GET["id_horarios_aulas_cursos"] = trim($_GET["id_horarios_aulas_cursos"]);
+    if (empty($_GET["id_horarios_aulas_cursos"])) {
         // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");
         exit();
@@ -109,7 +100,6 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
     <meta charset="UTF-8">
     <title>Eliminar Registro</title>
 </head>
-
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
@@ -120,11 +110,11 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                 </div>
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
                     <div class="alert alert-danger fade-in">
-                        <input type="hidden" name="id_curso" value="<?php echo trim($_GET["id_curso"]); ?>" />
+                        <input type="hidden" name="id_horarios_aulas_cursos" value="<?php echo trim($_GET["id_horarios_aulas_cursos"]); ?>" />
                         <p>¿Está Seguro que quiere eliminar el registro?</p><br>
                         <p>
                             <input type="submit" value="Eliminar" class="btn btn-danger">
-                            <a href="cursos-index.php" class="btn btn-secondary">Cancelar</a>
+                            <a href="horarios_aulas_cursos-index.php" class="btn btn-secondary">Cancelar</a>
                         </p>
                     </div>
                 </form>
