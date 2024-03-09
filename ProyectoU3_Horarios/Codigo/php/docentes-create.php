@@ -16,18 +16,6 @@ $celular = "";
 $cedula = "";
 $estado = "";
 
-$id_docente_err = "";
-$nombres_err = "";
-$apellidos_err = "";
-$horas_disponibles_err = "";
-$tipo_contrato_err = "";
-$correo_err = "";
-$nivel_educacion_err = "";
-$especializacion_err = "";
-$celular_err = "";
-$cedula_err = "";
-$estado_err = "";
-
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -87,94 +75,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Crear Registro</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form id="agregar_docentes" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <div class="form-group">
+                        <label for="id_docente">ID Docente:</label>
+                        <input type="text" class="form-control" id="id_docente" name="id_docente" 
+                            value="<?php echo $id_docente; ?>" required pattern="L\d{8}">
+                        <small class="form-text text-muted">Ejemplo: L12345678</small>
+                        <div class="invalid-feedback">Ingrese un ID válido de acuerdo con el ejemplo.</div>
+                        <div class="valid-feedback"></div>
+                    </div>
 
                     <div class="form-group">
-                        <label>ID Docente</label>
-                        <input type="text" name="id_docente" maxlength="45" class="form-control"
-                            value="<?php echo $id_docente; ?>">
-                        <span class="form-text">
-                            <?php echo $id_docente_err; ?>
-                        </span>
+                        <label for="nombres">Nombres:</label>
+                        <input type="text" class="form-control" id="nombres" name="nombres"
+                            value="<?php echo $nombres; ?>" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Nombres</label>
-                        <input type="text" name="nombres" maxlength="45" class="form-control"
-                            value="<?php echo $nombres; ?>">
-                        <span class="form-text">
-                            <?php echo $nombres_err; ?>
-                        </span>
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos" name="apellidos" 
+                            value="<?php echo $apellidos; ?>" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Apellidos</label>
-                        <input type="text" name="apellidos" maxlength="45" class="form-control"
-                            value="<?php echo $apellidos; ?>">
-                        <span class="form-text">
-                            <?php echo $apellidos_err; ?>
-                        </span>
+                        <label  for="horas_disponibles">Horas disponibles</label>
+                        <input type="number" class="form-control" id="horas_disponibles" name="horas_disponibles" 
+                            value="<?php echo $horas_disponibles; ?>" required maxlength="2" pattern="[0-9]{1,2}">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Horas disponibles</label>
-                        <input type="number" name="horas_disponibles" class="form-control"
-                            value="<?php echo $horas_disponibles; ?>">
-                        <span class="form-text">
-                            <?php echo $horas_disponibles_err; ?>
-                        </span>
+                        <label for="correo">Correo</label>
+                        <input type="email" class="form-control" id="correo" name="correo" 
+                            value="<?php echo $correo; ?>" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Tipo de contrato</label>
-                        <input type="text" name="tipo_contrato" maxlength="45" class="form-control"
-                            value="<?php echo $tipo_contrato; ?>">
-                        <span class="form-text">
-                            <?php echo $tipo_contrato_err; ?>
-                        </span>
+                        <label for="nivel_educacion">Nivel de educación</label>
+                        <input type="text" class="form-control" id="nivel_educacion" name="nivel_educacion" 
+                            value="<?php echo $nivel_educacion; ?>" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Correo</label>
-                        <input type="text" name="correo" maxlength="100" class="form-control"
-                            value="<?php echo $correo; ?>">
-                        <span class="form-text">
-                            <?php echo $correo_err; ?>
-                        </span>
+                        <label for="especializacion">Especialización</label>
+                        <input type="text" class="form-control" id="especializacion" name="especializacion" 
+                            value="<?php echo $especializacion; ?>" required pattern="[a-zA-Z ]+">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Nivel de educación</label>
-                        <input type="text" name="nivel_educacion" maxlength="100" class="form-control"
-                            value="<?php echo $nivel_educacion; ?>">
-                        <span class="form-text">
-                            <?php echo $nivel_educacion_err; ?>
-                        </span>
+                        <label for="celular">Celular</label>
+                        <input type="text" class="form-control" id="celular" name="celular"
+                            value="<?php echo $celular; ?>" required maxlength="10" pattern="[0-9]{10}">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Especialización</label>
-                        <input type="text" name="especializacion" maxlength="100" class="form-control"
-                            value="<?php echo $especializacion; ?>">
-                        <span class="form-text">
-                            <?php echo $especializacion_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Celular</label>
-                        <input type="text" name="celular" maxlength="20" class="form-control"
-                            value="<?php echo $celular; ?>">
-                        <span class="form-text">
-                            <?php echo $celular_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Cédula</label>
-                        <input type="text" name="cedula" maxlength="20" class="form-control"
-                            value="<?php echo $cedula; ?>">
-                        <span class="form-text">
-                            <?php echo $cedula_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Estado</label>
-                        <input type="number" name="estado" class="form-control" value="<?php echo $estado; ?>">
-                        <span class="form-text">
-                            <?php echo $estado_err; ?>
-                        </span>
+                        <label for="cedula">Cédula</label>
+                        <input type="text" class="form-control" id="cedula" name="cedula"
+                            value="<?php echo $cedula; ?>" required maxlength="10" pattern="[0-9]{10}">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">
@@ -184,4 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_docentes.js"></script>
+
 <?php include('footer.php'); ?>

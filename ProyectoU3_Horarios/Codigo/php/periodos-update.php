@@ -8,11 +8,6 @@ $nombre_periodo = "";
 $fecha_inicio = "";
 $fecha_fin = "";
 
-$nombre_periodo_err = "";
-$fecha_inicio_err = "";
-$fecha_fin_err = "";
-
-
 // Processing form data when form is submitted
 if (isset($_POST["id_periodo"]) && !empty($_POST["id_periodo"])) {
     // Get hidden input value
