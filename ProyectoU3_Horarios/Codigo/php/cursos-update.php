@@ -240,7 +240,7 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                             INNER JOIN periodos_docentes AS pd ON d.id_docente = pd.id_docente
                             INNER JOIN usuarios AS u ON d.id_usuario = u.id_usuario
                             WHERE estado = 1
-                            AND id_periodo = 1
+                            AND id_periodo = $periodos_id_periodo
                             AND horas_asignadas > 0";
 
                             $result = mysqli_query($link, $sql);

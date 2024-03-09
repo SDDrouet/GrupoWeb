@@ -137,4 +137,5 @@ if (isset($_POST["id_carrera"]) && !empty($_POST["id_carrera"])) {
         </div>
     </div>
 </section>
+
 <?php include('footer.php'); ?>

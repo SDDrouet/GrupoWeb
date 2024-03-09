@@ -3,8 +3,7 @@
 $servername = "localhost";
 $username = "admin";
 $password = "admin";
-//$dbname = "PROYECTO_14768";
-$dbname = "horarios";
+$dbname = "PROYECTO_14768";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -21,7 +20,8 @@ $sql = "SELECT id_horario__aula, cod_aula, dia, hora_inicio, hora_fin
         FROM horarios_aulas AS ha
         INNER JOIN horarios AS a ON ha.id_horario = a.id_horario
         INNER JOIN aulas AS au ON au.id_aula = ha.id_aula
-        WHERE disponible = 1 AND id_periodo = $selector1Value";
+        WHERE disponible = 1 AND id_periodo = $selector1Value
+        ORDER BY cod_aula ASC";
 
 
 $result = $conn->query($sql);

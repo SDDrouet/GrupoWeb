@@ -178,7 +178,7 @@ if (isset($_POST["id_horarios_aulas_cursos"]) && !empty($_POST["id_horarios_aula
                                     CONCAT(m.nombre_materia, ' | ', c.nrc) AS nombre_curso
                                     FROM cursos c
                                     JOIN materias m ON m.id_materia = c.id_materia
-                                    ORDER by id_curso DESC";
+                                    WHERE id_curso = $id_curso";
                         $result = mysqli_query($link, $sql);
                         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                             $duprow = $row;

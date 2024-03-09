@@ -1,7 +1,7 @@
 var formulario = document.getElementById('agregar_usuario');
 
 //Declaracion de variables input
-var id_usuario_input = document.getElementById('id_usuario');
+var id_usuario_input = document.getElementById('cod_usuario');
 var nombre_input = document.getElementById('nombre');
 var apellido = document.getElementById('apellido');
 var usuario = document.getElementById('usuario');
