@@ -10081,6 +10081,12 @@ a:focus {
     background-size: cover
 }
 
+.bg-gradient-light-espe {
+    background-color: #11683c;
+    background-image: linear-gradient(180deg, #11683c 10%, #c2cbe5 100%);
+    background-size: cover
+}
+
 .bg-gradient-dark {
     background-color: #5a5c69;
     background-image: linear-gradient(180deg, #5a5c69 10%, #373840 100%);
@@ -11016,7 +11022,7 @@ a:focus {
 }
 
 .bg-login-image {
-    background: url('../img/logo.png');
+    background: url('../img/logo_espe_2.webp');
     background-position: center;
     background-size: cover
 }
