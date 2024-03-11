@@ -10,13 +10,6 @@ $estado = "";
 $id_usuario = "";
 $id_aula = "";
 
-$fecha_novedad_err = "";
-$descripcion_err = "";
-$estado_err = "";
-$id_usuario_err = "";
-$id_aula_err = "";
-
-
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha_novedad = trim($_POST["fecha_novedad"]);
@@ -69,10 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Crear Registro</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form id="agregar_novedades" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="form-group">
-                        <label>id_usuario</label>
+                        <label>ID Usuario</label>
                         <select class="form-control" id="id_usuario" name="id_usuario">
                             <?php
                             $sql = "SELECT cod_usuario, CONCAT(nombre, ' ', apellido),id_usuario FROM usuarios";
@@ -89,13 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_usuario_err; ?>
-                        </span>
                     </div>
 
                     <div class="form-group">
-                        <label>id_aula</label>
+                        <label>ID Aula</label>
                         <select class="form-control" id="id_aula" name="id_aula">
                             <?php
                             $sql = "SELECT cod_aula,id_aula FROM aulas";
@@ -112,28 +102,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_aula_err; ?>
-                        </span>
                     </div>
 
                     <div class="form-group">
                         <label>Descripción</label>
-                        <textarea name="descripcion" maxlength="200" class="form-control" 
+                        <textarea id="descripcion" name="descripcion" maxlength="200" class="form-control" 
                         placeholder = "Escriba detalles de la novedad..." rows="3"></textarea>
-                        <span class="form-text">
-                            <?php echo $descripcion_err; ?>
-                        </span>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="fecha_novedad">Fecha y Hora</label>
                         <input readonly type="datetime-local" id="fecha_novedad" name="fecha_novedad" class="form-control">
-                        <span class="form-text">
-                            <?php echo $fecha_novedad_err; ?>
-                        </span>
                     </div>
-
 
                     <div class="form-group">
                         <label>Estado</label>
@@ -141,12 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="NO RESUELTO">NO RESUELTO</option>
                             <option value="RESUELTO">RESUELTO</option>
                         </select>
-                        <span class="form-text">
-                            <?php echo $estado_err; ?>
-                        </span>
                     </div>
-
-
 
                     <input type="submit" class="btn btn-primary" value="Enviar">
                     <a href="novedades-index.php" class="btn btn-secondary">Cancelar</a>
@@ -168,6 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Establecer el valor del campo de entrada datetime-local
         campoFecha.value = fechaFormateada;
     </script>
-
 </section>
+
+<script src="../js/formulario_novedades.js"></script>
+
 <?php include('footer.php'); ?>

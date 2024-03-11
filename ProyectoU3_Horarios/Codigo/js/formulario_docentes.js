@@ -29,10 +29,11 @@ formulario.addEventListener("submit", function (e) {
 //validar 1 o maximo 2 numeros
 function validarHoras_disponibles() {
     var horas = horas_disponibles_input.value;
-    var regexHoras = /^[0-9]{1,2}$/;
+    var regexHoras = /^(?:[1-9]|1[0-9]|2[0-4])$/;
+    var numero = parseInt(horas, 10);  // Convertir la entrada a un número entero
 
-    if (!regexHoras.test(horas)) {
-        horas_disponibles_input.nextElementSibling.innerHTML = "Por favor, ingresa un número válido (máximo dos dígitos).";
+    if (!regexHoras.test(horas) || isNaN(numero) || numero < 1 || numero > 24) {
+        horas_disponibles_input.nextElementSibling.innerHTML = "Por favor, ingresa un número válido (entre 1 y 24).";
         horas_disponibles_input.classList.add("is-invalid");
         horas_disponibles_input.classList.remove("is-valid");
         return false;

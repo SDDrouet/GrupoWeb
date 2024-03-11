@@ -12,25 +12,27 @@ $clave = "";
 $id_perfil = "";
 
 // Processing form data when form is submitted
-if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
-    // Get hidden input value
-    $id_usuario = $_POST["id_usuario"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verifica si la contraseña se ha cambiado antes de realizar la encriptación
+    if (!empty($_POST["clave"])) {
+        $clave = password_hash($_POST["clave"], PASSWORD_DEFAULT);
+    }
 
+    // Resto de los campos
     $id_usuario = trim($_POST["id_usuario"]);
     $nombre = trim($_POST["nombre"]);
     $apellido = trim($_POST["apellido"]);
     $usuario = trim($_POST["usuario"]);
-    $clave = trim($_POST["clave"]);
     $id_perfil = trim($_POST["id_perfil"]);
-
 
     // Prepare an update statement
     $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
     $options = [
-        PDO::ATTR_EMULATE_PREPARES => false, // turn off emulation mode for "real" prepared statements
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ];
+
     try {
         $pdo = new PDO($dsn, $db_user, $db_password, $options);
     } catch (Exception $e) {
@@ -39,7 +41,7 @@ if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
     }
 
     $vars = parse_columns('usuarios', $_POST);
-    $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?,nombre=?,apellido=?,usuario=?,clave=?,id_perfil=? WHERE id_usuario=?");
+    $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?, nombre=?, apellido=?, usuario=?, clave=?, id_perfil=? WHERE id_usuario=?");
 
     if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil, $id_usuario])) {
         echo "Something went wrong. Please try again later.";
@@ -134,7 +136,6 @@ if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
 
                         <input hidden type="text" class="form-control" id="id_usuario" name="id_usuario"
                             value="<?php echo $id_usuario; ?>">
-                    
 
                     <div class="form-group">
                         <label for="cod_usuario">ID Usuario:</label>

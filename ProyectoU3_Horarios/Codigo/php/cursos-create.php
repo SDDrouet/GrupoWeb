@@ -9,11 +9,6 @@ $id_materia = "";
 $id_docente = "";
 $nrc = "";
 
-$periodos_id_periodo_err = "";
-$id_materia_err = "";
-$id_docente_err = "";
-$nrc_err = "";
-
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $periodos_id_periodo = trim($_POST["periodos_id_periodo"]);
@@ -90,14 +85,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Crear Registro</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form id="agregar_curso" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
                     <div class="form-group">
                         <label>NRC</label>
                         <input type="number" min="1" id="nrc" name="nrc" class="form-control"
                             value="<?php echo $nrc; ?>">
-                        <span class="form-text">
-                            <?php echo $nrc_err; ?>
-                        </span>
+                            <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
@@ -120,6 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             ?>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label>Código de Materia</label>
                         <select class="form-control" id="id_materia" name="id_materia">
@@ -139,9 +135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_materia_err; ?>
-                        </span>
                     </div>
 
                     <div class="form-group">
@@ -149,9 +142,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <select class="form-control" id="id_docente" name="id_docente">
                             <option value="0,0">No asignado</option>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_docente_err; ?>
-                        </span>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">
@@ -213,5 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         actualizarSelectores();
     };
 </script>
+
+<script src="../js/formulario_cursos.js"></script>
 
 <?php include('footer.php'); ?>

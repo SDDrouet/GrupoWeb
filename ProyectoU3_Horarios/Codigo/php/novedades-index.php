@@ -21,22 +21,22 @@
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header clearfix">
-                    <h2 class="float-left">Registro de Novedades</h2>
-                    <a href="novedades-create.php" class="btn btn-success float-right">Nuevo registro</a>
-                    <a href="novedades-index.php" class="btn btn-info float-right mr-2">Refrescar</a>
-                    <a href="index.php" class="btn btn-secondary float-right mr-2">Atrás</a>
-                </div>
+            <h1>Novedades</h1>
+        <div class="d-flex justify-content-end align-items-center mb-5">
+            <a href="novedades-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
+            <a href="novedades-index.php" class="btn btn-info mr-3">Actualizar</a>
+            <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
+        </div>
 
                 <div class="form-row">
-                    <form action="novedades-index.php" method="get">
-                        <div class="col">
-                            <input type="text" class="form-control" placeholder="Buscar en la tabla" name="search">
-                        </div>
+            <form action="novedades-index.php" method="get">
+                <div class="d-flex">
+                    <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
+                        aria-label="Buscar en la tabla" name="search" autofocus>
+                        <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
                 </div>
-                </form>
+            </form>
+        </div>
                 <br>
 
                 <?php
@@ -139,8 +139,8 @@
                         echo "<th><a href=?search=$search&sort=&order=descripcion&sort=$sort>Descripción</th>";
                         echo "<th><a href=?search=$search&sort=&order=fecha_novedad&sort=$sort>Fecha</th>";
                         echo "<th><a href=?search=$search&sort=&order=estado&sort=$sort>Estado</th>";
-                        
-                        
+
+
 
                         echo "<th>Acción</th>";
                         echo "</tr>";
@@ -154,8 +154,8 @@
                             echo "<td>" . htmlspecialchars($row['descripcion']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['fecha_novedad']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['estado']) . "</td>";
-                            
-                            
+
+
                             echo "<td>";
                             echo "<a href='novedades-read.php?id_novedad=" . $row['id_novedad'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
                             echo "<a href='novedades-update.php?id_novedad=" . $row['id_novedad'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
@@ -166,42 +166,42 @@
                         echo "</tbody>";
                         echo "</table>";
                         ?>
-                        <ul class="pagination" align-right>
-                            <?php
-                            $new_url = preg_replace('/&?pageno=[^&]*/', '', $currenturl);
-                            ?>
-                            <li class="page-item"><a class="page-link" href="<?php echo $new_url . '&pageno=1' ?>">Primera</a>
-                            </li>
-                            <li class="page-item <?php if ($pageno <= 1) {
-                                echo 'disabled';
-                            } ?>">
-                                <a class="page-link"
-                                    href="<?php if ($pageno <= 1) {
-                                        echo '#';
-                                    } else {
-                                        echo $new_url . "&pageno=" . ($pageno - 1);
-                                    } ?>">Previa</a>
-                            </li>
-                            <li class="page-item <?php if ($pageno >= $total_pages) {
-                                echo 'disabled';
-                            } ?>">
-                                <a class="page-link"
-                                    href="<?php if ($pageno >= $total_pages) {
-                                        echo '#';
-                                    } else {
-                                        echo $new_url . "&pageno=" . ($pageno + 1);
-                                    } ?>">Siguiente</a>
-                            </li>
-                            <li class="page-item <?php if ($pageno >= $total_pages) {
-                                echo 'disabled';
-                            } ?>">
-                                <a class="page-item"><a class="page-link"
-                                        href="<?php echo $new_url . '&pageno=' . $total_pages; ?>">Última</a>
-                            </li>
-                        </ul>
-                        <?php
-                        // Free result set
-                        mysqli_free_result($result);
+                                <ul class="pagination" align-right>
+                                    <?php
+                                    $new_url = preg_replace('/&?pageno=[^&]*/', '', $currenturl);
+                                    ?>
+                                    <li class="page-item"><a class="page-link" href="<?php echo $new_url . '&pageno=1' ?>">Primera</a>
+                                    </li>
+                                    <li class="page-item <?php if ($pageno <= 1) {
+                                        echo 'disabled';
+                                    } ?>">
+                                        <a class="page-link"
+                                            href="<?php if ($pageno <= 1) {
+                                                echo '#';
+                                            } else {
+                                                echo $new_url . "&pageno=" . ($pageno - 1);
+                                            } ?>">Previa</a>
+                                    </li>
+                                    <li class="page-item <?php if ($pageno >= $total_pages) {
+                                        echo 'disabled';
+                                    } ?>">
+                                        <a class="page-link"
+                                            href="<?php if ($pageno >= $total_pages) {
+                                                echo '#';
+                                            } else {
+                                                echo $new_url . "&pageno=" . ($pageno + 1);
+                                            } ?>">Siguiente</a>
+                                    </li>
+                                    <li class="page-item <?php if ($pageno >= $total_pages) {
+                                        echo 'disabled';
+                                    } ?>">
+                                        <a class="page-item"><a class="page-link"
+                                                href="<?php echo $new_url . '&pageno=' . $total_pages; ?>">Última</a>
+                                    </li>
+                                </ul>
+                                <?php
+                                // Free result set
+                                mysqli_free_result($result);
                     } else {
                         echo "<p class='lead'><em>No records were found.</em></p>";
                     }
@@ -213,8 +213,6 @@
                 mysqli_close($link);
                 ?>
             </div>
-        </div>
-    </div>
 </section>
 <script type="text/javascript">
     $(document).ready(function () {

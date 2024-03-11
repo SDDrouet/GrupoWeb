@@ -9,12 +9,6 @@ $nombre_materia = "";
 $departamento = "";
 $horas_semana = "";
 
-$cod_materia_err = "";
-$nombre_materia_err = "";
-$departamento_err = "";
-$horas_semana_err = "";
-
-
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cod_materia = trim($_POST["cod_materia"]);
@@ -66,15 +60,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Crear Registro</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form id="agregar_materias" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="form-group">
-                        <label>Código de Materia</label>
-                        <input type="text" name="cod_materia" maxlength="20" class="form-control"
+                        <label for="cod_materia">Código de Materia</label>
+                        <input type="text" id="cod_materia" name="cod_materia" maxlength="20" class="form-control"
                             value="<?php echo $cod_materia; ?>">
-                        <span class="form-text">
-                            <?php echo $cod_materia_err; ?>
-                        </span>
+                        <div class="invalid-feedback">Ingrese un codigo válido.</div>
+                        <div class="valid-feedback"></div>    
                     </div>
 
                     <div class="form-group">
@@ -96,27 +89,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="CIENCIAS MÉDICAS">CIENCIAS MÉDICAS</option>
 
                         </select>
-                        <span class="form-text">
-                            <?php echo $departamento_err; ?>
-                        </span>
                     </div>
 
                     <div class="form-group">
-                        <label>Nombre de la Materia</label>
-                        <input type="text" name="nombre_materia" maxlength="100" class="form-control"
-                            value="<?php echo $nombre_materia; ?>">
-                        <span class="form-text">
-                            <?php echo $nombre_materia_err; ?>
-                        </span>
+                        <label for="nombre_materia">Nombre de la Materia</label>
+                        <input type="text" id="nombre_materia" name="nombre_materia" maxlength="100" class="form-control"
+                            value="<?php echo $nombre_materia; ?>" required pattern="[a-zA-Z0-9]+">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>  
                     </div>
                     
                     <div class="form-group">
-                        <label>Horas semanales</label>
-                        <input type="number" name="horas_semana" class="form-control"
-                            value="<?php echo $horas_semana; ?>" min = "2" max = "10">
-                        <span class="form-text">
-                            <?php echo $horas_semana_err; ?>
-                        </span>
+                        <label for="horas_semana">Horas semanales</label>
+                        <input type="number" id="horas_semana" name="horas_semana" class="form-control"
+                            value="<?php echo $horas_semana; ?>" required maxlength="2" pattern="[0-9]{1,2}" min = "2" max = "10">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>  
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">
@@ -126,4 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_materias.js"></script>
+
 <?php include('footer.php'); ?>

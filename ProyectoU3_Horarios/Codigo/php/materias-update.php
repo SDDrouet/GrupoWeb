@@ -9,12 +9,6 @@ $nombre_materia = "";
 $departamento = "";
 $horas_semana = "";
 
-$cod_materia_err = "";
-$nombre_materia_err = "";
-$departamento_err = "";
-$horas_semana_err = "";
-
-
 // Processing form data when form is submitted
 if (isset($_POST["cod_materia"]) && !empty($_POST["cod_materia"])) {
     // Get hidden input value
@@ -130,41 +124,34 @@ if (isset($_POST["cod_materia"]) && !empty($_POST["cod_materia"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_materias" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
                     <div class="form-group">
                         <label>Código de Materia</label>
-                        <input readonly type="text" name="cod_materia" maxlength="20" class="form-control"
+                        <input readonly type="text" id="cod_materia" name="cod_materia" maxlength="20" class="form-control"
                             value="<?php echo $cod_materia; ?>">
-                        <span class="form-text">
-                            <?php echo $cod_materia_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Departamento</label>
-                        <input type="text" name="departamento" maxlength="45" class="form-control"
-                            value="<?php echo $departamento; ?>" readonly>
-                        <span class="form-text">
-                            <?php echo $departamento_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre de la Materia</label>
-                        <input type="text" name="nombre_materia" maxlength="100" class="form-control"
-                            value="<?php echo $nombre_materia; ?>">
-                        <span class="form-text">
-                            <?php echo $nombre_materia_err; ?>
-                        </span>
                     </div>
 
+                    <div class="form-group">
+                        <label>Departamento</label>
+                        <input type="text" id="departamento" name="departamento" maxlength="45" class="form-control"
+                            value="<?php echo $departamento; ?>" readonly>
+                    </div>
                     
                     <div class="form-group">
-                        <label>Horas semanales</label>
-                        <input type="number" name="horas_semana" class="form-control"
-                            value="<?php echo $horas_semana; ?>" min = "2" max = "10">
-                        <span class="form-text">
-                            <?php echo $horas_semana_err; ?>
-                        </span>
+                        <label for="nombre_materia">Nombre de la Materia</label>
+                        <input type="text" id="nombre_materia" name="nombre_materia" maxlength="100" class="form-control"
+                            value="<?php echo $nombre_materia; ?>" required pattern="[a-zA-Z0-9]+">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>  
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="horas_semana">Horas semanales</label>
+                        <input type="number" id="horas_semana" name="horas_semana" class="form-control"
+                            value="<?php echo $horas_semana; ?>" required maxlength="2" pattern="[0-9]{1,2}" min = "2" max = "10">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>  
                     </div>
 
                     <input type="hidden" name="cod_materia" value="<?php echo $cod_materia; ?>" />
@@ -175,4 +162,7 @@ if (isset($_POST["cod_materia"]) && !empty($_POST["cod_materia"])) {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_materias.js"></script>
+
 <?php include('footer.php'); ?>

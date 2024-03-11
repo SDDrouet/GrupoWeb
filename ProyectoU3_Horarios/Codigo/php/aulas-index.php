@@ -22,22 +22,23 @@
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="page-header clearfix">
-                    <h2 class="float-left">Aulas Detalles</h2>
-                    <a href="aulas-create.php" class="btn btn-success float-right">Nuevo registro</a>
-                    <a href="aulas-index.php" class="btn btn-info float-right mr-2">Refrescar</a>
-                    <a href="index.php" class="btn btn-secondary float-right mr-2">Atrás</a>
-                </div>
+    <h1>Detalles de Aulas</h1>
+        <div class="d-flex justify-content-end align-items-center mb-5">
+            <a href="aulas-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
+            <a href="aulas-index.php" class="btn btn-info mr-3">Actualizar</a>
+            <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
+        </div>
 
                 <div class="form-row">
                     <form action="aulas-index.php" method="get">
-                        <div class="col">
-                            <input type="text" class="form-control" placeholder="Buscar en la tabla" name="search">
+                        <div class="d-flex">
+                            <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
+                                aria-label="Buscar en la tabla" name="search" autofocus>
+                            <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
                         </div>
+                    </form>
                 </div>
-                </form>
+
                 <br>
 
                 <?php
@@ -161,7 +162,7 @@
                                         echo '#';
                                     } else {
                                         echo $new_url . "&pageno=" . ($pageno - 1);
-                                    } ?>">Previa</a>
+                                    } ?>"><</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
@@ -171,7 +172,7 @@
                                         echo '#';
                                     } else {
                                         echo $new_url . "&pageno=" . ($pageno + 1);
-                                    } ?>">Siguiente</a>
+                                    } ?>">></a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
@@ -194,8 +195,6 @@
                 mysqli_close($link);
                 ?>
             </div>
-        </div>
-    </div>
 </section>
 <script type="text/javascript">
     $(document).ready(function () {
