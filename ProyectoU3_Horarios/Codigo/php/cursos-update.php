@@ -11,7 +11,7 @@ $id_aula = "";
 $id_docente = "";
 
 // Processing form data when form is submitted
-if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get hidden input value
     $id_curso = $_POST["id_curso"];
 
@@ -25,13 +25,14 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
     $id_periodo_docente = $row_id_docente_Periodo[0];
     $id_docente_Original = $row_id_docente_Periodo[2];
 
-    // Prepare an update statement
+    // Verify if the new NRC already exists
     $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
     $options = [
-        PDO::ATTR_EMULATE_PREPARES => false, // turn off emulation mode for "real" prepared statements
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ];
+
     try {
         $pdo = new PDO($dsn, $db_user, $db_password, $options);
     } catch (Exception $e) {
@@ -39,53 +40,60 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
         exit('Something weird happened');
     }
 
-    $vars = parse_columns('cursos', $_POST);
-    $stmt = $pdo->prepare("UPDATE cursos SET id_docente=? WHERE id_curso=?");
+    $stmt = $pdo->prepare("SELECT id_curso FROM cursos WHERE nrc = ? AND id_curso <> ?");
+    $stmt->execute([$nrc, $id_curso]);
 
-    if (!$stmt->execute([$id_docente, $id_curso])) {
-        echo "Something went wrong. Please try again later.";
-        header("location: error.php");
+    if ($stmt->fetchColumn()) {
+        // NRC already exists, show alert in JavaScript
+        echo "<script>alert('El NRC ya está registrado.');</script>";
     } else {
-        $sql = "SELECT COUNT(*) AS numero_cursos
-                FROM horarios_aulas_cursos
-                WHERE id_curso = $id_curso;";
-        
-        $result = mysqli_query($link, $sql);
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $numero_cursos = $row["numero_cursos"];
-        }
+        // NRC does not exist, proceed with the update
+        $stmt = $pdo->prepare("UPDATE cursos SET nrc=?, id_docente=? WHERE id_curso=?");
 
-        $numero_horas = $numero_cursos * 2;       
-
-        $sql = "UPDATE `periodos_docentes` 
-        SET `horas_asignadas` = `horas_asignadas` - $numero_horas
-        WHERE `id_periodo` = $id_periodo_docente
-        AND `id_docente` = '$id_docente'";
-
-        if (mysqli_query($link, $sql)) {
-            echo "<br>$sql<br>";
-            echo "Record updated successfully";
+        if (!$stmt->execute([$nrc, $id_docente, $id_curso])) {
+            echo "Something went wrong. Please try again later.";
+            header("location: error.php");
         } else {
-            echo "<br>$sql<br>";
-            echo "Error updating record: periodos_docentes" . mysqli_error($conn);
+            $sql = "SELECT COUNT(*) AS numero_cursos
+                    FROM horarios_aulas_cursos
+                    WHERE id_curso = $id_curso;";
+            
+            $result = mysqli_query($link, $sql);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $numero_cursos = $row["numero_cursos"];
+            }
+
+            $numero_horas = $numero_cursos * 2;
+
+            $sql = "UPDATE `periodos_docentes` 
+            SET `horas_asignadas` = `horas_asignadas` - $numero_horas
+            WHERE `id_periodo` = $id_periodo_docente
+            AND `id_docente` = '$id_docente'";
+
+            if (mysqli_query($link, $sql)) {
+                echo "<br>$sql<br>";
+                echo "Record updated successfully";
+            } else {
+                echo "<br>$sql<br>";
+                echo "Error updating record: periodos_docentes" . mysqli_error($conn);
+            }
+
+            $sql = "UPDATE `periodos_docentes` 
+            SET `horas_asignadas` = `horas_asignadas` + $numero_horas
+            WHERE `id_periodo` = $id_periodo_docente
+            AND `id_docente` = '$id_docente_Original'";
+
+            if (mysqli_query($link, $sql)) {
+                echo "<br>$sql<br>";
+                echo "Record updated successfully";
+            } else {
+                echo "<br>$sql<br>";
+                echo "Error updating record: periodos_docentesOriginal" . mysqli_error($conn);
+            }
+
+            $stmt = null;
+            header("location: cursos-read.php?id_curso=$id_curso");
         }
-
-        $sql = "UPDATE `periodos_docentes` 
-        SET `horas_asignadas` = `horas_asignadas` + $numero_horas
-        WHERE `id_periodo` = $id_periodo_docente
-        AND `id_docente` = '$id_docente_Original'";
-
-        if (mysqli_query($link, $sql)) {
-            echo "<br>$sql<br>";
-            echo "Record updated successfully";
-        } else {
-            echo "<br>$sql<br>";
-            echo "Error updating record: periodos_docentesOriginal" . mysqli_error($conn);
-        }
-        
-
-        $stmt = null;
-        header("location: cursos-read.php?id_curso=$id_curso");
     }
 } else {
     // Check existence of id parameter before processing further

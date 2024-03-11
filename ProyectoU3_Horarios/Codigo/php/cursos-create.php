@@ -21,50 +21,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
     $options = [
-        PDO::ATTR_EMULATE_PREPARES => false, // turn off emulation mode for "real" prepared statements
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ];
+
     try {
         $pdo = new PDO($dsn, $db_user, $db_password, $options);
     } catch (Exception $e) {
         error_log($e->getMessage());
-        exit('Something weird happened'); //something a user can understand
+        exit('Something weird happened');
     }
 
-    $vars = parse_columns('cursos', $_POST);
-    $stmt = $pdo->prepare("INSERT INTO cursos (nrc,periodos_id_periodo,id_docente, id_materia) VALUES (?,?,?,?)");
+    // Verificar si el nrc ya existe
+    $stmt_verificar_nrc = $pdo->prepare("SELECT nrc FROM cursos WHERE nrc = ?");
+    $stmt_verificar_nrc->execute([$nrc]);
+    $existe_nrc = $stmt_verificar_nrc->fetchColumn();
 
-    if ($stmt->execute([$nrc, $periodos_id_periodo, $id_docente, $id_materia])) {
-        $stmt = null;
-
-
-        /*
-        $sql = "UPDATE horarios_aulas SET disponible = 0
-                WHERE id_horario__aula = $aula_horario";
-
-        if (mysqli_query($link, $sql)) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . mysqli_error($conn);
-        }
-        
-        $sql = "UPDATE `periodos_docentes` 
-                SET `horas_asignadas` = `horas_asignadas` - 2
-                WHERE `id_periodo` = $periodos_id_periodo 
-                AND `id_docente` = '$id_docente'";
-
-        if (mysqli_query($link, $sql)) {
-            echo "Record updated successfully";
-        } else {
-            echo "Error updating record: " . mysqli_error($conn);
-        }*/
-
-        header("location: cursos-index.php");
+    if ($existe_nrc) {
+        // El nrc ya existe, muestra una alerta en JavaScript
+        echo "<script>alert('El NRC ya está registrado.');</script>";
     } else {
-        echo "Something went wrong. Please try again later.";
-    }
+        // El nrc no existe, procede con la inserción
+        $stmt = $pdo->prepare("INSERT INTO cursos (nrc, periodos_id_periodo, id_docente, id_materia) VALUES (?, ?, ?, ?)");
 
+        if ($stmt->execute([$nrc, $periodos_id_periodo, $id_docente, $id_materia])) {
+            $stmt = null;
+            header("location: cursos-index.php");
+        } else {
+            echo "Something went wrong. Please try again later.";
+        }
+    }
 }
 ?>
 

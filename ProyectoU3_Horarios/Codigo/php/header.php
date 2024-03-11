@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <html lang="en">
 
 <head>
@@ -20,7 +24,27 @@
 
     <div id="wrapper">
         <!-- Sidebar -->
-        <?php include('sidebar.php'); ?>
+        
+        <?php 
+        // Verifica si el usuario ha iniciado sesión y tiene un perfil
+            if (isset($_SESSION['id_perfil'])) {
+                $perfil = $_SESSION['id_perfil'];
+            
+                // Muestra opciones según el perfil
+                if ($perfil == 3) {
+                    include('sidebar.php');
+                } elseif ($perfil == 4) {
+                    include('sidebar_docente.php');
+                } elseif ($perfil == 5) {
+                    include('sidebar_apoyo.php');
+                }
+            
+            } else {
+                header("Location: ../index.html");
+                exit();
+            }
+
+        ?>
         <!-- End of Sidebar -->
 
         <div id="content-wrapper" class="d-flex flex-column">

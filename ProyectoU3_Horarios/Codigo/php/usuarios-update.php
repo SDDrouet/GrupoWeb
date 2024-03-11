@@ -40,15 +40,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit('Something weird happened');
     }
 
-    $vars = parse_columns('usuarios', $_POST);
-    $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?, nombre=?, apellido=?, usuario=?, clave=?, id_perfil=? WHERE id_usuario=?");
+    // Verificar si el nuevo nombre de usuario ya existe
+    $stmt_verificar_usuario = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE usuario = ? AND id_usuario <> ?");
+    $stmt_verificar_usuario->execute([$usuario, $id_usuario]);
+    $existe_usuario = $stmt_verificar_usuario->fetchColumn();
 
-    if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil, $id_usuario])) {
-        echo "Something went wrong. Please try again later.";
-        header("location: error.php");
+    if ($existe_usuario) {
+        echo "<script>alert('El nombre de usuario ya está en uso.');</script>";
     } else {
-        $stmt = null;
-        header("location: usuarios-read.php?id_usuario=$id_usuario");
+        $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?, nombre=?, apellido=?, usuario=?, clave=?, id_perfil=? WHERE id_usuario=?");
+
+        if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil, $id_usuario])) {
+            echo "<script>alert('Something went wrong. Please try again later.');</script>";
+            header("location: error.php");
+        } else {
+            $stmt = null;
+            header("location: usuarios-read.php?id_usuario=$id_usuario");
+        }
     }
 } else {
     // Check existence of id parameter before processing further

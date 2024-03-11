@@ -18,13 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST['username'];
     $clave = $_POST['password'];
 
-    // Consultar la base de datos para obtener el hash de la contraseña
-    $stmt = $pdo->prepare("SELECT clave FROM usuarios WHERE usuario = ?");
+    // Consultar la base de datos para obtener el hash de la contraseña y el perfil del usuario
+    $stmt = $pdo->prepare("SELECT clave, id_perfil FROM usuarios WHERE usuario = ?");
     $stmt->execute([$usuario]);
     $result = $stmt->fetch();
 
     if ($result && password_verify($clave, $result['clave'])) {
-        header("Location: index.php");
+        // Almacena el id_perfil del usuario en la sesión
+        $_SESSION['id_perfil'] = $result['id_perfil'];
+
+        header("Location: index.php"); // Ajusta la ruta según tu estructura
         exit();
     } else {
         echo '<script>alert("Usuario o contraseña incorrectos.");</script>';
