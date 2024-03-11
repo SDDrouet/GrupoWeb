@@ -214,3 +214,13 @@
 .formulario__grupo-incorrecto .formulario__input {
 	border: 3px solid #bb2929;
 }
+
+.cajaOverLoad {
+	overflow: auto;
+	max-height: 200px;
+	width: 50%;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	border-radius: 5px;
+	padding-left: 20px;
+}

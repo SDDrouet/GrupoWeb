@@ -10,7 +10,8 @@ function dropHandler(e) {
 
   if (selected) {
     if (this.childElementCount === 0) {
-      createHorario(this, selected)
+      let horarioA = selected.parentNode;
+      createHorario(horarioA, this, selected)
       if (padre.id === "cursosContainer") {
         // Clonar el div
         let clone = selected.cloneNode(true);

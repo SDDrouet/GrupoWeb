@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Horarios UI</title>
     <link rel="stylesheet" href="../css/estiloHorarioSemanal.css">
 </head>
 
@@ -20,9 +20,6 @@
         </select>
         
         <select class="selector" name="aula" id="aula">
-            <option class="opcion" value="G301">G301</option>
-            <option class="opcion" value="G302">G302</option>
-            <option class="opcion" value="G303">G303</option>
         </select>
         
         <select class="selector" name="cursos" id="cursos">
@@ -52,23 +49,23 @@
         </div>
         <div class="diasSection">
             <div class="tituloDia">LUNES</div>
-            <div class="dia" id="lunes"></div>
+            <div class="dia" id="LUNES"></div>
         </div>
         <div class="diasSection">
             <div class="tituloDia">MARTES</div>
-            <div class="dia" id="martes"></div>
+            <div class="dia" id="MARTES"></div>
         </div>
         <div class="diasSection">
             <div class="tituloDia">MIERCOLES</div>
-            <div class="dia" id="miercoles"></div>
+            <div class="dia" id="MIERCOLES"></div>
         </div>
         <div class="diasSection">
             <div class="tituloDia">JUEVES</div>
-            <div class="dia" id="jueves"></div>
+            <div class="dia" id="JUEVES"></div>
         </div>
         <div class="diasSection">
             <div class="tituloDia">VIERNES</div>
-            <div class="dia" id="viernes"></div>
+            <div class="dia" id="VIERNES"></div>
         </div>
 
     </div>

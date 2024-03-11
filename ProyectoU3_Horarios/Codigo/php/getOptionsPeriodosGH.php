@@ -2,7 +2,8 @@
 include 'config.php';
 
 // Realizar la consulta SQL
-$query = "SELECT CONCAT(id_periodo,',',nombre_periodo) AS periodo FROM periodos;";
+$query = "SELECT CONCAT(id_periodo,',',nombre_periodo) AS periodo FROM periodos
+           ORDER BY id_periodo ASC;";
 
 $result = mysqli_query($link, $query);
 

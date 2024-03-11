@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group">
                         <label for="fecha_inicio">Fecha de Inicio</label>
-                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" 
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
                             value="<?php echo $fecha_inicio; ?>">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
@@ -114,15 +114,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group">
                         <label for="fecha_fin">Fecha de Finalización</label>
-                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"  value="<?php echo $fecha_fin; ?>">
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"
+                            value="<?php echo $fecha_fin; ?>">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Selecciona los Horarios Disponibles</label><br>
-                        <?php
-                        $sql_horarios = "SELECT id_horario, dia, hora_inicio, hora_fin FROM horarios ORDER BY CASE
+                        <div class="cajaOverLoad">
+                            <?php
+                            $sql_horarios = "SELECT id_horario, dia, hora_inicio, hora_fin FROM horarios ORDER BY CASE
                                     WHEN dia = 'lunes' THEN 1
                                     WHEN dia = 'martes' THEN 2
                                     WHEN dia = 'miércoles' THEN 3
@@ -132,16 +134,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     WHEN dia = 'domingo' THEN 7
                                     ELSE 8
                                     END, hora_inicio";
-                        $result_horarios = mysqli_query($link, $sql_horarios);
-                        // Mostrar checkboxes con los horarios disponibles
-                        if ($result_horarios->num_rows > 0) {
-                            while ($row = $result_horarios->fetch_assoc()) {
-                                echo '<input type="checkbox" name="horarios[]" value="' . $row["id_horario"] . '"> ' . $row["dia"] . ' ' . $row["hora_inicio"] . ' - ' . $row["hora_fin"] . '<br>';
+                            $result_horarios = mysqli_query($link, $sql_horarios);
+                            // Mostrar checkboxes con los horarios disponibles
+                            if ($result_horarios->num_rows > 0) {
+                                while ($row = $result_horarios->fetch_assoc()) {
+                                    echo '<input type="checkbox" checked name="horarios[]" value="' . $row["id_horario"] . '"> ' . $row["dia"] . ' ' . $row["hora_inicio"] . ' - ' . $row["hora_fin"] . '<br>';
+                                }
+                            } else {
+                                echo "No hay horarios disponibles.";
                             }
-                        } else {
-                            echo "No hay horarios disponibles.";
-                        }
-                        ?>
+                            ?>
+                        </div>
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
