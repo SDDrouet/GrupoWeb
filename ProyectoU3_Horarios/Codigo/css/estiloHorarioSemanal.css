@@ -9,6 +9,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 3px 0px 30px rgba(163,163,163, 0.4);
+  padding: 10px;
 }
 
 
@@ -19,12 +23,16 @@
 
 /* Estilo para el formulario */
 .formularios {
+  z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   width: 50%;
   margin: auto;
-  border: 2px dashed #000;
   padding: 20px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 3px 0px 30px rgba(163,163,163, 0.4);
+  margin-bottom: 15px;
 }
 
 .frmlbl {
@@ -49,7 +57,7 @@
 }
 
 .selector:hover {
-  background-color: #0075FF;
+  background-color: rgb(90, 92, 105);
   color: #fff;
   cursor: pointer;
 }
@@ -64,7 +72,7 @@
 #cursosContainer {
   width: 100%;
   min-height: 308px;
-  border: 2px dashed #000;
+  border: 2px solid #888;
   display: flex;
   justify-content: center;
   /* Centrar horizontalmente */
@@ -74,8 +82,8 @@
 
 .curso {
   background-color: #0c39bf;
-  margin: 10px;
-  height: 25px;
+  margin: 5px;
+  height: 35px;
   color: #000;
   align-items: center;
   cursor: grab;
@@ -109,8 +117,8 @@
   width: 100%;
   height: 50px;
   margin-top: 20px;
-  border: 2px dashed #000;
-  background-color: #e91e1e;
+  border: 2px solid #888;
+  background-color: #e33f3f;
   color: #000;
   text-align: center;
   display: flex;
@@ -129,13 +137,13 @@
 .dia {
   width: 100%;
   height: 435px;
-  border: 2px dashed #000;
+  border: 2px solid #888;
 }
 
 .horasCont {
   width: 100%;
   height: 435px;
-  border: 2px dashed #000;
+  border: 2px solid #888;
 }
 
 .tituloDia {
@@ -193,7 +201,7 @@
   margin: 10px;
   min-height: 50px;
   max-height: 50px;
-  border: 2px dashed #000;
+  border: 2px solid #888;
   color: #000;
 }
 
@@ -202,7 +210,7 @@
   margin: 10px;
   min-height: 50px;
   max-height: 50px;
-  border: 2px dashed #000;
+  border: 2px solid #888;
   color: #000;
   background-color: #888;
 }

@@ -2699,11 +2699,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `cod_usuario`, `nombre`, `apellido`, `usuario`, `clave`, `id_perfil`) VALUES
-(10, 'L00000001', 'admin', 'admin', 'admin', 'Admin1234', 3),
-(11, 'L00000002', 'Stephen', 'Drouet', 'sddrouet', 'Hoal1231', 4),
-(12, 'L00000003', 'Javier', 'Gonzaga', 'jjgonzaga', 'Aa123456', 4),
-(13, 'L00000004', 'Aquiles', 'Paredes', 'aapareces', 'Aa123456', 4),
-(14, 'L00000005', 'Marta', 'Cielo', 'mmcielo', 'Aa123456', 4);
+(10, 'L00000001', 'admin', 'admin', 'admin', '$2y$10$hHpzFX2mfFEvzeuOA87n0eVdGr7CWWhQItg9LTNzrYzfzWz4u4X9y', 3),
+(11, 'L00000002', 'Stephen', 'Drouet', 'sddrouet', '$2y$10$hHpzFX2mfFEvzeuOA87n0eVdGr7CWWhQItg9LTNzrYzfzWz4u4X9y', 4),
+(12, 'L00000003', 'Javier', 'Gonzaga', 'jjgonzaga', '$2y$10$hHpzFX2mfFEvzeuOA87n0eVdGr7CWWhQItg9LTNzrYzfzWz4u4X9y', 4),
+(13, 'L00000004', 'Aquiles', 'Paredes', 'aapareces', '$2y$10$hHpzFX2mfFEvzeuOA87n0eVdGr7CWWhQItg9LTNzrYzfzWz4u4X9y', 4),
+(14, 'L00000005', 'Marta', 'Cielo', 'mmcielo', '$2y$10$hHpzFX2mfFEvzeuOA87n0eVdGr7CWWhQItg9LTNzrYzfzWz4u4X9y', 4);
 
 --
 -- Índices para tablas volcadas

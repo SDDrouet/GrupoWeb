@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql = "SELECT id_periodo_docente
                 FROM periodos_docentes pd
-                JOIN cursos c ON c.id_docente = pd.id_docente
+                JOIN cursos c ON c.id_docente = pd.id_docente AND c.periodos_id_periodo = pd.id_periodo
                 WHERE c.id_curso = $id_curso;";
         $result = mysqli_query($link, $sql);
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
