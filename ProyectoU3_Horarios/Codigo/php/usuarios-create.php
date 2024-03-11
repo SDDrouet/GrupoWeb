@@ -14,37 +14,52 @@ $id_perfil = "";
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cod_usuario = trim($_POST["cod_usuario"]);
-$nombre = trim($_POST["nombre"]);
-$apellido = trim($_POST["apellido"]);
-$usuario = trim($_POST["usuario"]);
-$clave = trim($_POST["clave"]);
-$id_perfil = trim($_POST["id_perfil"]);
+    $nombre = trim($_POST["nombre"]);
+    $apellido = trim($_POST["apellido"]);
+    $usuario = trim($_POST["usuario"]);
+    $clave = trim($_POST["clave"]);
+    $id_perfil = trim($_POST["id_perfil"]);
 
-// Hash de la contraseña utilizando password_hash
-$clave_hashed = password_hash($clave, PASSWORD_DEFAULT);
+    // Hash de la contraseña utilizando password_hash
+    $clave_hashed = password_hash($clave, PASSWORD_DEFAULT);
 
-$dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
-$options = [
-    PDO::ATTR_EMULATE_PREPARES => false,
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-];
-try {
-    $pdo = new PDO($dsn, $db_user, $db_password, $options);
-} catch (Exception $e) {
-    error_log($e->getMessage());
-    exit('Something weird happened');
-}
+    $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
+    $options = [
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
+    try {
+        $pdo = new PDO($dsn, $db_user, $db_password, $options);
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        exit('Something weird happened');
+    }
 
-$vars = parse_columns('usuarios', $_POST);
-$stmt = $pdo->prepare("INSERT INTO usuarios (cod_usuario,nombre,apellido,usuario,clave,id_perfil) VALUES (?,?,?,?,?,?)");
+    // Verificar si el cod_usuario ya existe
+    $stmt_verificar_cod_usuario = $pdo->prepare("SELECT cod_usuario FROM usuarios WHERE cod_usuario = ?");
+    $stmt_verificar_cod_usuario->execute([$cod_usuario]);
+    $existe_cod_usuario = $stmt_verificar_cod_usuario->fetchColumn();
 
-if ($stmt->execute([$cod_usuario, $nombre, $apellido, $usuario, $clave_hashed, $id_perfil])) {
-    $stmt = null;
-    header("location: usuarios-index.php");
-} else {
-    echo "Something went wrong. Please try again later.";
-}
+    // Verificar si el usuario ya existe
+    $stmt_verificar_usuario = $pdo->prepare("SELECT usuario FROM usuarios WHERE usuario = ?");
+    $stmt_verificar_usuario->execute([$usuario]);
+    $existe_usuario = $stmt_verificar_usuario->fetchColumn();
+
+    if ($existe_cod_usuario) {
+        echo "<script>alert('El código de usuario ya está registrado.');</script>";
+    } elseif ($existe_usuario) {
+        echo "<script>alert('El nombre de usuario ya está en uso.');</script>";
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO usuarios (cod_usuario, nombre, apellido, usuario, clave, id_perfil) VALUES (?, ?, ?, ?, ?, ?)");
+
+        if ($stmt->execute([$cod_usuario, $nombre, $apellido, $usuario, $clave_hashed, $id_perfil])) {
+            $stmt = null;
+            header("location: usuarios-index.php");
+        } else {
+            echo "<script>alert('Something went wrong. Please try again later.');</script>";
+        }
+    }
 }
 ?>
 

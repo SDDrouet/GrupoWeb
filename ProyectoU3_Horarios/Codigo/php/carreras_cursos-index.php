@@ -22,7 +22,7 @@
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
-        <h1>Detalles de usuarios</h1>
+        <h1>Detalles de carreras por curso</h1>
         <div class="d-flex justify-content-end align-items-center mb-5">
             <a href="carreras_cursos-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
             <a href="carreras_cursos-index.php" class="btn btn-info mr-3">Actualizar</a>

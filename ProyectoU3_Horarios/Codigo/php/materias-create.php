@@ -16,30 +16,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $departamento = trim($_POST["departamento"]);
     $horas_semana = trim($_POST["horas_semana"]);
 
-
+    // Verify if the new cod_materia already exists
     $dsn = "mysql:host=$db_server;dbname=$db_name;charset=utf8mb4";
     $options = [
-        PDO::ATTR_EMULATE_PREPARES => false, // turn off emulation mode for "real" prepared statements
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ];
+
     try {
         $pdo = new PDO($dsn, $db_user, $db_password, $options);
     } catch (Exception $e) {
         error_log($e->getMessage());
-        exit('Something weird happened'); //something a user can understand
+        exit('Something weird happened');
     }
 
-    $vars = parse_columns('materias', $_POST);
-    $stmt = $pdo->prepare("INSERT INTO materias (cod_materia,nombre_materia,departamento,horas_semana) VALUES (?,?,?,?)");
+    $stmt = $pdo->prepare("SELECT cod_materia FROM materias WHERE cod_materia = ?");
+    $stmt->execute([$cod_materia]);
 
-    if ($stmt->execute([$cod_materia, $nombre_materia, $departamento, $horas_semana])) {
-        $stmt = null;
-        header("location: materias-index.php");
+    if ($stmt->fetchColumn()) {
+        // cod_materia already exists, show alert in JavaScript
+        echo "<script>alert('El código de materia ya está registrado.');</script>";
     } else {
-        echo "Something went wrong. Please try again later.";
-    }
+        // cod_materia does not exist, proceed with the insert
+        $stmt = $pdo->prepare("INSERT INTO materias (cod_materia, nombre_materia, departamento, horas_semana) VALUES (?, ?, ?, ?)");
 
+        if ($stmt->execute([$cod_materia, $nombre_materia, $departamento, $horas_semana])) {
+            $stmt = null;
+            header("location: materias-index.php");
+        } else {
+            echo "Something went wrong. Please try again later.";
+        }
+    }
 }
 ?>
 
