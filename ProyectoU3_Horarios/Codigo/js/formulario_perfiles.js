@@ -17,8 +17,9 @@ formulario.addEventListener('submit', function(e) {
 
 function validarTipo_perfil() {
     var tipo = tipo_perfil_input.value;
+    var regexTipo = /^[A-Za-z\s]+?$/;
 
-        if (!/^[A-Za-z]+(?: [A-Za-z]+)?$/.test(tipo)) {
+        if (!regexTipo.test(tipo)) {
             tipo_perfil_input.nextElementSibling.innerHTML = 'Por favor, ingresa un tipo de perfil válido (solo letras).';
             tipo_perfil_input.classList.add('is-invalid');
             tipo_perfil_input.classList.remove('is-valid');
@@ -33,7 +34,7 @@ function validarTipo_perfil() {
 
 function validarPrivilegios() {
     var priv = privilegios_input.value;
-    var regexPrivilegios = /^[a-zA-Z ]+$/;
+    var regexPrivilegios = /^[A-Za-z\s]+?$/;
 
         if (!regexPrivilegios.test(priv)) {
             privilegios_input.nextElementSibling.innerHTML = 'Por favor, ingresa un privilegio valido';

@@ -24,8 +24,7 @@
     <div class="container-fluid">
         <h1>Detalles de Docentes</h1>
         <div class="d-flex justify-content-end align-items-center mb-5">
-            <a href="docentes-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo
-                registro</a>
+            <a href="docentes-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
             <a href="docentes-index.php" class="btn btn-info mr-3">Actualizar</a>
             <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
         </div>
@@ -34,7 +33,7 @@
             <form action="docentes-index.php" method="get">
                 <div class="d-flex">
                     <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
-                        aria-label="Buscar en la tabla" name="search">
+                        aria-label="Buscar en la tabla" name="search" autofocus>
                     <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
                 </div>
             </form>

@@ -34,7 +34,7 @@
             <form action="perfiles-index.php" method="get">
                 <div class="d-flex">
                     <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
-                        aria-label="Buscar en la tabla" name="search">
+                        aria-label="Buscar en la tabla" name="search" autofocus>
                     <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
                 </div>
             </form>
@@ -159,7 +159,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno - 1);
-                        } ?>">Previa</a>
+                        } ?>"><</a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';
@@ -168,7 +168,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno + 1);
-                        } ?>">Siguiente</a>
+                        } ?>">></a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';

@@ -25,7 +25,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsuarios"
             aria-expanded="true" aria-controls="collapseUsuarios">
-            <i class="bx bx-sm bx-building"></i>
+            <i class='bx bx-sm bxs-user-detail'></i>
             <span>Gestion de usuarios</span>
         </a>
         <div id="collapseUsuarios" class="collapse" aria-labelledby="headingUsuarios" data-parent="#accordionSidebar">
@@ -46,7 +46,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePeriodo"
             aria-expanded="true" aria-controls="collapsePeriodo">
-            <i class="bx bx-sm bx-building"></i>
+            <i class='bx bx-sm bx-detail'></i>
             <span>Gestionar Periodos</span>
         </a>
         <div id="collapsePeriodo" class="collapse" aria-labelledby="headingPeriodo" data-parent="#accordionSidebar">
@@ -65,7 +65,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCarreras"
             aria-expanded="true" aria-controls="collapseCarreras">
-            <i class="bx bx-sm bx-building"></i>
+            <i class='bx bx-sm bx-buildings'></i>
             <span>Gestionar Carreras</span>
         </a>
         <div id="collapseCarreras" class="collapse" aria-labelledby="headingCarreras" data-parent="#accordionSidebar">
@@ -85,7 +85,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGeneral"
             aria-expanded="true" aria-controls="collapseGeneral">
-            <i class="bx bx-sm bx-building"></i>
+            <i class='bx bx-sm bx-server'></i>
             <span>Gestion general</span>
         </a>
         <div id="collapseGeneral" class="collapse" aria-labelledby="headingGeneral" data-parent="#accordionSidebar">

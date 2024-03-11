@@ -43,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Something went wrong. Please try again later.";
     }
-
 }
 ?>
 
@@ -65,10 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
                 <form id="agregar_usuario" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
                     <div class="form-group">
                         <label for="cod_usuario">ID Usuario:</label>
-                        <input type="text" class="form-control" id="cod_usuario" name="cod_usuario"
-                            value="<?php echo $cod_usuario; ?>" required pattern="L\d{8}">
+                        <input type="text" class="form-control" id="cod_usuario" name="cod_usuario" value="<?php echo $cod_usuario; ?>" maxlength="9" required pattern="^[L]{1}[0-9]{8}$">
                         <small class="form-text text-muted">Ejemplo: L12345678</small>
                         <div class="invalid-feedback">Ingrese un ID válido de acuerdo con el ejemplo.</div>
                         <div class="valid-feedback"></div>
@@ -76,32 +75,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group">
                         <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" 
-                            value="<?php echo $nombre; ?>" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="apellido">Apellido:</label>
-                        <input type="text" class="form-control" id="apellido" name="apellido"
-                            value="<?php echo $apellido; ?>" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+                        <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $apellido; ?>" required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="usuario">Nombre de Usuario:</label>
-                        <input type="text" class="form-control" id="usuario" name="usuario" 
-                            value="<?php echo $usuario; ?>" required pattern="[a-zA-Z0-9]+">
+                        <input type="text" class="form-control" id="usuario" name="usuario" value="<?php echo $usuario; ?>" required pattern="[a-zA-Z0-9]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="clave">Contraseña:</label>
-                        <input type="password" class="form-control" id="clave" name="clave"
-                            value="<?php echo $clave; ?>" required pattern="^(?=.*[A-Z])(?=.*[a-z]).{8,}$">
+                        <input type="password" class="form-control" id="clave" name="clave" value="<?php echo $clave; ?>" required pattern="^(?=.*[A-Z])(?=.*[a-z]).{8,}$">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>

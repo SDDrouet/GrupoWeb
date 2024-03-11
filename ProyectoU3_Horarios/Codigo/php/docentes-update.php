@@ -145,7 +145,7 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_docentes" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
                     <input hidden type="text" name="id_docente" maxlength="45" class="form-control"
                             value="<?php echo $id_docente; ?>">
@@ -154,12 +154,12 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
                         <label>Usuario</label>
                         
                         <input readonly type="text" name="id_usuario" maxlength="45" class="form-control"
-                            value="<?php echo $usuario; ?>">
+                            value="<?php echo $usuario; ?>" disabled>
                     </div>
 
                     <div class="form-group">
                         <label for="tipo_contrato">Tipo de Contrato</label>
-                        <select name="tipo_contrato" id="tipo_contrato" class="form-control">
+                        <select name="tipo_contrato" id="tipo_contrato" class="form-control" autofocus>
                             <option value="COMPLETO" <?php if ($tipo_contrato == "COMPLETO") echo "selected"; ?>>COMPLETO</option>
                             <option value="MEDIO" <?php if ($tipo_contrato == "MEDIO") echo "selected"; ?>>MEDIO</option>
                             <option value="OCACIONAL" <?php if ($tipo_contrato == "OCACIONAL") echo "selected"; ?>>OCACIONAL</option>
@@ -195,7 +195,7 @@ if (isset($_POST["id_docente"]) && !empty($_POST["id_docente"])) {
                     <div class="form-group">
                         <label for="especializacion">Especialización</label>
                         <input type="text" class="form-control" id="especializacion" name="especializacion" 
-                            value="<?php echo $especializacion; ?>" required pattern="[a-zA-Z ]+">
+                            value="<?php echo $especializacion; ?>" required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>

@@ -61,14 +61,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="tipo_perfil">Tipo de perfil</label>
                         <input type="text" class="form-control" id="tipo_perfil" name="tipo_perfil" 
-                            value="<?php echo $tipo_perfil; ?>" required pattern="[a-zA-Z]+">
+                            value="<?php echo $tipo_perfil; ?>" required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback">Ingresa un perfil válido.</div>
                         <div class="valid-feedback"></div>
-                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label for="privilegios">Privilegios</label>
                         <input type="text" class="form-control" id="privilegios" name="privilegios" 
-                            value="<?php echo $privilegios; ?>" required pattern="[a-zA-Z ]+">
+                            value="<?php echo $privilegios; ?>" required pattern="[A-Za-z\s]+">
                             <div class="invalid-feedback">Ingresa un privilegio válido.</div>
                             <div class="valid-feedback"></div>
                     </div>
@@ -82,4 +83,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </section>
 
 <script src="../js/formulario_perfiles.js"></script>
+
 <?php include('footer.php'); ?>

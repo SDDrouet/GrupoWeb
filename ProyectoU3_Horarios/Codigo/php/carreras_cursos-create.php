@@ -7,10 +7,6 @@ require_once "helpers.php";
 $id_carrera = "";
 $id_curso = "";
 
-$id_carrera_err = "";
-$id_curso_err = "";
-
-
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_carrera = trim($_POST["id_carrera"]);
@@ -105,9 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_curso_err; ?>
-                        </span>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">

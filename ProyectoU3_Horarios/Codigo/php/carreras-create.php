@@ -57,15 +57,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Crear Registro</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form id="agregar_carrera" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="form-group">
                         <label>Nombre Carrera</label>
-                        <input type="text" name="nombre_carrera" maxlength="100" class="form-control"
-                            value="<?php echo $nombre_carrera; ?>">
-                        <span class="form-text">
-                            <?php echo $nombre_carrera_err; ?>
-                        </span>
+                        <input type="text" name="nombre_carrera" id="nombre_carrera" maxlength="100" class="form-control" value="<?php echo $nombre_carrera; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">
@@ -75,4 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_carrera.js"></script>
 <?php include('footer.php'); ?>

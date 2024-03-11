@@ -33,7 +33,7 @@
             <form action="usuarios-index.php" method="get">
                 <div class="d-flex">
                     <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
-                        aria-label="Buscar en la tabla" name="search">
+                        aria-label="Buscar en la tabla" name="search" autofocus>
                         <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
                 </div>
             </form>

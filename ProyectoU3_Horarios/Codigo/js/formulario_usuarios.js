@@ -20,8 +20,9 @@ formulario.addEventListener('submit', function(e) {
 
 function validarID_usuario() {
     var id = id_usuario_input.value;
+    var regexID = /^[L]{1}\d{8}$/;
 
-        if (!/L\d{8}/.test(id)) {
+        if (!regexID.test(id)) {
             id_usuario_input.nextElementSibling.innerHTML = 'Por favor, ingresa un ID válido con formato L00000000.';
             id_usuario_input.classList.add('is-invalid');
             id_usuario_input.classList.remove('is-valid');
@@ -34,12 +35,13 @@ function validarID_usuario() {
         }
 }
 
+//validar solo letras y espacios
 function validarNombre() {
     var nom = nombre_input.value;
-    var regexNombre = /^[A-Za-z]+(?: [A-Za-z]+)?$/;
+    var regexNombre = /^[A-Za-z\s]+?$/;
 
         if (!regexNombre.test(nom)) {
-            nombre_input.nextElementSibling.innerHTML = 'Por favor, ingresa un nombre válido (solo letras y un espacio opcional).';
+            nombre_input.nextElementSibling.innerHTML = 'Por favor, ingresa un nombre válido (solo letras).';
             nombre_input.classList.add('is-invalid');
             nombre_input.classList.remove('is-valid');
             return false;
@@ -51,12 +53,13 @@ function validarNombre() {
         }
 }
 
+
 function validarApellido() {
     var ape = apellido.value;
-    var regexApellido = /^[A-Za-z]+(?: [A-Za-z]+)?$/;
+    var regexApellido = /^[A-Za-z\s]+?$/;
 
         if (!regexApellido.test(ape)) {
-            apellido.nextElementSibling.innerHTML = 'Por favor, ingresa un apellido válido (solo letras y un espacio opcional).';
+            apellido.nextElementSibling.innerHTML = 'Por favor, ingresa un apellido válido (solo letras).';
             apellido.classList.add('is-invalid');
             apellido.classList.remove('is-valid');
             return false;

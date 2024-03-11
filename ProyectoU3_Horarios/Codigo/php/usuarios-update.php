@@ -139,7 +139,7 @@ if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
                     <div class="form-group">
                         <label for="cod_usuario">ID Usuario:</label>
                         <input readonly type="text" class="form-control" id="cod_usuario" name="cod_usuario"
-                            value="<?php echo $cod_usuario; ?>" required pattern="L\d{8}">
+                            value="<?php echo $cod_usuario; ?>" required maxlength="9" required pattern="^[L]{1}[0-9]{8}$">
                         <small class="form-text text-muted">Ejemplo: L12345678</small>
                         <div class="invalid-feedback">Ingrese un ID válido de acuerdo con el ejemplo.</div>
                         <div class="valid-feedback"></div>
@@ -148,7 +148,7 @@ if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
                     <div class="form-group">
                         <label for="nombre">Nombre:</label>
                         <input type="text" class="form-control" id="nombre" name="nombre" 
-                            value="<?php echo $nombre; ?>" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+                            value="<?php echo $nombre; ?>" required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
@@ -156,7 +156,7 @@ if (isset($_POST["id_usuario"]) && !empty($_POST["id_usuario"])) {
                     <div class="form-group">
                         <label for="apellido">Apellido:</label>
                         <input type="text" class="form-control" id="apellido" name="apellido"
-                            value="<?php echo $apellido; ?>" required pattern="[A-Za-z]+(?: [A-Za-z]+)?">
+                            value="<?php echo $apellido; ?>" required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>

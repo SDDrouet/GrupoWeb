@@ -7,10 +7,6 @@ require_once "helpers.php";
 $tipo_perfil = "";
 $privilegios = "";
 
-$tipo_perfil_err = "";
-$privilegios_err = "";
-
-
 // Processing form data when form is submitted
 if (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) {
     // Get hidden input value
@@ -121,23 +117,20 @@ if (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_perfiles" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
                     <div class="form-group">
                         <label>Tipo de perfil</label>
-                        <input type="text" name="tipo_perfil" maxlength="45" class="form-control"
-                            value="<?php echo $tipo_perfil; ?>">
-                        <span class="form-text">
-                            <?php echo $tipo_perfil_err; ?>
-                        </span>
+                        <input type="text" class="form-control" id="tipo_perfil" name="tipo_perfil" value="<?php echo $tipo_perfil; ?>" required pattern="[A-Za-z\s]+">
+                        <div class="invalid-feedback">Ingresa un perfil válido.</div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
                         <label>Privilegios</label>
-                        <input type="text" name="privilegios" maxlength="300" class="form-control"
-                            value="<?php echo $privilegios; ?>">
-                        <span class="form-text">
-                            <?php echo $privilegios_err; ?>
-                        </span>
+                        <input type="text" class="form-control" id="privilegios" name="privilegios" value="<?php echo $privilegios; ?>">
+                        <div class="invalid-feedback">Ingresa un privilegio válido.</div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="hidden" name="id_perfil" value="<?php echo $id_perfil; ?>" />
@@ -148,4 +141,7 @@ if (isset($_POST["id_perfil"]) && !empty($_POST["id_perfil"])) {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_perfiles.js"></script>
+
 <?php include('footer.php'); ?>

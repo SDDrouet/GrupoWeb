@@ -121,30 +121,29 @@ if (isset($_POST["id_periodo"]) && !empty($_POST["id_periodo"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_periodo" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+
+                <div class="form-group">
+                        <label for="nombre_periodo">Nombre Periodo:</label>
+                        <input type="text" class="form-control" id="nombre_periodo" name="nombre_periodo"
+                            value="<?php echo $nombre_periodo; ?>" requiered>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
+                    </div>
 
                     <div class="form-group">
-                        <label>Nombre Periodo</label>
-                        <input type="text" name="nombre_periodo" maxlength="45" class="form-control"
-                            value="<?php echo $nombre_periodo; ?>">
-                        <span class="form-text">
-                            <?php echo $nombre_periodo_err; ?>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de Inicio</label>
-                        <input type="date" name="fecha_inicio" class="form-control"
+                        <label for="fecha_inicio">Fecha de Inicio</label>
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" 
                             value="<?php echo $fecha_inicio; ?>">
-                        <span class="form-text">
-                            <?php echo $fecha_inicio_err; ?>
-                        </span>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Fecha de Finalización</label>
-                        <input type="date" name="fecha_fin" class="form-control" value="<?php echo $fecha_fin; ?>">
-                        <span class="form-text">
-                            <?php echo $fecha_fin_err; ?>
-                        </span>
+                        <label for="fecha_fin">Fecha de Finalización</label>
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"  value="<?php echo $fecha_fin; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="hidden" name="id_periodo" value="<?php echo $id_periodo; ?>" />
@@ -155,4 +154,7 @@ if (isset($_POST["id_periodo"]) && !empty($_POST["id_periodo"])) {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_periodos.js"></script>
+
 <?php include('footer.php'); ?>

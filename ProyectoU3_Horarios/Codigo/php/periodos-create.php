@@ -8,11 +8,6 @@ $nombre_periodo = "";
 $fecha_inicio = "";
 $fecha_fin = "";
 
-$nombre_periodo_err = "";
-$fecha_inicio_err = "";
-$fecha_fin_err = "";
-
-
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre_periodo = trim($_POST["nombre_periodo"]);
@@ -99,31 +94,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Crear Registro de Periodo</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form id="agregar_periodo" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="form-group">
-                        <label>Nombre Periodo:</label>
+                        <label for="nombre_periodo">Nombre Periodo:</label>
                         <input type="text" class="form-control" id="nombre_periodo" name="nombre_periodo"
                             value="<?php echo $nombre_periodo; ?>" requiered>
-                        <span class="form-text">
-                            <?php echo $nombre_periodo_err; ?>
-                        </span>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Fecha de Inicio</label>
-                        <input type="date" name="fecha_inicio" class="form-control"
+                        <label for="fecha_inicio">Fecha de Inicio</label>
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" 
                             value="<?php echo $fecha_inicio; ?>">
-                        <span class="form-text">
-                            <?php echo $fecha_inicio_err; ?>
-                        </span>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
-                        <label>Fecha de Finalización</label>
-                        <input type="date" name="fecha_fin" class="form-control" value="<?php echo $fecha_fin; ?>">
-                        <span class="form-text">
-                            <?php echo $fecha_fin_err; ?>
-                        </span>
+                        <label for="fecha_fin">Fecha de Finalización</label>
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"  value="<?php echo $fecha_fin; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
                         <label>Selecciona los Horarios Disponibles</label><br>
                         <?php
@@ -147,9 +142,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "No hay horarios disponibles.";
                         }
                         ?>
-                        <span class="form-text">
-                            <?php echo $horarios_err; ?>
-                        </span>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Enviar">
                     <a href="periodos-index.php" class="btn btn-secondary">Cancelar</a>
@@ -158,4 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_periodos.js"></script>
+
 <?php include('footer.php'); ?>

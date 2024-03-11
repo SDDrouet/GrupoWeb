@@ -6,9 +6,6 @@ require_once "helpers.php";
 // Define variables and initialize with empty values
 $nombre_carrera = "";
 
-$nombre_carrera_err = "";
-
-
 // Processing form data when form is submitted
 if (isset($_POST["id_carrera"]) && !empty($_POST["id_carrera"])) {
     // Get hidden input value
@@ -118,15 +115,13 @@ if (isset($_POST["id_carrera"]) && !empty($_POST["id_carrera"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_carrera" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
                     <div class="form-group">
                         <label>Nombre Carrera</label>
-                        <input type="text" name="nombre_carrera" maxlength="100" class="form-control"
-                            value="<?php echo $nombre_carrera; ?>">
-                        <span class="form-text">
-                            <?php echo $nombre_carrera_err; ?>
-                        </span>
+                        <input type="text" name="nombre_carrera" id="nombre_carrera" maxlength="100" class="form-control" value="<?php echo $nombre_carrera; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="hidden" name="id_carrera" value="<?php echo $id_carrera; ?>" />
@@ -137,5 +132,7 @@ if (isset($_POST["id_carrera"]) && !empty($_POST["id_carrera"])) {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_carrera.js"></script>
 
 <?php include('footer.php'); ?>

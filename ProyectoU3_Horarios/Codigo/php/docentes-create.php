@@ -72,9 +72,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
                 <form id="agregar_docentes" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
                 <div class="form-group">
-                        <label>id_usuario</label>
-                            <select class="form-control" id="id_usuario" name="id_usuario">
+                        <label>ID Usuario</label>
+                            <select class="form-control" id="id_usuario" name="id_usuario" autofocus>
                             <?php
                                 $sql = "SELECT u.id_usuario, u.cod_usuario, CONCAT(nombre, ' ', apellido) AS nombre 
                                         FROM usuarios u
@@ -91,11 +92,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo '<option value="' . "$row[id_usuario]" . '"selected="selected">' . "$value" . '</option>';
                                     } else {
                                         echo '<option value="' . "$row[id_usuario]" . '">' . "$value" . '</option>';
-                                }
+                                    }
                                 }
                             ?>
                             </select>
-                        <span class="form-text"><?php echo $id_usuario_err; ?></span>
                     </div>
 
                     <div class="form-group">
@@ -105,11 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="MEDIO" >MEDIO</option>
                             <option value="OCACIONAL">OCACIONAL</option>
                         </select>
-                        <span class="form-text"><?php echo $tipo_contrato_err; ?></span>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
-                        <label  for="horas_disponibles">Horas disponibles</label>
+                        <label for="horas_disponibles">Horas disponibles</label>
                         <input type="number" class="form-control" id="horas_disponibles" name="horas_disponibles" 
                             value="16" required maxlength="2" pattern="[0-9]{1,2}" min = "2" max = "24">
                         <div class="invalid-feedback"></div>
@@ -131,12 +132,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="MAESTRIA">MAESTRIA</option>
                             <option value="DOCTORADO">DOCTORADO</option>
                         </select>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="especializacion">Especialización</label>
                         <input type="text" class="form-control" id="especializacion" name="especializacion" 
-                            value="<?php echo $especializacion; ?>" required pattern="[a-zA-Z ]+">
+                            value="<?php echo $especializacion; ?>" required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
