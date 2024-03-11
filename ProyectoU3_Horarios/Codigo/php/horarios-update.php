@@ -8,11 +8,6 @@ $dia = "";
 $hora_inicio = "";
 $hora_fin = "";
 
-$dia_err = "";
-$hora_inicio_err = "";
-$hora_fin_err = "";
-
-
 // Processing form data when form is submitted
 if (isset($_POST["id_horario"]) && !empty($_POST["id_horario"])) {
     // Get hidden input value
@@ -126,7 +121,7 @@ if (isset($_POST["id_horario"]) && !empty($_POST["id_horario"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_horarios" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
                     <div class="form-group">
                         <label>Día</label>
@@ -140,17 +135,16 @@ if (isset($_POST["id_horario"]) && !empty($_POST["id_horario"])) {
                     </div>
                     <div class="form-group">
                         <label>Hora de Inicio</label>
-                        <input type="time" name="hora_inicio" class="form-control" value="<?php echo $hora_inicio; ?>">
-                        <span class="form-text">
-                            <?php echo $hora_inicio_err; ?>
-                        </span>
+                        <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" value="<?php echo $hora_inicio; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
                         <label>Hora de Finalización</label>
-                        <input type="time" name="hora_fin" class="form-control" value="<?php echo $hora_fin; ?>">
-                        <span class="form-text">
-                            <?php echo $hora_fin_err; ?>
-                        </span>
+                        <input type="time" id="hora_fin" name="hora_fin" class="form-control" value="<?php echo $hora_fin; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="hidden" name="id_horario" value="<?php echo $id_horario; ?>" />
@@ -161,4 +155,7 @@ if (isset($_POST["id_horario"]) && !empty($_POST["id_horario"])) {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_horarios.js"></script>
+
 <?php include('footer.php'); ?>

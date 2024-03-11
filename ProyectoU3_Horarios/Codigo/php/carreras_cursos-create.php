@@ -76,10 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_carrera_err; ?>
-                        </span>
                     </div>
+                    
                     <div class="form-group">
                         <label>NRC Curso</label>
                         <select class="form-control" id="id_curso" name="id_curso">

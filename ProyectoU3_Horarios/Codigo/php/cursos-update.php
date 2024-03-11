@@ -10,13 +10,6 @@ $cod_materia = "";
 $id_aula = "";
 $id_docente = "";
 
-$$nrc_err = "";
-$periodos_id_periodo_err = "";
-$cod_materia_err = "";
-$id_aula_err = "";
-$id_docente_err = "";
-
-
 // Processing form data when form is submitted
 if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
     // Get hidden input value
@@ -172,20 +165,18 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_curso" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
                     <div class="form-group">
                         <label>NRC</label>
                         <input type="number" min="1" id="nrc" name="nrc" class="form-control"
-                            value="<?php echo $nrc; ?>" disabled>
-                        <span class="form-text">
-                            <?php echo $nrc_err; ?>
-                        </span>
+                            value="<?php echo $nrc; ?>">
+                            <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label>Periodo</label>
-
                         <select class="form-control" id="id_periodoA" name="id_periodoA" disabled>
                             <?php
 
@@ -203,10 +194,8 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $periodos_id_periodo_err; ?>
-                        </span>
                     </div>
+
                     <div class="form-group">
                         <label>Código de Materia</label>
                         <select class="form-control" id="cod_materia" name="cod_materia" disabled>
@@ -225,9 +214,6 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $cod_materia_err; ?>
-                        </span>
                     </div>
 
                     <div class="form-group">
@@ -256,9 +242,6 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
                             }
                             ?>
                         </select>
-                        <span class="form-text">
-                            <?php echo $id_docente_err; ?>
-                        </span>
                     </div>
 
                     <input type="hidden" name="id_curso" value="<?php echo $id_curso; ?>" />
@@ -269,4 +252,7 @@ if (isset($_POST["id_curso"]) && !empty($_POST["id_curso"])) {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_cursos.js"></script>
+
 <?php include('footer.php'); ?>

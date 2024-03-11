@@ -8,11 +8,6 @@ $cod_aula = "";
 $capacidad = "";
 $bloque = "";
 
-$cod_aula_err = "";
-$capacidad_err = "";
-$bloque_err = "";
-
-
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cod_aula = trim($_POST["cod_aula"]);
@@ -63,22 +58,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Crear Registro</h2>
                 </div>
                 <p>Porfavor completa este formulario para ingresarlo a la base de datos.</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form id="agregar_aula" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
                     <div class="form-group">
                         <label>Código Aula</label>
-                        <input type="text" name="cod_aula" maxlength="7"class="form-control" value="<?php echo $cod_aula; ?>">
-                        <span class="form-text"><?php echo $cod_aula_err; ?></span>
+                        <input type="text" id="cod_aula" name="cod_aula" maxlength="7"class="form-control" value="<?php echo $cod_aula; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
                         <label>Capacidad</label>
-                        <input type="number" name="capacidad" class="form-control" value="25" max="50">
-                        <span class="form-text"><?php echo $capacidad_err; ?></span>
+                        <input type="number" id="capacidad" name="capacidad" class="form-control" value="25" max="40">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
 					<div class="form-group">
                         <label>Bloque</label>
-                        <input type="text" name="bloque" maxlength="2"class="form-control" value="<?php echo $bloque; ?>">
-                        <span class="form-text"><?php echo $bloque_err; ?></span>
+                        <input type="text" id="bloque" name="bloque" maxlength="1" class="form-control" value="<?php echo $bloque; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Enviar">
@@ -88,4 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_aulas.js"></script>
+
 <?php include('footer.php'); ?>

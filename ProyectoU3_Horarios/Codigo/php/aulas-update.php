@@ -9,13 +9,6 @@ $capacidad = "";
 $bloque = "";
 $cod_aula = "";
 
-
-$id_aula_err = "";
-$capacidad_err = "";
-$bloque_err = "";
-$cod_aula_err = "";
-
-
 // Processing form data when form is submitted
 if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
     // Get hidden input value
@@ -131,35 +124,26 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
-
-                        <input hidden type="text" name="id_aula" maxlength="30" class="form-control"
-                            value="<?php echo $id_aula; ?>">
-                        
+                <form id="agregar_aula" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">                        
 
                     <div class="form-group">
                         <label>Código Aula</label>
-                        <input readonly type="text" name="cod_aula" maxlength="30" class="form-control"
+                        <input readonly type="text" id="cod_aula" name="cod_aula" maxlength="30" class="form-control"
                             value="<?php echo $cod_aula; ?>">
-                        <span class="form-text">
-                            <?php echo $cod_aula_err; ?>
-                        </span>
                     </div>
 
                     <div class="form-group">
                         <label>Capacidad</label>
-                        <input type="number" name="capacidad" class="form-control" value="<?php echo $capacidad; ?>">
-                        <span class="form-text">
-                            <?php echo $capacidad_err; ?>
-                        </span>
+                        <input type="number" id="capacidad" name="capacidad" class="form-control" value="25" max="40">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
+
                     <div class="form-group">
                         <label>Bloque</label>
-                        <input readonly type="text" name="bloque" maxlength="10" class="form-control"
-                            value="<?php echo $bloque; ?>">
-                        <span class="form-text">
-                            <?php echo $bloque_err; ?>
-                        </span>
+                        <input type="text" id="bloque" name="bloque" maxlength="1" class="form-control" value="<?php echo $bloque; ?>">
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
                     </div>
 
                     <input type="hidden" name="id_aula" value="<?php echo $id_aula; ?>" />
@@ -170,4 +154,7 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
         </div>
     </div>
 </section>
+
+<script src="../js/formulario_aulas.js"></script>
+
 <?php include('footer.php'); ?>
