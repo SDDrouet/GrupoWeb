@@ -115,6 +115,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="horarios-index.php">Franjas Horarias</a>
                 <a class="collapse-item" href="horarios_aulas_cursos-index.php">Horarios de cursos</a>
+                <a class="collapse-item" href="horariosDragDrop.php">Gestor de Horarios UI</a>
             </div>
         </div>
     </li>
