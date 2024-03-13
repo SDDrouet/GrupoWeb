@@ -1,10 +1,22 @@
 <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <a class="sidebar-brand align-items-center justify-content-center" href="index.php">
+<a class="sidebar-brand align-items-center justify-content-center" href="index.php">
         <div class="sidebar-brand-icon">
             <i class="fas fa-user"></i>
         </div>
-        <div class="sidebar-brand-text mx-3"><span id="usuarioNombre"></span></div>
+        <div class="sidebar-brand-text mx-3">
+            <div class="sidebar-brand-text-light">
+            <?php
+                session_start();
+                if (isset($_SESSION['user_name'])) {
+                    $user_log = $_SESSION['user_name'];
+                    echo "$userlog";
+                } else {
+                    header('location: ../index.html');
+                }
+            ?>
+            </div>
+        </div>
     </a>
 
     <hr class="sidebar-divider my-4">

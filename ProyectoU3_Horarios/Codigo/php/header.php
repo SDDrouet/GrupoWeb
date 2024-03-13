@@ -1,7 +1,20 @@
 <?php
-session_start();
-?>
 
+session_start();
+
+//validar que el usuario este logeado
+if (!isset($_SESSION['user_name'])) {
+    header('Location: ../index.html');
+    exit;
+}
+
+if(isset($_POST['btn_cerrar'])){
+    session_destroy();
+    header('Location: ../index.html');
+    exit;
+}
+
+?>
 <html lang="en">
 
 <head>
@@ -26,24 +39,7 @@ session_start();
         <!-- Sidebar -->
         
         <?php 
-        // Verifica si el usuario ha iniciado sesión y tiene un perfil
-            if (isset($_SESSION['id_perfil'])) {
-                $perfil = $_SESSION['id_perfil'];
-            
-                // Muestra opciones según el perfil
-                if ($perfil == 3) {
-                    include('sidebar.php');
-                } elseif ($perfil == 4) {
-                    include('sidebar_docente.php');
-                } elseif ($perfil == 5) {
-                    include('sidebar_apoyo.php');
-                }
-            
-            } else {
-                header("Location: ../index.html");
-                exit();
-            }
-
+            include('sidebar.php');
         ?>
         <!-- End of Sidebar -->
 

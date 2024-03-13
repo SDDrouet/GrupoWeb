@@ -107,16 +107,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="fecha_inicio">Fecha de Inicio</label>
                         <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
-                            value="<?php echo $fecha_inicio; ?>">
-                        <div class="invalid-feedback"></div>
+                            value="<?php echo $fecha_inicio; ?>" required>
+                        <div class="invalid-feedback">Por favor, ingrese una fecha válida en el formato dd/mm/aaaa</div>
                         <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="fecha_fin">Fecha de Finalización</label>
                         <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"
-                            value="<?php echo $fecha_fin; ?>">
-                        <div class="invalid-feedback"></div>
+                            value="<?php echo $fecha_fin; ?>" required>
+                        <div class="invalid-feedback">Por favor, ingrese una fecha válida en el formato dd/mm/aaaa</div>
                         <div class="valid-feedback"></div>
                     </div>
 

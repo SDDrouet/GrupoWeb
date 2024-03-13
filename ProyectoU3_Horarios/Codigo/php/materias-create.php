@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="nombre_materia">Nombre de la Materia</label>
                         <input type="text" id="nombre_materia" name="nombre_materia" maxlength="100" class="form-control"
-                            value="<?php echo $nombre_materia; ?>" required pattern="[a-zA-Z0-9]+">
+                            value="<?php echo $nombre_materia; ?>" required required pattern="[A-Za-z\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>  
                     </div>
