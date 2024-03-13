@@ -148,8 +148,6 @@
                 echo "<th><a href=?search=$search&sort=&order=fecha_novedad&sort=$sort>Fecha</th>";
                 echo "<th><a href=?search=$search&sort=&order=estado&sort=$sort>Estado</th>";
 
-
-
                 echo "<th>Acción</th>";
                 echo "</tr>";
                 echo "</thead>";
@@ -162,26 +160,26 @@
                     echo "<td>" . htmlspecialchars($row['descripcion']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['fecha_novedad']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['estado']) . "</td>";
-                    echo "<td>";
-                    if (!in_array("seleccionar", $privilegios)){
-                        echo 'style="display: none;"';
-                    } else {
-                    echo "<a href='novedades-read.php?id_novedad=" . $row['id_novedad'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
+                    echo "<td";
+                    if (!in_array("seleccionar", $privilegios)) {
+                        echo ' style="display: none;"';
+                    }
+                    echo ">";
+
+                    if (in_array("seleccionar", $privilegios)) {
+                        echo "<a href='novedades-read.php?id_novedad=" . $row['id_novedad'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
                     }
 
-                    if (!in_array("modificar", $privilegios)){
-                        echo 'style="display: none;"';
-                    } else {
-                    echo "<a href='novedades-update.php?id_novedad=" . $row['id_novedad'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
+                    if (in_array("modificar", $privilegios)) {
+                        echo "<a href='novedades-update.php?id_novedad=" . $row['id_novedad'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
                     }
 
-                    if (!in_array("eliminar", $privilegios)){
-                        echo 'style="display: none;"';
-                    } else {
-                    echo "<a href='novedades-delete.php?id_novedad=" . $row['id_novedad'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
+                    if (in_array("eliminar", $privilegios)) {
+                        echo "<a href='novedades-delete.php?id_novedad=" . $row['id_novedad'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
                     }
 
                     echo "</td>";
+
                     echo "</tr>";
                 }
                 echo "</tbody>";
@@ -203,7 +201,8 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno - 1);
-                        } ?>"><</a>
+                        } ?>">
+                            << /a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';
