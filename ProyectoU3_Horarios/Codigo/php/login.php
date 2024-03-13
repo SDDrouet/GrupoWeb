@@ -19,13 +19,16 @@ if(isset($_POST['btn_login'])) {
         $clave = $_POST['password'];
         
         // Consultar la base de datos para obtener el hash de la contraseña y el perfil del usuario
-        $stmt = $pdo->prepare("SELECT clave, id_perfil FROM usuarios WHERE usuario = ?");
+        $stmt = $pdo->prepare("SELECT clave, p.id_perfil, p.privilegios, p.funciones
+                                FROM usuarios u
+                                JOIN perfiles p ON p.id_perfil = u.id_perfil WHERE usuario = ?");
         $stmt->execute([$usuario]);
         $result = $stmt->fetch();
         
         if ($result && password_verify($clave, $result['clave'])) {
             session_start();
-            
+            $_SESSION['funciones'] = $result['funciones'];
+            $_SESSION['privilegios'] = $result['privilegios'];
             $_SESSION['user_name'] = $username;
             header("Location: index.php");
             exit();

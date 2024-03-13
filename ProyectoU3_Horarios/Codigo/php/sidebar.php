@@ -10,6 +10,10 @@
                 session_start();
                 if (isset($_SESSION['user_name'])) {
                     $user_log = $_SESSION['user_name'];
+                    $priv = $_SESSION['privilegios'];
+                    $privilegios = explode(" ", $priv);
+                    $func = $_SESSION['funciones'];
+                    $funciones = explode(' ', $func);
                     echo "$user_log";
                 } else {
                     header('location: ../index.html');

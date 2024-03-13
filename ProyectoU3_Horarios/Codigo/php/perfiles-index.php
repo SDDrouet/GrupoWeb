@@ -23,8 +23,9 @@
 <section class="pt-5">
     <div class="container-fluid">
         <h1>Detalles de perfiles</h1>
+        <h2></h2>
         <div class="d-flex justify-content-end align-items-center mb-5">
-            <a href="perfiles-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo
+            <a <?php if (!in_array("seleccionar", $privilegios)){echo 'style="display: none;"';}?>  href="perfiles-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo
                 registro</a>
             <a href="perfiles-index.php" class="btn btn-info mr-3">Actualizar</a>
             <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
