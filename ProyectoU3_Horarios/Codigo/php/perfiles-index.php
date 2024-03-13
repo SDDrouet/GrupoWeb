@@ -74,7 +74,7 @@
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
         //Column sorting on column name
-        $orderBy = array('id_perfil', 'tipo_perfil', 'privilegios');
+        $orderBy = array('id_perfil', 'tipo_perfil', 'privilegios', 'funciones');
         $order = 'id_perfil';
         if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
             $order = $_GET['order'];
@@ -98,12 +98,12 @@
         if (!empty($_GET['search'])) {
             $search = ($_GET['search']);
             $sql = "SELECT * FROM perfiles
-                            WHERE CONCAT_WS (id_perfil,tipo_perfil,privilegios)
+                            WHERE CONCAT_WS (id_perfil,tipo_perfil,privilegios,funciones)
                             LIKE '%$search%'
                             ORDER BY $order $sort
                             LIMIT $offset, $no_of_records_per_page";
             $count_pages = "SELECT * FROM perfiles
-                            WHERE CONCAT_WS (id_perfil,tipo_perfil,privilegios)
+                            WHERE CONCAT_WS (id_perfil,tipo_perfil,privilegios,funciones)
                             LIKE '%$search%'
                             ORDER BY $order $sort";
         } else {
@@ -127,6 +127,7 @@
                 echo "<th><a href=?search=$search&sort=&order=id_perfil&sort=$sort>ID Perfil</th>";
                 echo "<th><a href=?search=$search&sort=&order=tipo_perfil&sort=$sort>Tipo de perfil</th>";
                 echo "<th><a href=?search=$search&sort=&order=privilegios&sort=$sort>Privilegios</th>";
+                echo "<th><a href=?search=$search&sort=&order=funciones&sort=$sort>Funciones</th>";
 
                 echo "<th>Acción</th>";
                 echo "</tr>";
@@ -137,7 +138,16 @@
                     echo "<td>" . htmlspecialchars($row['id_perfil']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['tipo_perfil']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['privilegios']) . "</td>";
+<<<<<<< HEAD
                     echo "<td>";
+=======
+                    echo "<td>" . htmlspecialchars($row['funciones']) . "</td>";
+                    echo "<td";
+                    if (!in_array("seleccionar", $privilegios)) {
+                        echo ' style="display: none;"';
+                    }
+                    echo ">";
+>>>>>>> df76998ec4805389b28a4f797aa456d8a05a6208
 
                     if (in_array("seleccionar", $privilegios)) {
                         echo "<a href='perfiles-read.php?id_perfil=" . $row['id_perfil'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
