@@ -10,7 +10,7 @@
                 session_start();
                 if (isset($_SESSION['user_name'])) {
                     $user_log = $_SESSION['user_name'];
-                    echo "$userlog";
+                    echo "$user_log";
                 } else {
                     header('location: ../index.html');
                 }
