@@ -115,6 +115,7 @@
                 <a class="collapse-item" href="horarios-index.php">Franjas Horarias</a>
                 <a class="collapse-item" href="horarios_aulas_cursos-index.php">Horarios de cursos</a>
                 <a class="collapse-item" href="horariosDragDrop.php">Gestor de Horarios UI</a>
+                <a class="collapse-item" href="horariosDocente.php">Horarios de Docentes</a>
             </div>
         </div>
     </li>
