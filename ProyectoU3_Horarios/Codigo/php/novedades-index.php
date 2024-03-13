@@ -169,7 +169,7 @@
                     echo "<a href='novedades-read.php?id_novedad=" . $row['id_novedad'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
                     }
 
-                    if (!in_array("editar", $privilegios)){
+                    if (!in_array("modificar", $privilegios)){
                         echo 'style="display: none;"';
                     } else {
                     echo "<a href='novedades-update.php?id_novedad=" . $row['id_novedad'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";

@@ -24,7 +24,10 @@
     <div class="container-fluid">
         <h1>Detalles de usuarios</h1>
         <div class="d-flex justify-content-end align-items-center mb-5">
-            <a <?php if (!in_array("crear", $privilegios)){echo 'style="display: none;"';}?> href="usuarios-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
+            <a <?php if (!in_array("crear", $privilegios)) {
+                echo 'style="display: none;"';
+            } ?> href="usuarios-create.php"
+                class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
             <a href="usuarios-index.php" class="btn btn-info mr-3">Actualizar</a>
             <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
         </div>
@@ -34,7 +37,7 @@
                 <div class="d-flex">
                     <input type="text" class="form-control mr-2" placeholder="Buscar en la tabla"
                         aria-label="Buscar en la tabla" name="search" autofocus>
-                        <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
+                    <button type="submit" class="btn btn-primary"><i class='bx bx-search-alt-2'></i></button>
                 </div>
             </form>
         </div>
@@ -156,22 +159,21 @@
                     echo "<td>" . htmlspecialchars($row['usuario']) . "</td>";
                     echo "<td>********</td>";
                     echo "<td>" . htmlspecialchars($row['id_perfil']) . "</td>";
-                    echo "<td>";
-                    if (!in_array("seleccionar", $privilegios)){
-                        echo 'style="display: none;"';
-                    } else {
+                    echo "<td";
+                    if (!in_array("seleccionar", $privilegios)) {
+                        echo ' style="display: none;"';
+                    }
+                    echo ">";
+
+                    if (in_array("seleccionar", $privilegios)) {
                         echo "<a href='usuarios-read.php?id_usuario=" . $row['id_usuario'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
                     }
 
-                    if (!in_array("editar", $privilegios)){
-                        echo 'style="display: none;"';
-                    } else {
+                    if (in_array("modificar", $privilegios)) {
                         echo "<a href='usuarios-update.php?id_usuario=" . $row['id_usuario'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
                     }
 
-                    if (!in_array("eliminar", $privilegios)){
-                        echo 'style="display: none;"';
-                    } else {
+                    if (in_array("eliminar", $privilegios)) {
                         echo "<a href='usuarios-delete.php?id_usuario=" . $row['id_usuario'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
                     }
 
@@ -197,7 +199,8 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno - 1);
-                        } ?>"><</a>
+                        } ?>">
+                            << /a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';
