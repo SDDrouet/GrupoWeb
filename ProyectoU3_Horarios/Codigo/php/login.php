@@ -22,7 +22,7 @@ if(isset($_POST['btn_login'])) {
         $stmt = $pdo->prepare("SELECT clave, p.id_perfil, p.privilegios, p.funciones
                                 FROM usuarios u
                                 JOIN perfiles p ON p.id_perfil = u.id_perfil WHERE usuario = ?");
-        $stmt->execute([$usuario]);
+        $stmt->execute([$username]);
         $result = $stmt->fetch();
         
         if ($result && password_verify($clave, $result['clave'])) {

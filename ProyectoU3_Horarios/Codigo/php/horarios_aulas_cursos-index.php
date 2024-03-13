@@ -26,7 +26,7 @@
             <div class="col-md-12">
             <h1>Detallo de Horarios-Curso</h1>
         <div class="d-flex justify-content-end align-items-center mb-5">
-            <a href="horarios_aulas_cursos-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
+            <a <?php if (!in_array("crear", $privilegios)){echo 'style="display: none;"';}?> href="horarios_aulas_cursos-create.php" class="btn btn-success mr-3"><i class='bx bx-sm bx-plus'></i> Nuevo registro</a>
             <a href="horarios_aulas_cursos-index.php" class="btn btn-info mr-3">Actualizar</a>
             <a href="index.php" class="btn btn-secondary"><i class='bx bx-sm bx-arrow-back'></i> Atrás</a>
         </div>
@@ -171,9 +171,24 @@
                             echo "<td>" . htmlspecialchars($row['id_curso']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_horario__aula']) . "</td>";
                             echo "<td>";
+                            if (!in_array("seleccionar", $privilegios)){
+                                echo 'style="display: none;"';
+                            } else {
                             echo "<a href='horarios_aulas_cursos-read.php?id_horarios_aulas_cursos=" . $row['id_horarios_aulas_cursos'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
+                            }
+
+                            if (!in_array("editar", $privilegios)){
+                                echo 'style="display: none;"';
+                            } else {
                             echo "<a href='horarios_aulas_cursos-update.php?id_horarios_aulas_cursos=" . $row['id_horarios_aulas_cursos'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
+                            }
+
+                            if (!in_array("eliminar", $privilegios)){
+                                echo 'style="display: none;"';
+                            } else {
                             echo "<a href='horarios_aulas_cursos-delete.php?id_horarios_aulas_cursos=" . $row['id_horarios_aulas_cursos'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
+                            }
+
                             echo "</td>";
                             echo "</tr>";
                         }

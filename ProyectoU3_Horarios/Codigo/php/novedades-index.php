@@ -162,12 +162,25 @@
                     echo "<td>" . htmlspecialchars($row['descripcion']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['fecha_novedad']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['estado']) . "</td>";
-
-
                     echo "<td>";
+                    if (!in_array("seleccionar", $privilegios)){
+                        echo 'style="display: none;"';
+                    } else {
                     echo "<a href='novedades-read.php?id_novedad=" . $row['id_novedad'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
+                    }
+
+                    if (!in_array("editar", $privilegios)){
+                        echo 'style="display: none;"';
+                    } else {
                     echo "<a href='novedades-update.php?id_novedad=" . $row['id_novedad'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";
+                    }
+
+                    if (!in_array("eliminar", $privilegios)){
+                        echo 'style="display: none;"';
+                    } else {
                     echo "<a href='novedades-delete.php?id_novedad=" . $row['id_novedad'] . "' title='Eliminar Registro' data-toggle='tooltip'><i class='far fa-trash-alt'></i></a>";
+                    }
+
                     echo "</td>";
                     echo "</tr>";
                 }
