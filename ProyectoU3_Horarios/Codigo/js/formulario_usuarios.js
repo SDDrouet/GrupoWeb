@@ -38,25 +38,26 @@ function validarID_usuario() {
 //validar solo letras y espacios
 function validarNombre() {
     var nom = nombre_input.value;
-    var regexNombre = /^[A-Za-z\s]+?$/;
+    var regexNombre = /^[\p{L}ñÑ\s]+$/u;
 
-        if (!regexNombre.test(nom)) {
-            nombre_input.nextElementSibling.innerHTML = 'Por favor, ingresa un nombre válido (solo letras).';
-            nombre_input.classList.add('is-invalid');
-            nombre_input.classList.remove('is-valid');
-            return false;
-        } else {
-            nombre_input.nextElementSibling.innerHTML = '';
-            nombre_input.classList.remove('is-invalid');
-            nombre_input.classList.add('is-valid');
-            return true;
-        }
+    if (!regexNombre.test(nom)) {
+        nombre_input.nextElementSibling.innerHTML = 'Por favor, ingresa un nombre válido (solo letras).';
+        nombre_input.classList.add('is-invalid');
+        nombre_input.classList.remove('is-valid');
+        return false;
+    } else {
+        nombre_input.nextElementSibling.innerHTML = '';
+        nombre_input.classList.remove('is-invalid');
+        nombre_input.classList.add('is-valid');
+        return true;
+    }
 }
+
 
 
 function validarApellido() {
     var ape = apellido.value;
-    var regexApellido = /^[A-Za-z\s]+?$/;
+    var regexApellido = /^[\p{L}ñÑ\s]+$/u;
 
         if (!regexApellido.test(ape)) {
             apellido.nextElementSibling.innerHTML = 'Por favor, ingresa un apellido válido (solo letras).';
