@@ -167,8 +167,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group">
                         <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" 
-                            value="<?php echo $nombre; ?>" required pattern="[A-Za-z\s]+">
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>"
+                            required pattern="[\p{L}ñÑ\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
@@ -176,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="apellido">Apellido:</label>
                         <input type="text" class="form-control" id="apellido" name="apellido"
-                            value="<?php echo $apellido; ?>" required pattern="[A-Za-z\s]+">
+                            value="<?php echo $apellido; ?>" required pattern="[\p{L}ñÑ\s]+">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
