@@ -89,7 +89,7 @@
     <hr class="sidebar-divider">
     </div>
 
-    <div>
+    <div <?php if (!in_array("materias", $funciones) && !in_array("aulas", $funciones) && !in_array("nrc", $funciones)){echo 'style="display: none;"';}?>>
 
     <div class="sidebar-heading">
         Interfaz General
@@ -103,9 +103,9 @@
         </a>
         <div id="collapseGeneral" class="collapse" aria-labelledby="headingGeneral" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="materias-index.php">Materias</a>
-                <a class="collapse-item" href="aulas-index.php">Aulas</a>
-                <a class="collapse-item" href="cursos-index.php">NRC's</a>
+                <a <?php if (!in_array("materias", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="materias-index.php">Materias</a>
+                <a <?php if (!in_array("aulas", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="aulas-index.php">Aulas</a>
+                <a <?php if (!in_array("nrc", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="cursos-index.php">NRC's</a>
             </div>
         </div>
     </li>
@@ -113,7 +113,7 @@
     <hr class="sidebar-divider">
     </div>
 
-    <div>
+    <div <?php if (!in_array("franja_horaria", $funciones) && !in_array("gestor_horarios", $funciones)){echo 'style="display: none;"';}?>>
 
     <div class="sidebar-heading">
         Interfaz Horario
@@ -128,9 +128,8 @@
         <div id="collapseHorario" class="collapse" aria-labelledby="headingHorario"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="horarios-index.php">Franjas Horarias</a>
-                <a class="collapse-item" href="horarios_aulas_cursos-index.php">Horarios de cursos</a>
-                <a class="collapse-item" href="horariosDragDrop.php">Gestor de Horarios UI</a>
+                <a <?php if (!in_array("franja_horaria", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="horarios-index.php">Franjas Horarias</a>
+                <a <?php if (!in_array("gestor_horarios", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="horariosDragDrop.php">Gestor de Horarios UI</a>
             </div>
         </div>
     </li>
@@ -138,7 +137,7 @@
     <hr class="sidebar-divider">
     </div>
 
-    <div>
+    <div <?php if (!in_array("horarios_docentes", $funciones) && !in_array("novedades", $funciones)){echo 'style="display: none;"';}?>>
 
     <div class="sidebar-heading">
         Interfaz de Reportes
@@ -152,8 +151,8 @@
         </a>
         <div id="collapseReportes" class="collapse" aria-labelledby="headingReportes" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="horariosDocente.php">Horarios de Docentes</a>
-            <a class="collapse-item" href="novedades-index.php">Novedades de Aulas</a>
+            <a <?php if (!in_array("horarios_docentes", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="horariosDocente.php">Horarios de Docentes</a>
+            <a <?php if (!in_array("novedades", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="novedades-index.php">Novedades de Aulas</a>
             </div>
         </div>
     </li>
