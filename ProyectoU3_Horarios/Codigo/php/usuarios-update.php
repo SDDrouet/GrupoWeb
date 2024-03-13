@@ -193,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         
                         <div>
                             <span for="clave">Marque para actualizar contraseña:  </span>
-                            <div><input class="form-check-input" type="checkbox" id="actualizarClave" name="actualizarClave" onclick="togglePassword()"></div>
+                            <div><input  type="checkbox" id="actualizarClave" name="actualizarClave" onclick="togglePassword()"></div>
                         
                         </div>
                         <input disabled type="password" class="form-control" id="clave" name="clave"

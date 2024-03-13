@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-03-2024 a las 02:07:30
+-- Tiempo de generación: 13-03-2024 a las 08:38:15
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -138,14 +138,15 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`id_curso`, `nrc`, `periodos_id_periodo`, `id_docente`, `id_materia`) VALUES
-(33, 100, 4, 8, 14),
+(33, 100, 4, 10, 14),
 (34, 101, 4, 8, 14),
 (35, 102, 4, 9, 14),
 (36, 3454, 4, 0, 7),
 (39, 103, 4, 0, 7),
 (40, 104, 4, 0, 8),
 (41, 106, 4, 0, 11),
-(42, 109, 4, 11, 13);
+(42, 109, 4, 11, 13),
+(43, 1514, 4, 8, 7);
 
 -- --------------------------------------------------------
 
@@ -1646,7 +1647,7 @@ CREATE TABLE `perfiles` (
   `id_perfil` int(11) NOT NULL,
   `tipo_perfil` varchar(45) NOT NULL,
   `privilegios` varchar(300) NOT NULL,
-  `funciones` varchar(45) NOT NULL
+  `funciones` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1654,9 +1655,9 @@ CREATE TABLE `perfiles` (
 --
 
 INSERT INTO `perfiles` (`id_perfil`, `tipo_perfil`, `privilegios`, `funciones`) VALUES
-(3, 'admin', 'editar modificar seleccionar eliminar', ''),
-(4, 'docente', 'seleccionar', ''),
-(5, 'apoyo', 'ver crear actualizar eliminar', '');
+(3, 'admin', 'seleccionar crear modificar eliminar', 'perfiles usuarios docentes periodos carreras materias aulas nrc franja_horaria gestor_horarios horarios_docentes novedades'),
+(4, 'docente', 'seleccionar', 'docentes materias horarios_docentes novedades'),
+(5, 'apoyo', 'seleccionar crear modificar', 'docentes periodos materias aulas nrc gestor_horarios horarios_docentes novedades');
 
 -- --------------------------------------------------------
 
@@ -1696,9 +1697,9 @@ CREATE TABLE `periodos_docentes` (
 --
 
 INSERT INTO `periodos_docentes` (`id_periodo_docente`, `id_periodo`, `id_docente`, `horas_asignadas`) VALUES
-(3, 4, 8, 4),
+(3, 4, 8, 10),
 (4, 4, 9, 12),
-(5, 4, 10, 8),
+(5, 4, 10, 2),
 (6, 4, 11, 8);
 
 -- --------------------------------------------------------
@@ -1925,7 +1926,7 @@ ALTER TABLE `carreras_cursos`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `docentes`
@@ -1949,7 +1950,7 @@ ALTER TABLE `horarios_aulas`
 -- AUTO_INCREMENT de la tabla `horarios_aulas_cursos`
 --
 ALTER TABLE `horarios_aulas_cursos`
-  MODIFY `id_horarios_aulas_cursos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id_horarios_aulas_cursos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de la tabla `materias`
@@ -1967,7 +1968,7 @@ ALTER TABLE `novedades`
 -- AUTO_INCREMENT de la tabla `perfiles`
 --
 ALTER TABLE `perfiles`
-  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `periodos`

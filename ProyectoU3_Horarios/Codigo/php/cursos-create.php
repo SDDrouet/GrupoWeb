@@ -61,6 +61,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Crear registro</title>
+    <style>
+        .cajaOverLoad {
+            overflow: auto;
+            max-height: 200px;
+            width: 50%;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 5px;
+            padding-left: 20px;
+        }
+    </style>
 </head>
 
 <?php include('header.php'); ?>

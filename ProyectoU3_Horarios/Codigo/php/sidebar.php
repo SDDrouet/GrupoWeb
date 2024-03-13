@@ -24,6 +24,7 @@
     </a>
 
     <hr class="sidebar-divider my-4">
+    
 
     <li class="nav-item active">
         <a class="nav-link" href="index.php">
@@ -33,6 +34,8 @@
     </li>
 
     <hr class="sidebar-divider">
+
+    <div <?php if (!in_array("perfiles", $funciones) && !in_array("usuarios", $funciones) && !in_array("docentes", $funciones)){echo 'style="display: none;"';}?>>
 
     <div class="sidebar-heading">
         Usuarios y Perfiles
@@ -46,15 +49,17 @@
         </a>
         <div id="collapseUsuarios" class="collapse" aria-labelledby="headingUsuarios" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="perfiles-index.php">Perfiles de usuarios</a>
-                <a class="collapse-item" href="usuarios-index.php">Usuarios</a>
-                <a class="collapse-item" href="docentes-index.php">Docentes</a>
+                <a <?php if (!in_array("perfiles", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="perfiles-index.php">Perfiles de usuarios</a>
+                <a <?php if (!in_array("usuarios", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="usuarios-index.php">Usuarios</a>
+                <a <?php if (!in_array("docentes", $funciones)){echo 'style="display: none;"';}?> class="collapse-item" href="docentes-index.php">Docentes</a>
             </div>
         </div>
     </li>
 
     <hr class="sidebar-divider">
+    </div>
 
+    <div <?php if (!in_array("periodos", $funciones)){echo 'style="display: none;"';}?>>
     <div class="sidebar-heading">
         Interfaz Periodo
     </div>
@@ -67,7 +72,9 @@
     </li>
 
     <hr class="sidebar-divider">
+    </div>
 
+    <div <?php if (!in_array("carreras", $funciones)){echo 'style="display: none;"';}?>>
     <div class="sidebar-heading">
         Interfaz Carreras
     </div>
@@ -80,6 +87,9 @@
     </li>
 
     <hr class="sidebar-divider">
+    </div>
+
+    <div>
 
     <div class="sidebar-heading">
         Interfaz General
@@ -101,6 +111,9 @@
     </li>
 
     <hr class="sidebar-divider">
+    </div>
+
+    <div>
 
     <div class="sidebar-heading">
         Interfaz Horario
@@ -123,6 +136,9 @@
     </li>
 
     <hr class="sidebar-divider">
+    </div>
+
+    <div>
 
     <div class="sidebar-heading">
         Interfaz de Reportes
@@ -141,6 +157,7 @@
             </div>
         </div>
     </li>
+    </div>
 
     <hr class="sidebar-divider d-none d-md-block">
 
