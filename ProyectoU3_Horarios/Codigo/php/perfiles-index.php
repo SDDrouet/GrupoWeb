@@ -74,7 +74,7 @@
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
         //Column sorting on column name
-        $orderBy = array('id_perfil', 'tipo_perfil', 'privilegios', 'funciones');
+        $orderBy = array('id_perfil', 'tipo_perfil', 'privilegios');
         $order = 'id_perfil';
         if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
             $order = $_GET['order'];
@@ -138,16 +138,8 @@
                     echo "<td>" . htmlspecialchars($row['id_perfil']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['tipo_perfil']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['privilegios']) . "</td>";
-<<<<<<< HEAD
-                    echo "<td>";
-=======
                     echo "<td>" . htmlspecialchars($row['funciones']) . "</td>";
-                    echo "<td";
-                    if (!in_array("seleccionar", $privilegios)) {
-                        echo ' style="display: none;"';
-                    }
-                    echo ">";
->>>>>>> df76998ec4805389b28a4f797aa456d8a05a6208
+                    echo "<td>";
 
                     if (in_array("seleccionar", $privilegios)) {
                         echo "<a href='perfiles-read.php?id_perfil=" . $row['id_perfil'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
