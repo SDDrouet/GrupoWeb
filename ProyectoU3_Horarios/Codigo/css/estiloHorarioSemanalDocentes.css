@@ -6,33 +6,12 @@
 
 .container {
   user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 0.6fr 1fr 1fr 1fr 1fr 1fr;
   border-radius: 5px;
   background-color: white;
   box-shadow: 3px 0px 30px rgba(163,163,163, 0.4);
   padding: 10px;
-}
-
-
-.cursosSection {
-  width: 175px;
-  height: 495px;
-}
-
-/* Estilo para el formulario */
-.formularios{
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 50%;
-  margin: auto;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 3px 0px 30px rgba(163,163,163, 0.4);
-  margin-bottom: 15px;
 }
 
 /* Estilo para el formulario */
@@ -94,14 +73,12 @@
   /* Centrar verticalmente */
 }
 
-.curso {
+.curso1 {
   background-color: #0c39bf;
+  padding: 10px;
   margin: 5px;
-  height: 35px;
   color: #000;
   align-items: center;
-  cursor: grab;
-  display: flex;
   border-radius: 5px;
   justify-content: center;
   /* Centrar horizontalmente */
@@ -109,55 +86,18 @@
   /* Centrar verticalmente */
 }
 
-#cursosContainer .curso {
-  width: 100%;
-  display: block;
-  padding: 15px;
-  height: auto;
-  margin: 10px;
-}
-
-.cursoOcultar {
-  display: none;
-}
-
-#cursosContainer .cursoOcultar {
-  display: block;
-  padding-top: 20px;
-  border-top: 2px solid #000;
-}
-
-#trash {
-  width: 100%;
-  height: 105px;
-  margin-top: 20px;
-  padding: 5px;
-  border: 2px solid #888;
-  background-color: #d41f1f;
-  color: #fff;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  /* Centrar horizontalmente */
-  align-items: center;
-  /* Centrar verticalmente */
-  font-weight: bolder;
-}
 
 .diasSection {
-  width: 200px;
   margin: 10px;
 }
 
 .dia {
   width: 100%;
-  height: 435px;
   border: 2px solid #888;
 }
 
 .horasCont {
   width: 100%;
-  height: 435px;
   border: 2px solid #888;
 }
 
@@ -176,8 +116,6 @@
 }
 
 .horarioSection {
-  height: 495px;
-  width: 120px;
   margin: 10px;
 }
 
@@ -197,9 +135,8 @@
 
 .hora {
   align-items: center;
+  height: 175px;
   margin: 10px;
-  min-height: 50px;
-  max-height: 50px;
   border-bottom: 2px solid #000;
   color: #000;
   display: flex;
@@ -213,21 +150,20 @@
 
 .horario {
   align-items: center;
+  height: 175px;
   margin: 10px;
-  min-height: 50px;
-  max-height: 50px;
-  border: 2px solid #888;
+  border: 2px solid #222;
   color: #000;
+  display: flex;
+  align-items: center;
 }
 
 .horarioInvalido {
   align-items: center;
-  margin: 10px;
-  min-height: 50px;
-  max-height: 50px;
+  margin: 10px;  
+  min-height: 175px;
   border: 2px solid #888;
   color: #000;
-  background-color: #888;
 }
 
 .IDOculto {

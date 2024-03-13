@@ -233,7 +233,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $sql = "SELECT id_periodo_docente, pd.id_docente, nombre, apellido, especializacion  FROM docentes AS d
                             INNER JOIN periodos_docentes AS pd ON d.id_docente = pd.id_docente
                             INNER JOIN usuarios AS u ON d.id_usuario = u.id_usuario
-                            WHERE estado = 1
                             AND id_periodo = $periodos_id_periodo
                             AND horas_asignadas > 0";
 
