@@ -159,11 +159,7 @@
                     echo "<td>" . htmlspecialchars($row['usuario']) . "</td>";
                     echo "<td>********</td>";
                     echo "<td>" . htmlspecialchars($row['id_perfil']) . "</td>";
-                    echo "<td";
-                    if (!in_array("seleccionar", $privilegios)) {
-                        echo ' style="display: none;"';
-                    }
-                    echo ">";
+                    echo "<td>";
 
                     if (in_array("seleccionar", $privilegios)) {
                         echo "<a href='usuarios-read.php?id_usuario=" . $row['id_usuario'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
@@ -199,8 +195,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno - 1);
-                        } ?>">
-                            << /a>
+                        } ?>">Ant</a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';
@@ -209,7 +204,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno + 1);
-                        } ?>">></a>
+                        } ?>">Sig</a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';

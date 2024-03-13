@@ -137,11 +137,7 @@
                     echo "<td>" . htmlspecialchars($row['id_periodo_horario']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['id_periodo']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['id_horario']) . "</td>";
-                    echo "<td";
-                    if (!in_array("seleccionar", $privilegios)) {
-                        echo ' style="display: none;"';
-                    }
-                    echo ">";
+                    echo "<td>";
 
                     if (in_array("seleccionar", $privilegios)) {
                         echo "<a href='periodos_horarios-read.php?id_horario=" . $row['id_horario'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
@@ -177,8 +173,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno - 1);
-                        } ?>">
-                            << /a>
+                        } ?>">Ant</a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';
@@ -187,7 +182,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno + 1);
-                        } ?>">></a>
+                        } ?>">Sig</a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';

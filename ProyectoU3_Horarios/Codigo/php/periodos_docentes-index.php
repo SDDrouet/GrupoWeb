@@ -160,7 +160,7 @@
                                         echo '#';
                                     } else {
                                         echo $new_url . "&pageno=" . ($pageno - 1);
-                                    } ?>">Previa</a>
+                                    } ?>">Ant</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
@@ -170,7 +170,7 @@
                                         echo '#';
                                     } else {
                                         echo $new_url . "&pageno=" . ($pageno + 1);
-                                    } ?>">Siguiente</a>
+                                    } ?>">Sig</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';

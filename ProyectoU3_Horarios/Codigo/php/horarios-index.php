@@ -22,7 +22,7 @@
 <?php include('header.php'); ?>
 <section class="pt-5">
     <div class="container-fluid">
-        <h1>Detalles de usuarios</h1>
+        <h1>Detalles de Horarios</h1>
         <div class="d-flex justify-content-end align-items-center mb-5">
             <a <?php if (!in_array("crear", $privilegios)) {
                 echo 'style="display: none;"';
@@ -137,11 +137,7 @@
                     echo "<td>" . htmlspecialchars($row['dia']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['hora_inicio']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['hora_fin']) . "</td>";
-                    echo "<td";
-                    if (!in_array("seleccionar", $privilegios)) {
-                        echo ' style="display: none;"';
-                    }
-                    echo ">";
+                    echo "<td>";
 
                     if (in_array("seleccionar", $privilegios)) {
                         echo "<a href='horarios-read.php?id_horario=" . $row['id_horario'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
@@ -177,8 +173,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno - 1);
-                        } ?>">
-                            << /a>
+                        } ?>">Ant</a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';
@@ -187,7 +182,7 @@
                             echo '#';
                         } else {
                             echo $new_url . "&pageno=" . ($pageno + 1);
-                        } ?>">></a>
+                        } ?>">Sig</a>
                     </li>
                     <li class="page-item <?php if ($pageno >= $total_pages) {
                         echo 'disabled';

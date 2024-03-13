@@ -24,7 +24,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h1>Detalles de Cursos</h1>
+                <h1>Detalles de NRC's</h1>
                 <div class="d-flex justify-content-end align-items-center mb-5">
                     <a <?php if (!in_array("crear", $privilegios)) {
                         echo 'style="display: none;"';
@@ -192,11 +192,7 @@
                             echo "<td>" . htmlspecialchars($row['periodos_id_periodo']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['cod_materia']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_docente']) . "</td>";
-                            echo "<td";
-                            if (!in_array("seleccionar", $privilegios)) {
-                                echo ' style="display: none;"';
-                            }
-                            echo ">";
+                            echo "<td>";
 
                             if (in_array("seleccionar", $privilegios)) {
                                 echo "<a href='cursos-read.php?id_curso=" . $row['id_curso'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
@@ -232,7 +228,7 @@
                                     echo '#';
                                 } else {
                                     echo $new_url . "&pageno=" . ($pageno - 1);
-                                } ?>">Previa</a>
+                                } ?>">Ant</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
@@ -241,7 +237,7 @@
                                     echo '#';
                                 } else {
                                     echo $new_url . "&pageno=" . ($pageno + 1);
-                                } ?>">Siguiente</a>
+                                } ?>">Sig</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';

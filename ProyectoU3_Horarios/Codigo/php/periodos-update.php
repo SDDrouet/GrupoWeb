@@ -121,28 +121,30 @@ if (isset($_POST["id_periodo"]) && !empty($_POST["id_periodo"])) {
                     <h2>Actualizar Registro</h2>
                 </div>
                 <p>Porfavor actualiza los campos y envia el formulario para actualizar los cambios.</p>
-                <form id="agregar_periodo" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+                <form id="agregar_periodo" action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>"
+                    method="post">
 
-                <div class="form-group">
+                    <div class="form-group">
                         <label for="nombre_periodo">Nombre Periodo:</label>
                         <input type="text" class="form-control" id="nombre_periodo" name="nombre_periodo"
-                            value="<?php echo $nombre_periodo; ?>" requiered>
+                            value="<?php echo $nombre_periodo; ?>" required>
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="fecha_inicio">Fecha de Inicio</label>
-                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" 
-                            value="<?php echo $fecha_inicio; ?>">
-                        <div class="invalid-feedback"></div>
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                            value="<?php echo $fecha_inicio; ?>" required>
+                        <div class="invalid-feedback">Por favor, ingrese una fecha válida en el formato dd/mm/aaaa</div>
                         <div class="valid-feedback"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="fecha_fin">Fecha de Finalización</label>
-                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"  value="<?php echo $fecha_fin; ?>">
-                        <div class="invalid-feedback"></div>
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"
+                            value="<?php echo $fecha_fin; ?>" required>
+                        <div class="invalid-feedback">Por favor, ingrese una fecha válida en el formato dd/mm/aaaa</div>
                         <div class="valid-feedback"></div>
                     </div>
 

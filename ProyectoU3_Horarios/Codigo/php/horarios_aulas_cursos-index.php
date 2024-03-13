@@ -174,11 +174,7 @@
                             echo "<td>" . htmlspecialchars($row['id_horarios_aulas_cursos']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_curso']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['id_horario__aula']) . "</td>";
-                            echo "<td";
-                            if (!in_array("seleccionar", $privilegios)) {
-                                echo ' style="display: none;"';
-                            }
-                            echo ">";
+                            echo "<td>";
 
                             if (in_array("seleccionar", $privilegios)) {
                                 echo "<a href='horarios_aulas_cursos-read.php?id_horarios_aulas_cursos=" . $row['id_horarios_aulas_cursos'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
@@ -214,8 +210,7 @@
                                     echo '#';
                                 } else {
                                     echo $new_url . "&pageno=" . ($pageno - 1);
-                                } ?>">
-                                    << /a>
+                                } ?>">Ant</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
@@ -224,7 +219,7 @@
                                     echo '#';
                                 } else {
                                     echo $new_url . "&pageno=" . ($pageno + 1);
-                                } ?>">></a>
+                                } ?>">Sig</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
