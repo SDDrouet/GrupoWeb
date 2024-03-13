@@ -5,7 +5,7 @@ include 'config.php';
 $idPeriodo = $_GET['idPeriodo'];
 
 // Realizar la consulta SQL para obtener los cursos relacionados con el ID del período
-$query = "SELECT c.id_curso, CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', IF(c.id_docente = 0, 'No asignado', CONCAT(u.nombre,' ', u.apellido))) AS curso FROM cursos c
+$query = "SELECT c.id_curso, CONCAT(c.nrc, ' | ', m.nombre_materia, ' | ', IF(c.id_docente = 0, 'No asignado', CONCAT(u.nombre,' ', u.apellido)) ,' | ', m.horas_semana) AS curso FROM cursos c
 INNER JOIN materias m ON c.id_materia = m.id_materia
 LEFT JOIN docentes d ON c.id_docente = d.id_docente
 LEFT JOIN usuarios u ON d.id_usuario = u.id_usuario

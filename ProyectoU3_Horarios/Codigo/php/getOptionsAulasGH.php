@@ -2,7 +2,8 @@
 include 'config.php';
 
 // Realizar la consulta SQL
-$query = "SELECT CONCAT(id_aula,',',cod_aula) AS aula FROM aulas;";
+$query = "SELECT CONCAT(id_aula,',',cod_aula) AS aula FROM aulas
+            WHERE estado = 'ACTIVO';";
 
 $result = mysqli_query($link, $query);
 

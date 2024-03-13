@@ -101,7 +101,7 @@ if (isset($_GET["id_usuario"]) && !empty($_GET["id_usuario"])) {
                 <div class="form-group">
                     <h4>Clave</h4>
                     <p class="form-control-static">
-                        <?php echo htmlspecialchars($row["clave"]); ?>
+                        ********
                     </p>
                 </div>
                 <div class="form-group">

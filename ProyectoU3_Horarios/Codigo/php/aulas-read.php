@@ -90,6 +90,13 @@ if (isset($_GET["id_aula"]) && !empty($_GET["id_aula"])) {
                     </p>
                 </div>
 
+                <div class="form-group">
+                    <h4>Estado</h4>
+                    <p class="form-control-static">
+                        <?php echo htmlspecialchars($row["estado"]); ?>
+                    </p>
+                </div>
+
                 <p><a href="aulas-index.php" class="btn btn-primary">Regresar</a></p>
             </div>
         </div>

@@ -22,17 +22,18 @@ function crearCurso(selectedCurso, idCurso) {
     let nrc = info[0];
     let materia = info[1];
     let docente = info[2];
-
+    let horas = info[3];
+    
     // Crear un nuevo elemento con el curso seleccionado y agregarlo al contenedor
     var nCurso = document.createElement('div');
     nCurso.classList.add("curso");
     nCurso.style.backgroundColor = seleccionarColorPorNRC(nrc);
 
     // Establecer el contenido HTML del nuevo div
-    nCurso.innerHTML = '<div class="cursoSiempre">NRC: <span class="nrc">' + nrc + '</span></div>' +
+    nCurso.innerHTML = '<div class="cursoSiempre"><strong>NRC: </strong><span class="nrc">' + nrc + '</span></div>' +
         '<div class="cursoOcultar">' +
         '<div><strong>Materia: </strong><div>' + materia + '</div></div>' +
-        '<br>' +
+        '<div><strong>Horas semanales: </strong>' + horas + '</div>' +
         '<div><strong>Docente: </strong><div>' + docente + '</div></div>' +
         '</div>'+
         '<div class="IDOculto">' + idCurso + '</div>';

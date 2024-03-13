@@ -20,8 +20,7 @@ $sql = "SELECT id_periodo_docente, pd.id_docente, u.cod_usuario, u.nombre, u.ape
         FROM docentes AS d
         INNER JOIN periodos_docentes AS pd ON d.id_docente = pd.id_docente
         INNER JOIN usuarios AS u ON d.id_usuario = u.id_usuario
-        WHERE estado = 1
-        AND id_periodo = $selector1Value
+        WHERE id_periodo = $selector1Value
         AND horas_asignadas > 0;";
         
 

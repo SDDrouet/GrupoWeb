@@ -154,7 +154,7 @@
                     echo "<td>" . htmlspecialchars($row['nombre']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['apellido']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['usuario']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['clave']) . "</td>";
+                    echo "<td>********</td>";
                     echo "<td>" . htmlspecialchars($row['id_perfil']) . "</td>";
                     echo "<td>";
                     echo "<a href='usuarios-read.php?id_usuario=" . $row['id_usuario'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";

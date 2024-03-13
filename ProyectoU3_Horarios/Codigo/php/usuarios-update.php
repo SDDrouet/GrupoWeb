@@ -14,10 +14,7 @@ $id_perfil = "";
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verifica si la contraseña se ha cambiado antes de realizar la encriptación
-    if (!empty($_POST["clave"])) {
-        $clave = password_hash($_POST["clave"], PASSWORD_DEFAULT);
-    }
-
+    $clave = $_POST["clave"];
     // Resto de los campos
     $id_usuario = trim($_POST["id_usuario"]);
     $nombre = trim($_POST["nombre"]);
@@ -40,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit('Something weird happened');
     }
 
-    // Verificar si el nuevo nombre de usuario ya existe
     $stmt_verificar_usuario = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE usuario = ? AND id_usuario <> ?");
     $stmt_verificar_usuario->execute([$usuario, $id_usuario]);
     $existe_usuario = $stmt_verificar_usuario->fetchColumn();
@@ -48,15 +44,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($existe_usuario) {
         echo "<script>alert('El nombre de usuario ya está en uso.');</script>";
     } else {
-        $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?, nombre=?, apellido=?, usuario=?, clave=?, id_perfil=? WHERE id_usuario=?");
+        // Verificar si el nuevo nombre de usuario ya existe
+        if (!empty($clave)) {
+            $clave = password_hash($_POST["clave"], PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?, nombre=?, apellido=?, usuario=?, clave=?, id_perfil=? WHERE id_usuario=?");
 
-        if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil, $id_usuario])) {
-            echo "<script>alert('Something went wrong. Please try again later.');</script>";
-            header("location: error.php");
+            if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $clave, $id_perfil, $id_usuario])) {
+                echo "<script>alert('Something went wrong. Please try again later.');</script>";
+                header("location: error.php");
+            } else {
+                $stmt = null;
+                header("location: usuarios-read.php?id_usuario=$id_usuario");
+            }
         } else {
-            $stmt = null;
-            header("location: usuarios-read.php?id_usuario=$id_usuario");
+            $stmt = $pdo->prepare("UPDATE usuarios SET id_usuario=?, nombre=?, apellido=?, usuario=?, id_perfil=? WHERE id_usuario=?");
+
+            if (!$stmt->execute([$id_usuario, $nombre, $apellido, $usuario, $id_perfil, $id_usuario])) {
+                echo "<script>alert('Something went wrong. Please try again later.');</script>";
+                header("location: error.php");
+            } else {
+                $stmt = null;
+                header("location: usuarios-read.php?id_usuario=$id_usuario");
+            }
         }
+
     }
 } else {
     // Check existence of id parameter before processing further
@@ -179,9 +190,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="form-group">
-                        <label for="clave">Contraseña:</label>
-                        <input type="password" class="form-control" id="clave" name="clave"
-                            value="<?php echo $clave; ?>" required pattern="^(?=.*[A-Z])(?=.*[a-z]).{8,}$">
+                        
+                        <div>
+                            <span for="clave">Marque para actualizar contraseña:  </span>
+                            <div><input class="form-check-input" type="checkbox" id="actualizarClave" name="actualizarClave" onclick="togglePassword()"></div>
+                        
+                        </div>
+                        <input disabled type="password" class="form-control" id="clave" name="clave"
+                            value="" autocomplete="off" required pattern="^(?=.*[A-Z])(?=.*[a-z]).{8,}$">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
                     </div>
@@ -217,6 +233,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </section>
+
+<script>
+    function togglePassword() {
+        var checkBox = document.getElementById("actualizarClave");
+        var passwordField = document.getElementById("clave");
+        passwordField.value = "";
+        if (checkBox.checked) {
+            passwordField.disabled = false;
+        } else {
+            passwordField.disabled = true;
+        }
+    }
+</script>
 
 <script src="../js/formulario_usuarios.js"></script>
 

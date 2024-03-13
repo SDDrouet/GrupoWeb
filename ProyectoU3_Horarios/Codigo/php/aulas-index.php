@@ -69,7 +69,7 @@
                 $total_pages = ceil($total_rows / $no_of_records_per_page);
 
                 //Column sorting on column name
-                $orderBy = array('id_aula', 'cod_aula', 'capacidad', 'bloque');
+                $orderBy = array('id_aula', 'cod_aula', 'capacidad', 'bloque', 'estado');
                 $order = 'id_aula';
                 if (isset($_GET['order']) && in_array($_GET['order'], $orderBy)) {
                     $order = $_GET['order'];
@@ -94,12 +94,12 @@
                 if (!empty($_GET['search'])) {
                     $search = ($_GET['search']);
                     $sql = "SELECT * FROM aulas
-                            WHERE CONCAT_WS (id_aula,capacidad,bloque,observacion)
+                            WHERE CONCAT_WS (id_aula,capacidad,bloque,observacion,estado)
                             LIKE '%$search%'
                             ORDER BY $order $sort
                             LIMIT $offset, $no_of_records_per_page";
                     $count_pages = "SELECT * FROM aulas
-                            WHERE CONCAT_WS (id_aula,capacidad,bloque,observacion)
+                            WHERE CONCAT_WS (id_aula,capacidad,bloque,observacion,estado)
                             LIKE '%$search%'
                             ORDER BY $order $sort";
                 } else {
@@ -124,6 +124,7 @@
                         echo "<th><a href=?search=$search&sort=&order=cod_aula&sort=$sort>Código Aula</th>";
                         echo "<th><a href=?search=$search&sort=&order=capacidad&sort=$sort>Capacidad</th>";
                         echo "<th><a href=?search=$search&sort=&order=bloque&sort=$sort>Bloque</th>";
+                        echo "<th><a href=?search=$search&sort=&order=estado&sort=$sort>Estado</th>";
 
                         echo "<th>Acción</th>";
                         echo "</tr>";
@@ -135,6 +136,7 @@
                             echo "<td>" . htmlspecialchars($row['cod_aula']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['capacidad']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['bloque']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['estado']) . "</td>";
                             echo "<td>";
                             echo "<a href='aulas-read.php?id_aula=" . $row['id_aula'] . "' title='Ver Registro' data-toggle='tooltip'><i class='far fa-eye'></i></a>";
                             echo "<a href='aulas-update.php?id_aula=" . $row['id_aula'] . "' title='Actualizar Registro' data-toggle='tooltip'><i class='far fa-edit'></i></a>";

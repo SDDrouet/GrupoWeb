@@ -8,6 +8,7 @@ $id_aula = "";
 $capacidad = "";
 $bloque = "";
 $cod_aula = "";
+$estado = "";
 
 // Processing form data when form is submitted
 if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
@@ -18,6 +19,7 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
     $capacidad = trim($_POST["capacidad"]);
     $bloque = trim($_POST["bloque"]);
     $cod_aula = trim($_POST["cod_aula"]);
+    $estado = trim($_POST["estado"]);
 
 
     // Prepare an update statement
@@ -35,9 +37,9 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
     }
 
     $vars = parse_columns('aulas', $_POST);
-    $stmt = $pdo->prepare("UPDATE aulas SET id_aula=?,capacidad=?,bloque=?,cod_aula=? WHERE id_aula=?");
+    $stmt = $pdo->prepare("UPDATE aulas SET id_aula=?,capacidad=?,bloque=?,cod_aula=?,estado=? WHERE id_aula=?");
 
-    if (!$stmt->execute([$id_aula, $capacidad, $bloque, $cod_aula, $id_aula])) {
+    if (!$stmt->execute([$id_aula, $capacidad, $bloque, $cod_aula, $estado, $id_aula])) {
         echo "Something went wrong. Please try again later.";
         header("location: error.php");
     } else {
@@ -83,7 +85,7 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
                     $capacidad = htmlspecialchars($row["capacidad"]);
                     $bloque = htmlspecialchars($row["bloque"]);
                     $cod_aula = htmlspecialchars($row["cod_aula"]);
-
+                    $estado = htmlspecialchars($row["estado"]);
 
                 } else {
                     // URL doesn't contain valid id. Redirect to error page
@@ -144,6 +146,14 @@ if (isset($_POST["id_aula"]) && !empty($_POST["id_aula"])) {
                         <input type="text" id="bloque" name="bloque" maxlength="1" class="form-control" value="<?php echo $bloque; ?>">
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select class="form-control" id="estado" name="estado" required>
+                            <option value="ACTIVO" <?php if ($estado == 'ACTIVO') echo "selected"; ?>>ACTIVO</option>
+                            <option value="INACTIVO" <?php if ($estado == 'INACTIVO') echo "selected"; ?>>INACTIVO</option>
+                        </select>
                     </div>
 
                     <input type="hidden" name="id_aula" value="<?php echo $id_aula; ?>" />
