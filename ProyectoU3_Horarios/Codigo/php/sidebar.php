@@ -56,16 +56,10 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePeriodo"
-            aria-expanded="true" aria-controls="collapsePeriodo">
+        <a class="nav-link" href="periodos-index.php">
             <i class='bx bx-sm bx-detail'></i>
             <span>Gestionar Periodos</span>
         </a>
-        <div id="collapsePeriodo" class="collapse" aria-labelledby="headingPeriodo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="periodos-index.php">Periodo</a>
-            </div>
-        </div>
     </li>
 
     <hr class="sidebar-divider">
@@ -75,17 +69,10 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCarreras"
-            aria-expanded="true" aria-controls="collapseCarreras">
+        <a class="nav-link" href="carreras-index.php">
             <i class='bx bx-sm bx-buildings'></i>
             <span>Gestionar Carreras</span>
         </a>
-        <div id="collapseCarreras" class="collapse" aria-labelledby="headingCarreras" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="carreras-index.php">Carreras</a>
-                <a class="collapse-item" href="carreras_cursos-index.php">Carreras por curso</a>
-            </div>
-        </div>
     </li>
 
     <hr class="sidebar-divider">
