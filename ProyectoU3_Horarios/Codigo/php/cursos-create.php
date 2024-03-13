@@ -131,6 +131,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label>Carreras Asignadas al NRC</label><br>
+                        <div class="cajaOverLoad">
+                            <?php
+                            $sql_horarios = "SELECT id_carrera, nombre_carrera FROM carreras";
+                            $result_horarios = mysqli_query($link, $sql_horarios);
+                            // Mostrar checkboxes con los horarios disponibles
+                            if ($result_horarios->num_rows > 0) {
+                                while ($row = $result_horarios->fetch_assoc()) {
+                                    echo '<input type="checkbox" name="horarios[]" value="' . $row["id_carrera"] . '"> ' . $row["nombre_carrera"] . '<br>';
+                                }
+                            } else {
+                                echo "No hay horarios disponibles.";
+                            }
+                            ?>
+                        </div>
+                        <div class="invalid-feedback"></div>
+                        <div class="valid-feedback"></div>
+                    </div>
+
                     <input type="submit" class="btn btn-primary" value="Enviar">
                     <a href="cursos-index.php" class="btn btn-secondary">Cancelar</a>
                 </form>
