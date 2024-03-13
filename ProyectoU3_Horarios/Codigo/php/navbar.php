@@ -12,7 +12,17 @@
     <li class="nav-item dropdown no-arrow">
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
-        <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="userName2"></span>
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+        <?php
+                session_start();
+                if (isset($_SESSION['user_name'])) {
+                    $user_log = $_SESSION['user_name'];
+                    echo "$user_log";
+                } else {
+                    header('location: ../index.html');
+                }
+            ?>
+        </span>
         <i class="fas fa-user"></i>
       </a>
       <!-- Dropdown - User Information -->

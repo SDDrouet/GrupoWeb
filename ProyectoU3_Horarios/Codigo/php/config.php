@@ -18,5 +18,4 @@ if ($result = mysqli_query($link, $query)) {
         }
     }
 }
-
 ?>

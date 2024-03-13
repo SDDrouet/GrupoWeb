@@ -149,6 +149,10 @@
                         $number_of_results = mysqli_num_rows($result_count);
                         echo " " . $number_of_results . " Resultado - Página " . $pageno . " de " . $total_pages;
 
+                        echo "<div class='card shadow mb-4 p-1'>";
+                        echo "<div class='card-body'>";
+                        echo "<div class='table-responsive'>";
+                        echo "<table class='table table-bordered table-striped'>";
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead>";
                         echo "<tr>";
@@ -175,6 +179,9 @@
                         }
                         echo "</tbody>";
                         echo "</table>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
                         ?>
                         <ul class="pagination" align-right>
                             <?php
@@ -190,7 +197,7 @@
                                         echo '#';
                                     } else {
                                         echo $new_url . "&pageno=" . ($pageno - 1);
-                                    } ?>">Previa</a>
+                                    } ?>"><</a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';
@@ -200,7 +207,7 @@
                                         echo '#';
                                     } else {
                                         echo $new_url . "&pageno=" . ($pageno + 1);
-                                    } ?>">Siguiente</a>
+                                    } ?>">></a>
                             </li>
                             <li class="page-item <?php if ($pageno >= $total_pages) {
                                 echo 'disabled';

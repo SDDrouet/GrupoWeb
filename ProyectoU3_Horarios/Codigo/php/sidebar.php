@@ -1,6 +1,6 @@
 <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
-<a class="sidebar-brand align-items-center justify-content-center" href="index.php">
+    <a class="sidebar-brand align-items-center justify-content-center" href="index.php">
         <div class="sidebar-brand-icon">
             <i class="fas fa-user"></i>
         </div>
@@ -91,8 +91,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="materias-index.php">Materias</a>
                 <a class="collapse-item" href="aulas-index.php">Aulas</a>
-                <a class="collapse-item" href="cursos-index.php">Cursos</a>
-                <a class="collapse-item" href="novedades-index.php">Novedades de Aulas</a>
+                <a class="collapse-item" href="cursos-index.php">NRC's</a>
             </div>
         </div>
     </li>
@@ -100,7 +99,7 @@
     <hr class="sidebar-divider">
 
     <div class="sidebar-heading">
-        Horario
+        Interfaz Horario
     </div>
 
     <li class="nav-item">
@@ -115,7 +114,26 @@
                 <a class="collapse-item" href="horarios-index.php">Franjas Horarias</a>
                 <a class="collapse-item" href="horarios_aulas_cursos-index.php">Horarios de cursos</a>
                 <a class="collapse-item" href="horariosDragDrop.php">Gestor de Horarios UI</a>
-                <a class="collapse-item" href="horariosDocente.php">Horarios de Docentes</a>
+            </div>
+        </div>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+        Interfaz de Reportes
+    </div>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
+            aria-expanded="true" aria-controls="collapseReportes">
+            <i class='bx bx-sm bxs-user-detail'></i>
+            <span>Reportes</span>
+        </a>
+        <div id="collapseReportes" class="collapse" aria-labelledby="headingReportes" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="horariosDocente.php">Horarios de Docentes</a>
+            <a class="collapse-item" href="novedades-index.php">Novedades de Aulas</a>
             </div>
         </div>
     </li>
