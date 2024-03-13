@@ -5,7 +5,6 @@ var nombre_periodo_input = document.getElementById('nombre_periodo');
 var fecha_inicio_input = document.getElementById('fecha_inicio');
 var fecha_fin_input = document.getElementById('fecha_fin');
 
-
 formulario.addEventListener('submit', function (e) {
     if (formulario.checkValidaty() && validarNombrePeriodo() && validarFechaInicio() && validarFechaFin() && validarHorario()) {
         return true;
@@ -35,49 +34,60 @@ function validarNombrePeriodo() {
 }
 
 function validarFechaFin() {
-    var fechaInicio = fecha_inicio_input.value;
-    var fechaFin = fecha_fin_input.value;
+    var fechaInicio = document.getElementById('fecha_inicio').value;
+    var fechaFin = document.getElementById('fecha_fin').value;
 
-    if (fechaInicio === '') {
-        return true;
-    }
-
-    if (fechaFin <= fechaInicio) {
-        fecha_fin_input.nextElementSibling.innerHTML = 'La fecha de fin debe ser mayor a la fecha de inicio.';
-        fecha_fin_input.classList.add('is-invalid');
-        fecha_fin_input.classList.remove('is-valid');
+    if (fechaFin === '') {
+        document.getElementById('fecha_fin').classList.add('is-invalid');
+        document.getElementById('fecha_fin').nextElementSibling.innerHTML = 'La fecha de fin es requerida.';
         return false;
     } else {
-        fecha_fin_input.nextElementSibling.innerHTML = '';
-        fecha_fin_input.classList.remove('is-invalid');
-        fecha_fin_input.classList.add('is-valid');
-        return true;
+        var fechaInicioObj = new Date(fechaInicio);
+        var fechaFinObj = new Date(fechaFin);
+        
+        if (isNaN(fechaFinObj.getTime())) {
+            document.getElementById('fecha_fin').classList.add('is-invalid');
+            document.getElementById('fecha_fin').nextElementSibling.innerHTML = 'Por favor, ingrese una fecha válida.';
+            return false;
+        } else if (fechaFinObj < fechaInicioObj) {
+            document.getElementById('fecha_fin').classList.add('is-invalid');
+            document.getElementById('fecha_fin').nextElementSibling.innerHTML = 'La fecha de fin no puede ser menor que la fecha de inicio.';
+            return false;
+        } else {
+            document.getElementById('fecha_fin').classList.remove('is-invalid');
+            document.getElementById('fecha_fin').classList.add('is-valid');
+            document.getElementById('fecha_fin').nextElementSibling.innerHTML = '';
+            return true;
+        }
     }
 }
 
 function validarFechaInicio() {
-    var fechaInicio = fecha_inicio_input.value;
-    var fechaFin = fecha_fin_input.value;
+    var fechaInicio = document.getElementById('fecha_inicio').value;
 
-    if (fechaFin === '') {
-        return true;
-    }
-
-    if (fechaInicio >= fechaFin) {
-        fecha_inicio_input.nextElementSibling.innerHTML = 'La fecha de inicio debe ser menor a la fecha de fin.';
-        fecha_inicio_input.classList.add('is-invalid');
-        fecha_inicio_input.classList.remove('is-valid');
+    if (fechaInicio === '') {
+        // Mostrar un mensaje de error indicando que la fecha de inicio es requerida
+        document.getElementById('fecha_inicio').classList.add('is-invalid');
+        document.getElementById('fecha_inicio').nextElementSibling.innerHTML = 'La fecha de inicio es requerida.';
         return false;
     } else {
-        fecha_inicio_input.nextElementSibling.innerHTML = '';
-        fecha_inicio_input.classList.remove('is-invalid');
-        fecha_inicio_input.classList.add('is-valid');
-        return true;
+        var fechaInicioObj = new Date(fechaInicio);
+        
+        if (isNaN(fechaInicioObj.getTime())) {
+            // Mostrar un mensaje de error indicando que la fecha no es válida
+            document.getElementById('fecha_inicio').classList.add('is-invalid');
+            document.getElementById('fecha_inicio').nextElementSibling.innerHTML = 'Por favor, ingrese una fecha válida.';
+            return false;
+        } else {
+            // La fecha es válida, quitar clases de error y mostrar mensaje vacío
+            document.getElementById('fecha_inicio').classList.remove('is-invalid');
+            document.getElementById('fecha_inicio').classList.add('is-valid');
+            document.getElementById('fecha_inicio').nextElementSibling.innerHTML = '';
+            return true;
+        }
     }
 }
 
 nombre_periodo_input.addEventListener('input', validarNombrePeriodo);
 fecha_inicio_input.addEventListener('input', validarFechaInicio);
 fecha_fin_input.addEventListener('input', validarFechaFin);
-
-
